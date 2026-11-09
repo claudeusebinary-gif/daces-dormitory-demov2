@@ -1,0 +1,2099 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/demo.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="demo">
+    <title>Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@300;400;700&family=Inter:wght@400;600&family=Nunito+Sans:wght@200;300;400;600;700;800;900&family=Playfair+Display:wght@900&display=swap"
+        rel="stylesheet">
+   
+    <link rel="stylesheet" href="/css/sidebar.css?v=1794243073">
+    <link rel="stylesheet" href="/css/home.css?v=1794243073">
+    <link rel="stylesheet" href="/css/profile.css?v=1794243073">
+    <link rel="stylesheet" href="/css/dorm.css?v=1794243073">
+    <link rel="stylesheet" href="/css/logout.css?v=1794243073">
+    <link rel="stylesheet" href="/css/rooms.css?v=1794243073">
+    <link rel="stylesheet" href="/css/payments.css?v=1794243073">
+    <link rel="stylesheet"
+        href="/css/animations.css?v=1794243073">
+    <link rel="stylesheet"
+        href="/css/announcement.css?v=1794243073">
+    <link rel="stylesheet" href="/css/location.css?v=1794243073">
+    <link rel="stylesheet" href="/css/settings.css?v=1794243073">
+    <link rel="stylesheet"
+        href="/css/marketplace.css?v=1794243073">
+    <link rel="stylesheet" href="/css/calendar.css?v=1794243073">
+    <link rel="stylesheet" href="/css/dashboard.css?v=1794243073">
+    <link rel="stylesheet" href="/css/tenant.css?v=1794243073">
+    <link rel="stylesheet"
+        href="/css/paymentsadmin.css?v=1794243073">
+    <link rel="stylesheet"
+        href="/css/complaints.css?v=1794243073">
+    <link rel="stylesheet" href="/css/approvals.css?v=1794243073">
+
+
+    </head>
+
+<body>
+    <script>
+        (function () {
+            var b = document.body;
+            try {
+                if (!window.matchMedia('(max-width: 768px)').matches && localStorage.getItem('sbCollapsed') === '1') {
+                    b.classList.add('sb-collapsed');
+                }
+            } catch (e) { }
+            // no sidebar/content transitions while the page is first loading
+            b.classList.add('sb-no-anim');
+            window.addEventListener('load', function () {
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(function () { b.classList.remove('sb-no-anim'); });
+                });
+            });
+        })();
+    </script>
+    <div class="page-curtain" id="pageCurtain" aria-hidden="true">
+        <div class="pc-label" id="pcLabel">Loading</div>
+        <div class="pc-bar"><i></i></div>
+    </div>
+    <script>
+        (function () {
+            var curtain = document.getElementById('pageCurtain');
+            var label = document.getElementById('pcLabel');
+            var SLIDE_MS = 300;  
+            var MIN_SHOW = 150;  
+            var KEY = 'pageCurtain';
+            var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            var busy = false;
+
+            var saved = null;
+            try { saved = sessionStorage.getItem(KEY); sessionStorage.removeItem(KEY); } catch (e) { }
+            var parts = saved ? saved.split('|') : [];
+            if (!reduce && parts.length >= 2 && Date.now() - Number(parts[0]) < 8000) {
+                var start = Date.now();
+                var lifted = false;
+                label.textContent = parts.slice(1).join('|');
+                curtain.classList.add('covered');
+
+                var lift = function () {
+                    if (lifted) return;
+                    lifted = true;
+                    curtain.classList.remove('covered');
+                    curtain.classList.add('out');
+                    setTimeout(function () { curtain.classList.remove('out'); }, SLIDE_MS);
+                };
+                var scheduleLift = function () {
+                    setTimeout(lift, Math.max(0, MIN_SHOW - (Date.now() - start)));
+                };
+
+                if (document.readyState === 'complete') scheduleLift();
+                else window.addEventListener('load', scheduleLift);
+                setTimeout(lift, 6000); // safety: never get stuck
+            }
+
+            document.addEventListener('click', function (e) {
+                if (reduce || busy || e.defaultPrevented) return;
+                if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+                var a = e.target.closest('.sb-link, .sb-subitem');
+                if (!a || a.id === 'logoutLink') return;
+
+                var href = a.getAttribute('href');
+                if (!href || href.charAt(0) === '#' || a.target === '_blank') return;
+
+                var url = new URL(a.href, location.href);
+                if (url.origin !== location.origin) return;
+                if (url.pathname === location.pathname && url.search === location.search) return; // already here
+
+                e.preventDefault();
+                busy = true;
+
+                var span = a.querySelector('.sb-label, span');
+                var name = (span ? span.textContent : a.textContent).trim();
+                label.textContent = name;
+                try { sessionStorage.setItem(KEY, Date.now() + '|' + name); } catch (err) { }
+
+                curtain.classList.remove('out', 'covered');
+                curtain.classList.add('in');
+            setTimeout(function () { window.location.href = a.href; }, 160);
+            }, true);
+
+            window.addEventListener('pageshow', function (e) {
+                if (e.persisted) {
+                    busy = false;
+                    curtain.classList.remove('in', 'out', 'covered');
+                }
+            });
+        })();
+    </script>
+    <button type="button" class="sb-toggle" id="sbToggle" aria-label="Toggle sidebar">
+    <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+</button>
+
+<aside class="sidebar" id="sidebar" aria-label="Sidebar">
+
+    <div class="sb-brand">
+       <span class="sb-title">D&#039;aces Dormitory</span>
+            <svg class="sb-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 2.5 3 10v11h6.5v-6h5v6H21V10z" />
+    </svg>
+    </div>
+
+    <nav class="sb-nav">
+        <p class="sb-section">Menu</p>
+        <ul>
+                            <li>
+                    <a href="/admin" class="sb-link"
+                         title="Dashboard">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+                       <span class="sb-label">Dashboard</span>
+                                            </a>
+                </li>
+                            <li>
+                    <a href="/admin/tenants" class="sb-link"
+                         title="Tenants">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                       <span class="sb-label">Tenants</span>
+                                            </a>
+                </li>
+                            <li>
+                    <a href="/admin/announcement" class="sb-link"
+                         title="Announcement">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.4 2.6a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
+                       <span class="sb-label">Announcement</span>
+                                            </a>
+                </li>
+                            <li>
+                    <a href="/admin/rooms" class="sb-link"
+                         title="Rooms">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
+                       <span class="sb-label">Rooms</span>
+                                            </a>
+                </li>
+                            <li>
+                    <a href="/admin/payments" class="sb-link"
+                         title="Payments">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                       <span class="sb-label">Payments</span>
+                                                    <span class="sb-new" aria-label="New">1</span>
+                                            </a>
+                </li>
+                            <li>
+                    <a href="/admin/complaints" class="sb-link"
+                         title="Complaints">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                       <span class="sb-label">Complaints</span>
+                                                    <span class="sb-new" aria-label="New">2</span>
+                                            </a>
+                </li>
+                            <li>
+                    <a href="/admin/approvals" class="sb-link"
+                         title="Approvals">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+                       <span class="sb-label">Approvals</span>
+                                            </a>
+                </li>
+                    </ul>
+
+        <p class="sb-section">Preferences</p>
+        <ul>
+                            <li>
+                    <a href="/admin/settings" class="sb-link"
+                         title="Settings">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <span class="sb-label">Settings</span>
+                                            </a>
+                </li>
+                    </ul>
+    </nav>
+
+    <div class="sb-footer">
+    <button type="button" class="sb-user" id="sbUser"
+    aria-expanded="false" disabled>
+            <span class="sb-avatar">A</span>
+            <span class="sb-userinfo">
+                <span class="sb-name">Admin Paolo</span>
+                <span class="sb-role">Owner / Admin</span>
+            </span>
+                    </button>
+               <div class="sb-usermenu" id="sbUserMenu" hidden>
+            
+                    </div>
+
+                    <a href="#" id="logoutLink" class="sb-link sb-logout" title="Logout">
+                <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+                <span class="sb-label">Logout</span>
+            </a>
+            <form id="logoutForm" action="/logout" method="POST" hidden><input type="hidden" name="_token" value="demo" autocomplete="off"></form>
+            </div>
+</aside>
+<div class="sb-backdrop" id="sbBackdrop"></div>
+    <div class="overlay" id="logoutModal" hidden>
+    <div class="card" role="dialog" aria-modal="true" aria-labelledby="loTitle" aria-describedby="loText">
+<span class="lo-corner" aria-hidden="true"></span>
+
+        <button type="button" class="close" data-lo-close aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+        </button>
+
+<div class="bilog"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <path d="m16 17 5-5-5-5" />
+                <path d="M21 12H9" />
+            </svg></div>
+        <h2 class="title" id="loTitle">Log Out?</h2>
+        <p class="text" id="loText">Are you sure you want to log out of<br> your account?</p>
+
+        <div class="butans">
+            <button type="button" class="cancel" data-lo-close>Cancel</button>
+            <button type="button" class="confirm" id="loConfirm">Yes, Log Out</button>
+        </div>
+    </div>
+</div>    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-text">
+                <h1 class="topbar-title">Profile</h1>
+                <p class="topbar-sub">Your info, your room, your bed, and who you&#039;re sharing it with.</p>
+            </div>
+
+            <div class="topbar-actions">
+                
+                                    <div class="notif" id="msgRoot">
+    <button class="notif-btn" id="msgBtn" type="button" aria-label="Messages" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#672C2C" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        <span class="notif-label">Messages</span>
+        <span class="notif-dot" id="msgDot" hidden></span>
+    </button>
+    <div class="notif-panel" id="msgPanel" hidden>
+        <div class="notif-head"><span>Messages</span></div>
+        <div class="notif-list" id="msgList">
+            <p class="notif-empty">No messages yet.</p>
+        </div>
+    </div>
+</div>
+<div class="notif" id="notif"
+    data-list-url="/admin/notifications"
+    data-read-all-url="/admin/notifications/read-all"
+    data-read-url="/admin/notifications/__ID__/read">
+    <button class="notif-btn" id="notifBtn" aria-label="Notifications" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#672C2C" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.7 21a2 2 0 0 1-3.4 0" />
+        </svg>
+        <span class="notif-label">Notifications</span>
+        <span class="notif-dot" id="notifDot" hidden></span>
+    </button>
+    <div class="notif-panel" id="notifPanel" hidden>
+        <div class="notif-head">
+            <span>Notifications</span>
+            <button type="button" id="notifReadAll">Mark all as read</button>
+        </div>
+        <div class="notif-list" id="notifList">
+            <p class="notif-empty">No notifications yet.</p>
+        </div>
+    </div>
+</div>                            </div>
+        </header>
+                          <a href="/admin/tenants" class="backtenants">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        Back to tenants
+    </a>
+    <div class="profilee">
+        <div class="logbi">
+            <span class="namesa">M</span>
+        </div>
+
+        <div class="info">
+            <h2 class="fname">Mark Rivera</h2>
+
+            <div class="info-row">
+                <span class="role-pill">Tenant</span>
+                <span class="room-line">
+                                            Room 101
+                                                    · Bed 2, Lower Deck                                                             </span>
+            </div>
+
+            <div class="info-row contact">
+                <span class="contact-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                        stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="5" width="18" height="14" rx="2" />
+                        <path d="m3 7 9 6 9-6" />
+                    </svg>
+                    tenant16@demo.test
+                </span>
+
+                <span class="contact-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                        stroke-linejoin="round" aria-hidden="true">
+                        <path
+                            d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z" />
+                    </svg>
+                    0917 000 0000
+                </span>
+            </div>
+        </div>
+
+        <div class="status">
+            <span class="statusd"></span>
+            Active Tenant
+        </div>
+    </div>
+                <div class="roombedmove adm-stats">
+            <div class="roombedmove1">
+                <h1>MONTHLY RENT</h1>
+                <h2>₱400.00</h2>
+                <span>Due on the 5th</span>
+            </div>
+            <div class="roombedmove1">
+                <h1>TOTAL PAID</h1>
+                <h2>₱500</h2>
+                <span>Since move-in</span>
+            </div>
+            <div class="roombedmove1">
+                <h1>ON-TIME RATE</h1>
+                <h2>0%</h2>
+                <span>0 of 1 bills on time</span>
+            </div>
+            <div class="roombedmove1">
+                <h1>OPEN COMPLAINTS</h1>
+                <h2>0</h2>
+                <span>0 resolved this year</span>
+            </div>
+        </div>
+        <div class="lepat">
+        <nav class="rights" aria-label="Main navigation">
+            <a href="#overview" class="tab active" data-tab="overview">
+                <svg viewBox="0 0 24 24">
+                    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+                    <path
+                        d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                </svg>
+                <h3>Overview</h3>
+            </a>
+            <a href="#details" class="tab" data-tab="details">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                </svg>
+                <h3>My Details</h3>
+            </a>
+            <a href="#roommates" class="tab" data-tab="roommates">
+                <svg viewBox="0 0 24 24">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                    <path d="M16 3.128a4 4 0 0 1 0 7.744" />
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                    <circle cx="9" cy="7" r="4" />
+                </svg>
+                <h3>Roommates</h3>
+            </a>
+            <a href="#documents" class="tab" data-tab="documents">
+                <svg viewBox="0 0 24 24">
+                    <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+                    <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+                </svg>
+                <h3>Documents</h3>
+            </a>
+                                        <a href="#payments" class="tab" data-tab="payments">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="2" y="5" width="20" height="14" rx="2" />
+                        <path d="M2 10h20" />
+                    </svg>
+                    <h3>Payment History</h3>
+                </a>
+                <a href="#activity" class="tab" data-tab="activity">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                    </svg>
+                    <h3>Activity Log</h3>
+                </a>
+                    </nav>
+    </div>
+
+    <section class="panel active" id="panel-overview">
+        
+        <div class="puti">
+            <div class="lift">
+                <p class="lbl">MY ROOM</p>
+                <h2 class="roomname">
+                    Room 101
+                </h2>
+                <p class="bedshar">Bed Sharing · 6 double-deck beds</p>
+
+                <p class="lbl">MY BED</p>
+                <p class="val">
+                                            Bed 2 · Lower Deck                                     </p>
+
+                <p class="lbl">ROOM CAPACITY</p>
+               <p class="val">5 of 12 occupied</p>
+
+                <p class="lbl lbl-maroon">BED LAYOUT</p>
+            </div>
+
+          
+<div class="rith">
+            <div class="roomates ">
+            <div class="bed-head">
+                <svg viewBox="0 0 24 24">
+                    <path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8" />
+                    <path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4" />
+                    <path d="M12 4v6" />
+                    <path d="M2 18h20" />
+                </svg>
+                <span>BED 1</span>
+            </div>
+
+                                            <div class="deck-row ">
+                    <span class="deck-name">UPPER</span>
+                                            <span class="deck-user">Nina Pascual</span>
+                                    </div>
+                                            <div class="deck-row ">
+                    <span class="deck-name">LOWER</span>
+                                            <span class="deck-user">Rico Torres</span>
+                                    </div>
+                    </div>
+            <div class="roomates mine">
+            <div class="bed-head">
+                <svg viewBox="0 0 24 24">
+                    <path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8" />
+                    <path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4" />
+                    <path d="M12 4v6" />
+                    <path d="M2 18h20" />
+                </svg>
+                <span>BED 2</span>
+            </div>
+
+                                            <div class="deck-row ">
+                    <span class="deck-name">UPPER</span>
+                                            <span class="deck-user">Miguel Soriano</span>
+                                    </div>
+                                            <div class="deck-row me">
+                    <span class="deck-name">LOWER</span>
+                                            <span class="deck-user">You</span>
+                                    </div>
+                    </div>
+            <div class="roomates ">
+            <div class="bed-head">
+                <svg viewBox="0 0 24 24">
+                    <path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8" />
+                    <path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4" />
+                    <path d="M12 4v6" />
+                    <path d="M2 18h20" />
+                </svg>
+                <span>BED 3</span>
+            </div>
+
+                                            <div class="deck-row ">
+                    <span class="deck-name">UPPER</span>
+                                            <span class="deck-user free">Available</span>
+                                    </div>
+                                            <div class="deck-row ">
+                    <span class="deck-name">LOWER</span>
+                                            <span class="deck-user free">Available</span>
+                                    </div>
+                    </div>
+            <div class="roomates ">
+            <div class="bed-head">
+                <svg viewBox="0 0 24 24">
+                    <path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8" />
+                    <path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4" />
+                    <path d="M12 4v6" />
+                    <path d="M2 18h20" />
+                </svg>
+                <span>BED 4</span>
+            </div>
+
+                                            <div class="deck-row ">
+                    <span class="deck-name">UPPER</span>
+                                            <span class="deck-user free">Available</span>
+                                    </div>
+                                            <div class="deck-row ">
+                    <span class="deck-name">LOWER</span>
+                                            <span class="deck-user free">Available</span>
+                                    </div>
+                    </div>
+            <div class="roomates ">
+            <div class="bed-head">
+                <svg viewBox="0 0 24 24">
+                    <path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8" />
+                    <path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4" />
+                    <path d="M12 4v6" />
+                    <path d="M2 18h20" />
+                </svg>
+                <span>BED 5</span>
+            </div>
+
+                                            <div class="deck-row ">
+                    <span class="deck-name">UPPER</span>
+                                            <span class="deck-user free">Available</span>
+                                    </div>
+                                            <div class="deck-row ">
+                    <span class="deck-name">LOWER</span>
+                                            <span class="deck-user free">Available</span>
+                                    </div>
+                    </div>
+            <div class="roomates ">
+            <div class="bed-head">
+                <svg viewBox="0 0 24 24">
+                    <path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8" />
+                    <path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4" />
+                    <path d="M12 4v6" />
+                    <path d="M2 18h20" />
+                </svg>
+                <span>BED 6</span>
+            </div>
+
+                                            <div class="deck-row ">
+                    <span class="deck-name">UPPER</span>
+                                            <span class="deck-user free">Available</span>
+                                    </div>
+                                            <div class="deck-row ">
+                    <span class="deck-name">LOWER</span>
+                                            <span class="deck-user">Carla Dela Cruz</span>
+                                    </div>
+                    </div>
+    </div>
+        </div>
+                 <div class="sicsons">
+            <h1 class="stays">Stay Details<br><span>A quick snapshot of your lease</span></h1>
+          
+            <div class="threbox">
+                <div class="bxas">
+                    <h1 class="namber">
+                        November 14, 2026<br>
+                        <span>MOVE-IN DATE</span>
+                    </h1>
+                </div>
+
+                <div class="bxas">
+                    <h1 class="namber">
+                        ₱400<br>
+                        <span>MONTHLY RENT</span>
+                    </h1>
+                </div>
+
+                <div class="bxas">
+                    <h1 class="namber status-ok">
+                        Up to Date<br>
+                        <span>PAYMENT STATUS</span>
+                    </h1>
+                </div>
+
+                <div class="bxas">
+                    <h1 class="namber">
+                        Lower Deck<br>
+                        <span>BED SLOT</span>
+                    </h1>
+                </div>
+            </div>
+
+        </div>
+       
+    </section>
+
+    <section class="panel" id="panel-details">
+        <div class="personal">
+            <h1 class="stays">Personal Information<br><span>Keep this accurate so we can reach you</span></h1>
+
+            <a href="#" class="edit-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z" />
+                </svg>
+                Edit
+            </a>
+
+            <h3 class="ruw5"><span class="lab">Full Name</span><span class="val">Mark Rivera</span></h3>
+            <hr class="hw5">
+            <h3 class="ruw5"><span class="lab">Email Address</span><span class="val">tenant16@demo.test</span></h3>
+            <hr class="hw5">
+            <h3 class="ruw5"><span class="lab">Phone Number</span><span
+                    class="val">0917 000 0000</span></h3>
+            <hr class="hw5">
+            <h3 class="ruw5"><span class="lab">Birthdate</span><span class="val">October 23, 2002</span></h3>
+            <hr class="hw5">
+            <h3 class="ruw5"><span class="lab">Gender</span><span
+                    class="val">Male</span></h3>
+            <hr class="hw5">
+            <h3 class="ruw5"><span class="lab">Home Address</span><span class="val">Sample Street, Demo City</span>
+            </h3>
+            <hr class="hw5">
+        </div>
+       <div class="personal emergency">
+    
+    <h1 class="stays">Emergency Contact<br><span>Who we call if something comes up</span></h1>
+
+            <a href="#" class="edit-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z" />
+                </svg>
+                Edit
+            </a>
+
+            
+            <h3 class="ruw5"><span class="lab">Contact Name</span><span class="val">Emergency Contact</span></h3>
+            <hr class="hw5">
+            <h3 class="ruw5"><span class="lab">Relationship</span><span
+                    class="val">Mother</span></h3>
+            <hr class="hw5">
+            <h3 class="ruw5"><span class="lab">Phone Number</span><span class="val">0917 000 0000</span>
+            </h3>
+            <hr class="hw5">
+            <h3 class="ruw5"><span class="lab">Address</span><span class="val">Sample Street, Demo City</span></h3>
+            <hr class="hw5">
+        </div>
+    </section>
+
+    <section class="panel" id="panel-roommates">
+       <div class="mates">
+    
+    <h1 class="stays">Roomates<br><span>Everyone sharing Room 101 with you</span></h1>
+
+    <div class="mate">
+                                    
+                                    <div class="kasama">
+                        <div class="belogs" style="background-color: #ebe1e0; border: none;">
+                            <span class="namesa" style="color: #672C2C;">R</span>
+                        </div>
+                        <h1 class="stays">Rico Torres<br><span>Bed 1 · Lower Deck</span></h1>
+                                            </div>
+
+                                            
+                                    <div class="kasama">
+                        <div class="belogs" style="background-color: #ebe1e0; border: none;">
+                            <span class="namesa" style="color: #672C2C;">N</span>
+                        </div>
+                        <h1 class="stays">Nina Pascual<br><span>Bed 1 · Upper Deck</span></h1>
+                                            </div>
+
+                                                                
+                
+                    <div class="kasama" style="border:1px solid #672C2C; background-color: #672c2c1f;">
+                        <div class="belogs">
+                            <span class="namesa">M</span>
+                        </div>
+                        <h1 class="stays">Mark Rivera You<br><span>Bed 2 · Lower Deck</span></h1>
+                    </div>
+
+                                            
+                                    <div class="kasama">
+                        <div class="belogs" style="background-color: #ebe1e0; border: none;">
+                            <span class="namesa" style="color: #672C2C;">M</span>
+                        </div>
+                        <h1 class="stays">Miguel Soriano<br><span>Bed 2 · Upper Deck</span></h1>
+                                            </div>
+
+                                                                
+                                    <div class="kasama" style="border:2px dotted #2c6739; background-color: #2c67391f;">
+                        <div class="belogs" style="background-color: #2c673954; border: none;">
+                            <span class="namesa" style="color: #2c6739;"><svg viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    aria-hidden="true">
+                                    <path d="M12 5v14M5 12h14" />
+                                </svg></span>
+                        </div>
+                        <h1 class="stays">Bed 3 · Lower<br><span style="color:#2c6739;">Available</span></h1>
+                    </div>
+                                            
+                                    <div class="kasama" style="border:2px dotted #2c6739; background-color: #2c67391f;">
+                        <div class="belogs" style="background-color: #2c673954; border: none;">
+                            <span class="namesa" style="color: #2c6739;"><svg viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    aria-hidden="true">
+                                    <path d="M12 5v14M5 12h14" />
+                                </svg></span>
+                        </div>
+                        <h1 class="stays">Bed 3 · Upper<br><span style="color:#2c6739;">Available</span></h1>
+                    </div>
+                                                                
+                                    <div class="kasama" style="border:2px dotted #2c6739; background-color: #2c67391f;">
+                        <div class="belogs" style="background-color: #2c673954; border: none;">
+                            <span class="namesa" style="color: #2c6739;"><svg viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    aria-hidden="true">
+                                    <path d="M12 5v14M5 12h14" />
+                                </svg></span>
+                        </div>
+                        <h1 class="stays">Bed 4 · Lower<br><span style="color:#2c6739;">Available</span></h1>
+                    </div>
+                                            
+                                    <div class="kasama" style="border:2px dotted #2c6739; background-color: #2c67391f;">
+                        <div class="belogs" style="background-color: #2c673954; border: none;">
+                            <span class="namesa" style="color: #2c6739;"><svg viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    aria-hidden="true">
+                                    <path d="M12 5v14M5 12h14" />
+                                </svg></span>
+                        </div>
+                        <h1 class="stays">Bed 4 · Upper<br><span style="color:#2c6739;">Available</span></h1>
+                    </div>
+                                                                
+                                    <div class="kasama" style="border:2px dotted #2c6739; background-color: #2c67391f;">
+                        <div class="belogs" style="background-color: #2c673954; border: none;">
+                            <span class="namesa" style="color: #2c6739;"><svg viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    aria-hidden="true">
+                                    <path d="M12 5v14M5 12h14" />
+                                </svg></span>
+                        </div>
+                        <h1 class="stays">Bed 5 · Lower<br><span style="color:#2c6739;">Available</span></h1>
+                    </div>
+                                            
+                                    <div class="kasama" style="border:2px dotted #2c6739; background-color: #2c67391f;">
+                        <div class="belogs" style="background-color: #2c673954; border: none;">
+                            <span class="namesa" style="color: #2c6739;"><svg viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    aria-hidden="true">
+                                    <path d="M12 5v14M5 12h14" />
+                                </svg></span>
+                        </div>
+                        <h1 class="stays">Bed 5 · Upper<br><span style="color:#2c6739;">Available</span></h1>
+                    </div>
+                                                                
+                                    <div class="kasama">
+                        <div class="belogs" style="background-color: #ebe1e0; border: none;">
+                            <span class="namesa" style="color: #672C2C;">C</span>
+                        </div>
+                        <h1 class="stays">Carla Dela Cruz<br><span>Bed 6 · Lower Deck</span></h1>
+                                            </div>
+
+                                            
+                                    <div class="kasama" style="border:2px dotted #2c6739; background-color: #2c67391f;">
+                        <div class="belogs" style="background-color: #2c673954; border: none;">
+                            <span class="namesa" style="color: #2c6739;"><svg viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    aria-hidden="true">
+                                    <path d="M12 5v14M5 12h14" />
+                                </svg></span>
+                        </div>
+                        <h1 class="stays">Bed 6 · Upper<br><span style="color:#2c6739;">Available</span></h1>
+                    </div>
+                                        </div>
+</div>
+    </section>
+
+    <section class="panel" id="panel-documents">
+        <div class="lease">
+            <h1 class="stays">Documents<br><span>Your submitted requirements and paperwork</span></h1>
+        <div class="pababa">
+            <div class="tulo">
+            <div class="lugos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <path d="M14 2v6h6" />
+                <path d="M8 13h8M8 17h8M8 9h2" />
+            </svg></div>
+            <h1 class="stays3">Valid ID<br>
+                                    <span style="color:#9a9a9a;">Not uploaded</span>
+                            </h1>
+            <div class="view" role="button" tabindex="0" data-doc="Valid ID"
+                data-url="/home/documents/valid_id"><h2>View</h2></div>
+        </div>
+            <div class="tulo">
+            <div class="lugos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <path d="M14 2v6h6" />
+                <path d="M8 13h8M8 17h8M8 9h2" />
+            </svg></div>
+            <h1 class="stays3">Lease Agreement<br>
+                                    <span style="color:#9a9a9a;">Not uploaded</span>
+                            </h1>
+            <div class="view" role="button" tabindex="0" data-doc="Lease Agreement"
+                data-url="/home/documents/lease"><h2>View</h2></div>
+        </div>
+            <div class="tulo">
+            <div class="lugos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <path d="M14 2v6h6" />
+                <path d="M8 13h8M8 17h8M8 9h2" />
+            </svg></div>
+            <h1 class="stays3">Barangay Clearance<br>
+                                    <span style="color:#9a9a9a;">Not uploaded</span>
+                            </h1>
+            <div class="view" role="button" tabindex="0" data-doc="Barangay Clearance"
+                data-url="/home/documents/barangay"><h2>View</h2></div>
+        </div>
+    </div>
+
+        </div>
+            </section>
+            <section class="panel" id="panel-payments">
+            <div class="adm-box">
+                <h1 class="stays">Payment History<br><span>Every payment this tenant has made</span></h1>
+
+                <div class="adm-row adm-head">
+                    <div>Period</div><div>Amount</div><div>Method</div><div>Paid on</div><div>Status</div>
+                </div>
+
+                                    <div class="adm-row">
+                        <div>November 2026</div>
+                        <div>₱500.00</div>
+                        <div>Recorded by admin</div>
+                        <div>Nov 7, 2026 8:07 AM</div>
+                        <div><div class="anostatbayad"><h1>Paid</h1></div></div>
+                    </div>
+                            </div>
+        </section>
+
+        <section class="panel" id="panel-activity">
+            <div class="adm-box">
+                <h1 class="stays">Activity Log<br><span>The latest things this tenant did</span></h1>
+
+                                    <div class="adm-act">
+                        <i class="adm-dot adm-dot-room"></i>
+                        <div class="adm-act-text">
+                            <b>Moved in</b>
+                            <span>Room 101, Bed 2</span>                        </div>
+                        <small title="Nov 14, 2026 12:00 AM">4 days from now</small>
+                    </div>
+                                    <div class="adm-act">
+                        <i class="adm-dot adm-dot-payment"></i>
+                        <div class="adm-act-text">
+                            <b>Paid ₱500</b>
+                            <span>November 2026 rent · Recorded by admin</span>                        </div>
+                        <small title="Nov 7, 2026 8:07 AM">2 days ago</small>
+                    </div>
+                                    <div class="adm-act">
+                        <i class="adm-dot adm-dot-account"></i>
+                        <div class="adm-act-text">
+                            <b>Account created</b>
+                                                    </div>
+                        <small title="Nov 4, 2026 7:35 PM">4 days ago</small>
+                    </div>
+                            </div>
+        </section>
+        <div    class="footer">
+       <div class="lugo">
+            <svg viewBox="0 0 24 24">
+                <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+                <path
+                    d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                  </svg>
+    </div>
+       <h1 class="daces">D&#039;aces Dormitory <br><span>Bulacan, Pinaod</span></h1>
+        <h1 class="asafe">A safe, affordable place to stay for students and young professionals — with people who actually
+            answer when you knock.</h1>
+        <div class="bah">
+            <div class="fota">
+                <h1 class="fotatitle">Dormitory</h1>
+                <a href="/home/rooms">Rooms</a>
+                <a href="#">Location</a>
+                <a href="#" data-legal="rules">House rules</a>
+            </div>
+            <div class="fota">
+                <h1 class="fotatitle">Support</h1>
+                <a href="#">Message admin</a>
+               <a href="#" data-legal="faqs">FAQs</a>
+                <a href="#">Contact us</a>
+            </div>
+            <div class="fota">
+                <h1 class="fotatitle">Legal</h1>    
+                <a href="#" data-legal="terms">Terms of stay</a>
+                <a href="#" data-legal="privacy">Privacy policy</a>
+            </div>
+        </div>
+        <hr class="foothr">
+        <h1 class="copy">© 2026 D&#039;aces Dormitory. All rights reserved.</h1>
+        <div class="tatlob">
+            <a href="https://facebook.com/your-page" class="socia" target="_blank" aria-label="Facebook">
+                <svg viewBox="0 0 24 24">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                </svg>
+            </a>
+
+            <a href="mailto:" class="socia" aria-label="Email">
+                <svg viewBox="0 0 24 24">
+                    <rect width="20" height="16" x="2" y="4" rx="2" />
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                </svg>
+            </a>
+
+            <a href="tel:+639123456789" class="socia" aria-label="Phone">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+            </a>
+        </div>
+    </div>
+    <style>
+    .legalmodal {
+        position: fixed;
+        inset: 0;
+        z-index: 1400;
+        background-color: rgba(0, 0, 0, 0.55);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        box-sizing: border-box;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity .25s ease, visibility 0s linear .25s;
+    }
+
+    .legalmodal.is-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transition: opacity .25s ease, visibility 0s;
+    }
+
+    .legalbox {
+        position: relative;
+        width: 720px;
+        max-width: 100%;
+        max-height: 88vh;
+        display: flex;
+        flex-direction: column;
+        background-color: #ffffff;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        transform: translateY(16px) scale(.97);
+        transition: transform .25s ease;
+        font-family: 'Nunito Sans', sans-serif;
+    }
+
+    .legalmodal.is-open .legalbox {
+        transform: none;
+    }
+
+    .legalbox::before {
+        content: "";
+        position: absolute;
+        top: -1px;
+        left: 0;
+        width: 60px;
+        height: 60px;
+        background-color: #672C2C;
+        clip-path: polygon(0 0, 100% 0, 0 100%);
+        pointer-events: none;
+    }
+
+    .legal-close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 32px;
+        height: 32px;
+        border: none;
+        border-radius: 50%;
+        background-color: transparent;
+        color: #672C2C;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color .2s ease;
+    }
+
+    .legal-close:hover {
+        background-color: #f0e8e3;
+    }
+
+    .legal-close svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .legalhead {
+        padding: 28px 28px 0;
+    }
+
+    .legaltitle {
+        margin: -1px 40px 14px 15px;
+        font-family: 'Inria Serif', serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: #672C2C;
+    }
+
+    .legaltabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-left: 15px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #0000000f;
+    }
+
+    .legaltab {
+        height: 34px;
+        padding: 0 16px;
+        border-radius: 20px;
+        background-color: #d9d9d960;
+        border: 1px solid #00000011;
+        color: #08080894;
+        font-family: 'Nunito Sans', sans-serif;
+        font-size: .8rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all .2s ease;
+    }
+
+    .legaltab:hover {
+        background-color: #672c2c48;
+        border-color: #672C2C;
+        color: #672C2C;
+    }
+
+    .legaltab.active,
+    .legaltab.active:hover {
+        background-color: #672C2C;
+        border-color: #672C2C;
+        color: #fff;
+    }
+
+    .legalbody {
+        flex: 1;
+        overflow-y: auto;
+        padding: 18px 28px 10px 43px;
+    }
+
+    .legalpanel[hidden] {
+        display: none;
+    }
+
+    .legaldate {
+        margin: 0 0 14px;
+        font-size: .78rem;
+        font-weight: 700;
+        color: #00000080;
+    }
+
+    .legalpanel h2 {
+        margin: 22px 0 6px;
+        font-size: 1rem;
+        font-weight: 800;
+        color: #000;
+    }
+
+    .legalpanel p,
+    .legalpanel li {
+        font-size: .88rem;
+        font-weight: 600;
+        line-height: 1.6;
+        color: #000000b8;
+    }
+
+    .legalpanel ul,
+    .legalpanel ol {
+        margin: 6px 0;
+        padding-left: 22px;
+    }
+
+    .legalpanel li {
+        margin-bottom: 5px;
+    }
+
+    .legalfaq {
+        border-bottom: 1px solid #0000000f;
+    }
+
+    .legalfaq summary {
+        cursor: pointer;
+        padding: 11px 0;
+        font-size: .92rem;
+        font-weight: 800;
+        color: #000;
+    }
+
+    .legalfaq summary:hover {
+        color: #672C2C;
+    }
+
+    .legalfaq p {
+        margin: 0 0 12px;
+    }
+
+    .legalfoot {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        padding: 16px 28px 22px;
+        border-top: 1px solid #0000000f;
+    }
+
+    .legalbtn {
+        height: 42px;
+        padding: 0 28px;
+        border: 1px solid #672C2C;
+        border-radius: 6px;
+        background-color: #672C2C;
+        color: #fff;
+        font-family: 'Nunito Sans', sans-serif;
+        font-size: .85rem;
+        font-weight: 800;
+        cursor: pointer;
+        transition: all .2s ease;
+    }
+
+    .legalbtn:hover {
+        background-color: #672c2c00;
+        color: #672C2C;
+    }
+
+    .legalbtn.ghost {
+        background-color: transparent;
+        color: #672C2C;
+    }
+
+     .legalbtn.ghost:hover {
+        background-color: #f0e8e3;
+    }
+
+    .legalpanel[contenteditable="true"] {
+        outline: 2px dashed #672C2C;
+        outline-offset: 8px;
+        border-radius: 4px;
+    }
+
+    .legalstatus {
+        margin-right: auto;
+        align-self: center;
+        font-size: .85rem;
+        font-weight: 700;
+        color: #16a34a;
+    }
+</style>
+
+<div class="legalmodal" id="legalModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="legalbox">
+        <button type="button" class="legal-close" data-legal-close aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+        </button>
+
+        <div class="legalhead">
+            <h1 class="legaltitle" id="legalTitle">Terms of Service</h1>
+            <div class="legaltabs">
+                <button type="button" class="legaltab active" data-tab="terms">Terms of Service</button>
+                <button type="button" class="legaltab" data-tab="privacy">Privacy Policy</button>
+                <button type="button" class="legaltab" data-tab="faqs">FAQs</button>
+                <button type="button" class="legaltab" data-tab="rules">House Rules</button>
+            </div>
+        </div>
+
+        <div class="legalbody" id="legalBody">
+
+            <div class="legalpanel" data-panel="terms">
+                <p class="legaldate">Terms of stay &middot; Last updated November 2, 2026</p>
+
+                <h2>1. Acceptance of these terms</h2>
+                <p>By creating an account, booking a bed, or staying at D'aces Dormitory, you agree to these Terms of
+                    Service and to our Privacy Policy and House Rules. If you do not agree, please do not use the
+                    website or book a bed.</p>
+
+                <h2>2. Your account</h2>
+                <ul>
+                    <li>You must give true and complete information, including your name, contact details, and a valid
+                        government-issued ID.</li>
+                    <li>You are responsible for keeping your password private and for everything done through your
+                        account.</li>
+                    <li>Guests may browse the home page, dorm layout, rooms, and location, but only signed-in tenants
+                        can book or manage a stay.</li>
+                </ul>
+
+                <h2>3. Booking and admin approval</h2>
+                <ul>
+                    <li>When you pick a bed, we hold it for you for 15 minutes while you complete the booking form.</li>
+                    <li>A submitted booking is <b>not final</b>. The dormitory admin must review and approve it first.
+                        Until then your booking shows as "waiting for admin approval" and the room does not appear in
+                        your tenant details.</li>
+                    <li>We may decline a booking, for example if the bed is no longer available or the information is
+                        incomplete. If declined, the bed is released and you may book again.</li>
+                </ul>
+
+                <h2>4. Rent and fees</h2>
+                <ul>
+                    <li>Rent is charged monthly per bed at the rate shown for the room. Your next rent payment is due 30
+                        days after your move-in date.</li>
+                    <li>The reservation fee is <b>non-refundable</b>. The security fee and clean fee are shown in your
+                        booking summary before you pay.</li>
+                    <li>Late or unpaid rent may lead to reminders, restricted access to some services, and, if it
+                        continues, ending of the stay.</li>
+                </ul>
+
+                <h2>5. Length of stay, transfers, and move-out</h2>
+                <ul>
+                    <li>You choose an expected length of stay when you book (for example 1 month, 3 months, 6 months, or
+                        1 year).</li>
+                    <li>Room or bed transfers are subject to availability and admin approval.</li>
+                    <li>To leave, submit a move-out request from your Settings page and settle any unpaid balance before
+                        your move-out date.</li>
+                </ul>
+
+                <h2>6. Using the room and shared areas</h2>
+                <p>Each bed is for one tenant only. You may not sublet your bed, let others stay overnight without
+                    approval, or use the room for any business. Please follow the House Rules at all times.</p>
+
+                <h2>7. Damages and lost items</h2>
+                <p>You are responsible for damage you or your visitors cause to the room, furniture, or shared
+                    facilities, and the cost of repair may be charged to you. The dormitory is not responsible for lost,
+                    stolen, or damaged personal belongings. Keep valuables locked.</p>
+
+                <h2>8. Ending a stay</h2>
+                <p>We may end a stay with written notice for serious or repeated violations of these terms or the House
+                    Rules, non-payment, or conduct that puts other tenants at risk. You may end your stay by following
+                    the move-out steps above.</p>
+
+                <h2>9. Changes to these terms</h2>
+                <p>We may update these terms from time to time. The "last updated" date above shows the latest version.
+                    Continuing to use the website or stay after a change means you accept it.</p>
+
+                <h2>10. Contact us</h2>
+                <p>Questions about these terms? Use the <b>Message admin</b> button in your account, or the contact
+                    details in the website footer.</p>
+            </div>
+
+            <div class="legalpanel" data-panel="privacy" hidden>
+                <p class="legaldate">Last updated November 2, 2026</p>
+
+                <p>D'aces Dormitory respects your privacy. This policy explains what personal information we collect,
+                    why we collect it, and how we protect it, in line with the Philippine Data Privacy Act of 2012
+                    (Republic Act No. 10173).</p>
+
+                <h2>1. Information we collect</h2>
+                <ul>
+                    <li><b>Account details:</b> full name, email address, and password (stored in a scrambled, hashed
+                        form).</li>
+                    <li><b>Booking and tenant details:</b> date of birth, sex, civil status, occupation, school or
+                        employer, mobile number, and home address.</li>
+                    <li><b>Emergency contact:</b> the name, relationship, phone number, and address of the person we may
+                        contact for you.</li>
+                    <li><b>Identity document:</b> your ID type, ID number, and a photo of your valid ID.</li>
+                    <li><b>Stay and payment records:</b> your room and bed, move-in date, rent, payments made, and
+                        billing email.</li>
+                    <li><b>Messages and requests:</b> chats, complaints, suggestions, and maintenance requests you send
+                        us.</li>
+                </ul>
+
+                <h2>2. Why we collect it</h2>
+                <ul>
+                    <li>To create your account and process, approve, and manage your booking.</li>
+                    <li>To verify your identity and keep the dormitory safe.</li>
+                    <li>To collect rent, record payments, and send receipts and reminders.</li>
+                    <li>To respond to your messages, complaints, and repair requests.</li>
+                    <li>To contact your emergency contact if something happens to you.</li>
+                </ul>
+
+                <h2>3. Who can see your information</h2>
+                <p>Only the dormitory admin and authorized staff can see your tenant records. Other tenants only see
+                    what you choose to share, such as your name and room in the marketplace and chat. We do not sell
+                    your personal information. We share it only with payment providers needed to process your payments,
+                    or when the law requires it.</p>
+
+                <h2>4. How long we keep it</h2>
+                <p>We keep your information while you are a tenant and for a reasonable period afterwards for billing,
+                    legal, and security purposes, then delete or anonymize it.</p>
+
+                <h2>5. How we protect it</h2>
+                <ul>
+                    <li>Passwords are hashed, never stored as plain text.</li>
+                    <li>Access to tenant records is limited to authorized admins.</li>
+                    <li>Our forms are protected against common web attacks, and sessions end when you log out.</li>
+                </ul>
+
+                <h2>6. Cookies</h2>
+                <p>We use only the cookies needed to keep you signed in and to protect your forms. We do not use
+                    advertising cookies.</p>
+
+                <h2>7. Your rights</h2>
+                <p>You have the right to be informed, to access and correct your information, to object to or withdraw
+                    your consent, and to ask us to delete your information where the law allows. You can update most
+                    details in your Profile and Settings pages, or message the admin for anything else.</p>
+
+                <h2>8. Changes and contact</h2>
+                <p>We may update this policy and will change the date above when we do. For privacy questions, use
+                    <b>Message admin</b> in your account or the contact details in the footer.</p>
+            </div>
+
+            <div class="legalpanel" data-panel="faqs" hidden>
+                <p class="legaldate">Quick answers about staying at D'aces Dormitory</p>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>How do I book a bed?</summary>
+                        <p>Create an account and log in, open <b>Rooms</b>, pick a room, choose an available bed and
+                            deck (lower or upper), and click <b>Book this room</b>. Fill in your details, choose a
+                            payment method, and confirm.</p>
+                    </details>
+                </div>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>Why does my booking say "waiting for admin approval"?</summary>
+                        <p>Every new booking is reviewed by the dormitory admin first. Your bed is held for you in the
+                            meantime, and the room appears in your details once the admin approves it. You will get a
+                            notification either way.</p>
+                    </details>
+                </div>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>What do I need to book?</summary>
+                        <p>Your personal and contact details, an emergency contact, one valid government-issued ID (JPG
+                            or PNG, up to 5MB), and your preferred move-in date.</p>
+                    </details>
+                </div>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>What payment methods can I use?</summary>
+                        <p>GCash is available now. Debit/credit card and bank transfer are not available yet.</p>
+                    </details>
+                </div>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>When is my rent due?</summary>
+                        <p>Your next rent payment is due 30 days after your move-in date. You can see what you owe and
+                            your payment history on the Payments page.</p>
+                    </details>
+                </div>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>Is the reservation fee refundable?</summary>
+                        <p>No. The reservation fee is non-refundable, as stated before you pay.</p>
+                    </details>
+                </div>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>What is included in the room?</summary>
+                        <p>Free Wi-Fi, a study area, 24/7 water and electricity, CCTV security, and a gate and fence.
+                            Rooms have shared cabinets, their own toilet and bath, a kitchen for everyone, and a free
+                            electric fan.</p>
+                    </details>
+                </div>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>Something in my room is broken. What do I do?</summary>
+                        <p>Go to your Profile and click <b>Request Maintenance</b>, choose a category and urgency, and
+                            describe the problem. The dorm team will follow up.</p>
+                    </details>
+                </div>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>Can I change rooms or leave early?</summary>
+                        <p>Yes. Use the room transfer or move-out request in your Settings page. Transfers depend on
+                            availability and admin approval.</p>
+                    </details>
+                </div>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>How do I contact the admin?</summary>
+                        <p>Use the <b>Ask Admin</b> button on the Dorm page or <b>Message admin</b> on the Rooms page to
+                            chat with the dormitory admin directly, or use the contact details in the footer.</p>
+                    </details>
+                </div>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>Can I look around without an account?</summary>
+                        <p>Yes. Choose <b>Continue as Guest</b> to view the home page, dorm layout, rooms, and location.
+                            You need an account to book or use other features.</p>
+                    </details>
+                </div>
+            </div>
+
+            <div class="legalpanel" data-panel="rules" hidden>
+                <p class="legaldate">Please read and follow these rules so everyone can live comfortably</p>
+
+                <h2>Respect and quiet</h2>
+                <ol>
+                    <li>Be respectful to your roommates, other tenants, staff, and neighbors.</li>
+                    <li>Quiet hours are from 10:00 PM to 6:00 AM. Keep music, calls, and gatherings low during this
+                        time.</li>
+                    <li>Settle disagreements calmly. If you cannot, ask the admin to help.</li>
+                </ol>
+
+                <h2>Visitors and security</h2>
+                <ol start="4">
+                    <li>Visitors are allowed only in common areas from 8:00 AM to 9:00 PM and must be accompanied by the
+                        tenant.</li>
+                    <li>No overnight guests without the admin's approval.</li>
+                    <li>The gate closes at 11:00 PM. Tell the admin ahead of time if you will come home late.</li>
+                    <li>Never prop the gate or doors open, and do not share your key or access with anyone.</li>
+                    <li>Report lost keys, suspicious people, or anything unsafe to the admin right away.</li>
+                </ol>
+
+                <h2>Cleanliness</h2>
+                <ol start="9">
+                    <li>Keep your bed, cabinet, and area clean and tidy.</li>
+                    <li>Wash your dishes and clean the kitchen after you use it. Do not leave food out.</li>
+                    <li>Segregate your trash and throw it in the proper bins.</li>
+                    <li>Leave the shared toilet and bath clean for the next person.</li>
+                </ol>
+
+                <h2>Safety and use of the room</h2>
+                <ol start="13">
+                    <li>No smoking or vaping inside the building.</li>
+                    <li>No illegal drugs, weapons, or open flames. No cooking inside the sleeping rooms.</li>
+                    <li>Do not bring heaters, extra air conditioners, or other high-power appliances without approval.
+                    </li>
+                    <li>Turn off lights, fans, and appliances when you leave the room.</li>
+                    <li>No pets unless the admin has approved it.</li>
+                    <li>Do not move, remove, or damage furniture and fixtures. Report repairs through <b>Request
+                            Maintenance</b>.</li>
+                </ol>
+
+                <h2>Payments</h2>
+                <ol start="19">
+                    <li>Pay your rent on or before the due date.</li>
+                    <li>Tell the admin early if you will have trouble paying.</li>
+                </ol>
+
+                <h2>If a rule is broken</h2>
+                <p>A first violation usually gets a verbal reminder, then a written warning. Serious or repeated
+                    violations may lead to fees for damages or the ending of the stay, as explained in the Terms of
+                    Service.</p>
+            </div>
+
+        </div>
+
+             <div class="legalfoot">
+                            <button type="button" class="legalbtn" data-legal-close>Close</button>
+                    </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        var modal = document.getElementById('legalModal');
+        if (!modal) return;
+        document.body.appendChild(modal);   
+
+        var titles = { terms: 'Terms of Service', privacy: 'Privacy Policy', faqs: 'FAQs', rules: 'House Rules' };
+        var tabs = modal.querySelectorAll('.legaltab');
+        var panels = modal.querySelectorAll('.legalpanel');
+
+        function show(key) {
+            if (!titles[key]) key = 'terms';
+            tabs.forEach(function (t) { t.classList.toggle('active', t.dataset.tab === key); });
+            panels.forEach(function (p) { p.hidden = (p.dataset.panel !== key); });
+            document.getElementById('legalTitle').textContent = titles[key];
+            document.getElementById('legalBody').scrollTop = 0;
+        }
+
+        function openLegal(key) {
+            show(key);
+            modal.classList.add('is-open');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLegal() {
+            modal.classList.remove('is-open');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('click', function (e) {
+            var link = e.target.closest('[data-legal]');
+            if (link) { e.preventDefault(); openLegal(link.dataset.legal); }
+        });
+
+        tabs.forEach(function (t) { t.addEventListener('click', function () { show(t.dataset.tab); }); });
+
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal || e.target.closest('[data-legal-close]')) closeLegal();
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && modal.classList.contains('is-open')) closeLegal();
+        });
+
+        var agreeBtn = document.getElementById('legalAgree');
+        if (agreeBtn) {
+            agreeBtn.addEventListener('click', function () {
+                var box = document.getElementById('agree');
+                if (box) box.checked = true;
+                closeLegal();
+            });
+        }
+
+        var editBtn = document.getElementById('legalEdit');
+        var saveBtn = document.getElementById('legalSave');
+        var statusEl = document.getElementById('legalStatus');
+        if (editBtn && saveBtn) {
+            function say(text) { statusEl.textContent = text; statusEl.hidden = !text; }
+            function stopEdit() {
+                panels.forEach(function (p) { p.removeAttribute('contenteditable'); });
+                editBtn.hidden = false;
+                saveBtn.hidden = true;
+            }
+
+            editBtn.addEventListener('click', function () {
+                var p = modal.querySelector('.legalpanel:not([hidden])');
+                p.querySelectorAll('details').forEach(function (d) { d.open = true; });
+                p.setAttribute('contenteditable', 'true');
+                p.focus();
+                editBtn.hidden = true;
+                saveBtn.hidden = false;
+                say('');
+            });
+
+            saveBtn.addEventListener('click', function () {
+                stopEdit();
+                say('Saved.');
+            });
+
+            tabs.forEach(function (t) {
+                t.addEventListener('click', function () { stopEdit(); say(''); });
+            });
+
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal || e.target.closest('[data-legal-close]')) { stopEdit(); say(''); }
+                if (e.target.closest('.legalpanel[contenteditable] summary')) e.preventDefault();
+            });
+        }
+    })();
+</script>            </main>
+            <div class="cb" id="chatbox" hidden>
+    <div class="cb-head" id="cbHead">
+        <div class="cb-avatar" id="cbAvatar">?</div>
+        <div class="cb-who">
+            <div class="cb-name" id="cbName"></div>
+            <div class="cb-room" id="cbRoom"></div>
+        </div>
+        <button type="button" class="cb-btn" id="cbMin" aria-label="Minimize">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14"/></svg>
+        </button>
+        <button type="button" class="cb-btn" id="cbClose" aria-label="Close chat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+    </div>
+
+    <div class="cb-body">
+        <div class="cb-item">
+            <div class="cb-thumb" id="cbThumb">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            </div>
+            <div>
+                <div class="cb-item-title" id="cbItemTitle"></div>
+                <div class="cb-item-price" id="cbItemPrice"></div>
+            </div>
+        </div>
+
+        <div class="cb-msgs" id="cbMsgs"></div>
+        <p class="cb-err" id="cbErr" hidden></p>
+
+        <div class="cb-form">
+            <input type="text" class="cb-input" id="cbInput" maxlength="500" placeholder="Write a message..." autocomplete="off">
+            <button type="button" class="cb-send" id="cbSend" aria-label="Send" disabled>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12 2-12 2z"/></svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    var IS_ADMIN = true;
+    var URLS = {
+        inbox:        "\/home\/marketplace\/inbox",
+        thread:       "\/home\/marketplace\/chat",
+        send:         "\/home\/marketplace\/chat",
+        ctInbox:      "\/home\/complaints\/inbox",
+        ctThread:     "\/admin\/complaints\/chat",
+        ctSend:       "\/admin\/complaints\/chat",
+        adminInbox:   "\/admin\/complaints\/inbox",
+        dmInbox:      "\/home\/dm\/inbox",
+        dmAdminInbox: "\/admin\/dm\/inbox",
+        dmThread:     "\/admin\/dm\/chat",
+        dmSend:       "\/admin\/dm\/chat",
+        rmInbox:      "\/home\/roommates\/inbox",
+        rmThread:     "\/home\/roommates\/chat",
+        rmSend:       "\/home\/roommates\/chat"    };
+    var CSRF = document.querySelector('meta[name="csrf-token"]').content;
+    var $ = function (id) { return document.getElementById(id); };
+
+    var box = $('chatbox'), msgs = $('cbMsgs'), input = $('cbInput'), sendBtn = $('cbSend'), errEl = $('cbErr');
+    var mRoot = $('msgRoot'), mBtn = $('msgBtn'), mDot = $('msgDot'), mPanel = $('msgPanel'), mList = $('msgList');
+
+    var cur = null, lastId = 0, count = 0, sending = false, threads = [];
+
+    function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+
+    function ago(iso) {
+        var s = Math.floor((Date.now() - new Date(iso)) / 1000);
+        if (s < 60) return 'just now';
+        if (s < 3600) return Math.floor(s / 60) + ' mins ago';
+        if (s < 86400) return Math.floor(s / 3600) + ' hrs ago';
+        return Math.floor(s / 86400) + ' days ago';
+    }
+
+    function dayLabel(iso) {
+        var d = new Date(iso), t = new Date(), y = new Date();
+        y.setDate(t.getDate() - 1);
+        if (d.toDateString() === t.toDateString()) return 'Today';
+        if (d.toDateString() === y.toDateString()) return 'Yesterday';
+        return d.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function say(t) { errEl.hidden = !t; errEl.textContent = t || ''; }
+
+    function remember() {
+        try {
+            if (cur) sessionStorage.setItem('daceChat', JSON.stringify({
+                kind: cur.kind, item_id: cur.item_id, with_id: cur.with_id, min: box.classList.contains('is-min')
+            }));
+            else sessionStorage.removeItem('daceChat');
+        } catch (e) {}
+    }
+
+    function setThumb(url) {
+        var t = $('cbThumb');
+        t.style.backgroundImage = url ? 'url("' + url + '")' : '';
+        t.classList.toggle('has-photo', !!url);
+    }
+    function fill(d) {
+        if (d.with_name != null)  { $('cbName').textContent = d.with_name; $('cbAvatar').textContent = (d.with_name || '').charAt(0).toUpperCase(); }
+        if (d.with_room != null)  $('cbRoom').textContent = d.with_room;
+        if (d.item_title != null) $('cbItemTitle').textContent = d.item_title;
+        if (d.item_price != null) $('cbItemPrice').textContent = d.item_price;
+        if (d.photo !== undefined) setThumb(d.photo);
+    }
+
+    function render(list, force) {
+        var near = msgs.scrollHeight - msgs.scrollTop - msgs.clientHeight < 60;
+        msgs.innerHTML = '';
+        if (!list.length) { msgs.innerHTML = '<p class="cb-empty">No messages yet. Say hi!</p>'; return; }
+
+        var day = '';
+        list.forEach(function (m) {
+            var label = dayLabel(m.at);
+            if (label !== day) {
+                day = label;
+                var t = document.createElement('div');
+                t.className = 'cb-time';
+                t.textContent = label;
+                msgs.appendChild(t);
+            }
+            var d = document.createElement('div');
+            d.className = 'msg ' + (m.mine ? 'me' : 'them');
+            d.textContent = m.body;
+            d.title = new Date(m.at).toLocaleString();
+            msgs.appendChild(d);
+        });
+        if (force || near) msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    async function loadThread(force) {
+        if (!cur) return;
+        var mine = cur;
+        var peek = box.classList.contains('is-min') ? '&peek=1' : '';
+        try {
+            var url = mine.kind === 'roommate'
+                ? URLS.rmThread + '?with=' + mine.with_id + peek
+                : mine.kind === 'complaint'
+                ? URLS.ctThread + '?complaint_id=' + mine.item_id + peek
+                : mine.kind === 'direct'
+                    ? URLS.dmThread + '?tenant_id=' + mine.item_id + peek
+                    : URLS.thread + '?item_id=' + mine.item_id + '&with=' + mine.with_id + peek;
+            var res = await fetch(url, {
+                headers: { 'Accept': 'application/json' }, credentials: 'same-origin', cache: 'no-store'
+            });
+            if (res.status === 403 || res.status === 404 || res.status === 422) { if (cur === mine) close(); return; }
+            if (!res.ok) return;
+            var data = await res.json();
+            if (cur !== mine) return;
+
+            fill({ with_name: data.other.name, with_room: data.other.room,
+                   item_title: data.item.title, item_price: data.item.price, photo: data.item.photo || '' });
+
+            var list = data.messages, last = list.length ? list[list.length - 1].id : 0;
+            if (force || last !== lastId || list.length !== count) {
+                render(list, force);
+                refreshInbox();
+            }
+            lastId = last; count = list.length;
+        } catch (e) {}
+    }
+
+    function open(d) {
+        cur = { kind: d.kind || 'item', item_id: Number(d.item_id), with_id: Number(d.with_id) };
+        lastId = 0; count = 0;
+        fill({ with_name: '', with_room: '', item_title: '', item_price: '', photo: '' });
+        fill(d);
+        say('');
+        input.value = ''; sendBtn.disabled = true;
+        msgs.innerHTML = '<p class="cb-empty">Loading...</p>';
+        box.hidden = false;
+        box.classList.toggle('is-min', !!d.min);
+        remember();
+        loadThread(true);
+        if (!d.quiet && !d.min) input.focus();
+    }
+
+    function close() {
+        box.hidden = true;
+        cur = null;
+        msgs.innerHTML = '';
+        remember();
+        refreshInbox();
+    }
+
+    async function send() {
+        var text = input.value.trim();
+        if (!text || !cur || sending) return;
+        sending = true; sendBtn.disabled = true; say('');
+        try {
+            var isC = cur.kind === 'complaint', isD = cur.kind === 'direct', isR = cur.kind === 'roommate';
+            var res = await fetch(isC ? URLS.ctSend : isD ? URLS.dmSend : isR ? URLS.rmSend : URLS.send, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': CSRF },
+                credentials: 'same-origin',
+                body: JSON.stringify(isC ? { complaint_id: cur.item_id, body: text } : isD ? { tenant_id: cur.item_id, body: text } : isR ? { recipient_id: cur.with_id, body: text } : { item_id: cur.item_id, recipient_id: cur.with_id, body: text })
+            });
+            var data = await res.json().catch(function () { return {}; });
+            if (res.status === 419) throw new Error('Session expired. Refresh the page.');
+            if (res.status === 429) throw new Error('You are sending too fast. Please wait a moment.');
+            if (res.status === 422 && data.errors) throw new Error(Object.values(data.errors)[0][0]);
+            if (!res.ok) throw new Error(data.message || 'Could not send your message.');
+            input.value = '';
+            await loadThread(true);
+        } catch (e) {
+            say(e instanceof TypeError ? 'No connection. Check your internet.' : e.message);
+        } finally {
+            sending = false;
+            sendBtn.disabled = !input.value.trim();
+        }
+    }
+
+    input.addEventListener('input', function () { sendBtn.disabled = !input.value.trim(); });
+    input.addEventListener('keydown', function (e) { if (e.key === 'Enter') send(); });
+    sendBtn.addEventListener('click', send);
+
+    $('cbHead').addEventListener('click', function (e) {
+        if (e.target.closest('#cbClose')) return;
+        box.classList.toggle('is-min');
+        remember();
+        if (!box.classList.contains('is-min')) { loadThread(true); input.focus(); }
+    });
+    $('cbClose').addEventListener('click', close);
+
+    function setBadge(n) {
+        mDot.hidden = n < 1;
+        mDot.textContent = n > 9 ? '9+' : n;
+        mBtn.classList.toggle('has-unread', n > 0);
+    }
+
+    function renderInbox() {
+        if (!threads.length) {
+            mList.innerHTML = '<p class="notif-empty">' + (IS_ADMIN ? 'No conversations yet. Click Message on a complaint or a tenant.' : 'No messages yet. Message a seller from the Marketplace.') + '</p>';
+            return;
+        }
+        mList.innerHTML = threads.map(function (t, i) {
+            return '<div class="notif-item' + (t.unread ? ' unread' : '') + '" data-i="' + i + '">'
+                + '<b>' + esc(t.with_name) + ' · ' + esc(t.item_title) + '</b>'
+                + '<p>' + (t.last_mine ? 'You: ' : '') + esc(t.last) + '</p>'
+                + '<small>' + ago(t.at) + (t.unread ? ' · ' + t.unread + ' new' : '') + '</small></div>';
+        }).join('');
+    }
+
+    async function refreshInbox() {
+        if (!mBtn) return;
+        try {
+            var o = { headers: { 'Accept': 'application/json' }, credentials: 'same-origin', cache: 'no-store' };
+            var none = { unread: 0, threads: [] };
+            var urls = IS_ADMIN ? [URLS.adminInbox, URLS.dmAdminInbox] : [URLS.inbox, URLS.ctInbox, URLS.dmInbox, URLS.rmInbox];
+            var rs = await Promise.all(urls.map(function (u) { return fetch(u, o); }));
+            var parts = await Promise.all(rs.map(function (r) { return r.ok ? r.json() : none; }));
+
+            threads = []; var unread = 0;
+            parts.forEach(function (p) { threads = threads.concat(p.threads); unread += p.unread; });
+            threads.sort(function (x, y) { return new Date(y.at) - new Date(x.at); });
+
+            setBadge(unread);
+            if (!mPanel.hidden) renderInbox();
+        } catch (e) {}
+    }
+
+    if (mBtn) mBtn.addEventListener('click', function () {
+        mPanel.hidden = !mPanel.hidden;
+        mBtn.setAttribute('aria-expanded', String(!mPanel.hidden));
+        if (!mPanel.hidden) { renderInbox(); refreshInbox(); }
+    });
+    if (mList) mList.addEventListener('click', function (e) {
+        var row = e.target.closest('.notif-item');
+        if (!row) return;
+        var t = threads[Number(row.dataset.i)];
+        if (!t) return;
+        mPanel.hidden = true;
+        open({ kind: t.kind, item_id: t.item_id, with_id: t.with_id, with_name: t.with_name, with_room: t.with_room,
+               item_title: t.item_title, item_price: t.item_price, photo: t.photo || '' });
+    });
+    if (mRoot) document.addEventListener('click', function (e) { if (!mRoot.contains(e.target)) mPanel.hidden = true; }, true);
+
+    setInterval(function () {
+        if (cur && !box.hidden && !box.classList.contains('is-min') && !document.hidden) loadThread(false);
+    }, 4000);
+       setInterval(function () { if (!document.hidden) refreshInbox(); }, 15000);
+
+    window.DaceChat = { open: open, refresh: refreshInbox };
+
+    try {
+        var s = JSON.parse(sessionStorage.getItem('daceChat') || 'null');
+        if (s && s.item_id) open({ kind: s.kind, item_id: s.item_id, with_id: s.with_id || 0, min: s.min, quiet: true });
+    } catch (e) {}
+
+    refreshInbox();
+})();
+</script>    <script src="/js/sidebar.js?v=1794243073"></script>
+    <script src="/js/notifications.js"></script>
+    <script src="/js/logout-modal.js"></script>
+        <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab');
+            const panels = document.querySelectorAll('.panel');
+
+            function showTab(name) {
+                tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+                panels.forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
+            }
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', e => {
+                    e.preventDefault();
+                    showTab(tab.dataset.tab);
+                    history.replaceState(null, '', '#' + tab.dataset.tab);
+                });
+            });
+
+
+            const start = location.hash.replace('#', '');
+            if (start && document.getElementById('panel-' + start)) {
+                showTab(start);
+            }
+        });
+    </script>
+        <script>
+        (function () {
+            var modal = document.getElementById('contactModal');
+            if (!modal) return;
+
+            var csrf = document.querySelector('meta[name="csrf-token"]').content;
+            var views = ['ctChooser', 'ctMessage', 'ctComplaint', 'ctSuggestion', 'ctMaintenance'];
+            var fromChooser = false;
+
+            function setStatus(box, text, type) {
+                var p = box.querySelector('.msg-status');
+                p.hidden = !text;
+                p.textContent = text || '';
+                p.className = 'msg-status' + (type ? ' ' + type : '');
+            }
+
+            function show(id) {
+                views.forEach(function (v) {
+                    var box = document.getElementById(v);
+                    box.hidden = (v !== id);
+                    if (box.querySelector('.msg-status')) setStatus(box, '');
+                });
+                modal.classList.add('is-open');
+                modal.setAttribute('aria-hidden', 'false');
+                var first = document.getElementById(id).querySelector('textarea, select');
+                if (first) setTimeout(function () { first.focus(); }, 50);
+            }
+
+            function closeAll() {
+                modal.classList.remove('is-open');
+                modal.setAttribute('aria-hidden', 'true');
+            }
+
+            document.querySelectorAll('[data-contact]').forEach(function (card) {
+                function go() {
+                    if (card.dataset.contact === 'maintenance') { fromChooser = false; show('ctMaintenance'); }
+                    else { fromChooser = true; show('ctChooser'); }
+                }
+                card.addEventListener('click', go);
+                card.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
+                });
+            });
+
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal || e.target.closest('[data-ct-all]')) { closeAll(); return; }
+                if (e.target.closest('[data-ct-back]')) { fromChooser ? show('ctChooser') : closeAll(); return; }
+                var pick = e.target.closest('[data-ct]');
+                if (pick) { fromChooser = true; show('ct' + pick.dataset.ct); }
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && modal.classList.contains('is-open')) closeAll();
+            });
+
+            modal.querySelectorAll('textarea[data-counter]').forEach(function (t) {
+                var c = document.getElementById(t.dataset.counter);
+                t.addEventListener('input', function () {
+                    var n = t.value.length;
+                    c.textContent = n + ' / 1000';
+                    c.classList.toggle('near', n >= 900 && n < 1000);
+                    c.classList.toggle('max', n >= 1000);
+                });
+            });
+
+            function wire(btnId, label, okText, collect, clear) {
+                var btn = document.getElementById(btnId);
+                var box = btn.closest('.adminbox');
+
+                btn.addEventListener('click', function () {
+                    var out = collect();
+                    if (out.error) { setStatus(box, out.error, 'error'); return; }
+
+                    btn.disabled = true;
+                    btn.value = 'Sending...';
+                    setStatus(box, '');
+
+                    fetch(btn.dataset.url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': csrf
+                        },
+                        body: JSON.stringify(out.data)
+                    }).then(function (res) {
+                        return res.json().catch(function () { return {}; }).then(function (data) {
+                            if (res.status === 429) throw new Error('You are sending too fast. Please wait a moment.');
+                            if (res.status === 419) throw new Error('Your session expired. Refresh the page and try again.');
+                            if (res.status === 422) {
+                                var first = data.errors ? Object.values(data.errors)[0][0] : data.message;
+                                throw new Error(first || 'Please check your details and try again.');
+                            }
+                            if (!res.ok) throw new Error(data.message || 'Could not send. Please try again.');
+                        });
+                    }).then(function () {
+                        clear();
+                        setStatus(box, okText, 'ok');
+                        setTimeout(closeAll, 1500);
+                    }).catch(function (err) {
+                        setStatus(box, err instanceof TypeError
+                            ? 'No connection. Check your internet and try again.' : err.message, 'error');
+                    }).then(function () {
+                        btn.disabled = false;
+                        btn.value = label;
+                    });
+                });
+            }
+
+            function resetText(id) {
+                var t = document.getElementById(id);
+                t.value = '';
+                t.dispatchEvent(new Event('input'));
+            }
+
+            wire('ctMsgSend', 'Send Message', 'Message sent! The dorm manager will get back to you.',
+                function () {
+                    var text = document.getElementById('ctMsgText').value.trim();
+                    return text.length < 2 ? { error: 'Please type your message first.' } : { data: { message: text } };
+                },
+                function () { resetText('ctMsgText'); });
+
+            wire('ctComplaintSend', 'Send Complaint', 'Complaint sent! We will get back to you soon.',
+                function () {
+                    var type = document.getElementById('ctComplaintType').value;
+                    var text = document.getElementById('ctComplaintText').value.trim();
+                    if (!type) return { error: 'Please select a complaint type.' };
+                    if (text.length < 5) return { error: 'Please describe your complaint.' };
+                    return { data: { type: type, message: text } };
+                },
+                function () { document.getElementById('ctComplaintType').selectedIndex = 0; resetText('ctComplaintText'); });
+
+            wire('ctSuggestionSend', 'Send Suggestion', 'Thank you! Your suggestion was sent.',
+                function () {
+                    var text = document.getElementById('ctSuggestionText').value.trim();
+                    return text.length < 5 ? { error: 'Please type your suggestion first.' } : { data: { message: text } };
+                },
+                function () { resetText('ctSuggestionText'); });
+
+            wire('ctMaintSend', 'Submit Request', 'Request sent. Dorm maintenance will follow up.',
+                function () {
+                    var cat = document.getElementById('ctCategory').value;
+                    var urg = document.getElementById('ctUrgency').value;
+                    var det = document.getElementById('ctDetails').value.trim();
+                    if (!cat) return { error: 'Please select a category.' };
+                    if (!urg) return { error: 'Please select an urgency.' };
+                    if (det.length < 5) return { error: 'Please describe the issue.' };
+                    return { data: { category: cat, urgency: urg, details: det } };
+                },
+                function () {
+                    document.getElementById('ctCategory').selectedIndex = 0;
+                    document.getElementById('ctUrgency').selectedIndex = 0;
+                    resetText('ctDetails');
+                });
+                            var docObj = null;
+            function openDoc(btn) {
+                var body = document.getElementById('ctDocBody');
+                fromChooser = false;
+                show('ctDoc');
+                document.getElementById('ctDocTitle').childNodes[0].nodeValue = btn.dataset.doc;
+                body.textContent = 'Loading...';
+                fetch(btn.dataset.url).then(function (r) {
+                    if (!r.ok) throw new Error('missing');
+                    return r.blob();
+                }).then(function (b) {
+                    if (docObj) URL.revokeObjectURL(docObj);
+                    docObj = URL.createObjectURL(b);
+                    var el = b.type.indexOf('image/') === 0 ? document.createElement('img') : document.createElement('iframe');
+                    if (el.tagName === 'IMG') { el.style.maxWidth = '100%'; }
+                    else { el.style.cssText = 'width:100%;height:60vh;border:0;'; }
+                    el.src = docObj;
+                    body.textContent = '';
+                    body.appendChild(el);
+                }).catch(function () {
+                    body.textContent = 'No file has been uploaded for this document yet.';
+                });
+            }
+            document.querySelectorAll('[data-doc]').forEach(function (b) {
+                b.addEventListener('click', function () { openDoc(b); });
+                b.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDoc(b); }
+                });
+            });
+        })();
+    </script>
+    <script>
+        document.querySelectorAll('.mensahe').forEach(function (b) {
+            b.addEventListener('click', function () {
+                if (!window.DaceChat) return;
+                window.DaceChat.open({
+                    kind: 'roommate',
+                    item_id: b.dataset.id,
+                    with_id: b.dataset.id,
+                    with_name: b.dataset.name,
+                    with_room: b.dataset.room,
+                    item_title: 'Roommate',
+                    item_price: b.dataset.room,
+                    photo: ''
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
+<script src="/js/animations.js?v=1794243073"></script>

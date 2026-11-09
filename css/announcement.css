@@ -1,0 +1,1053 @@
+.fournafourbox {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.fournafourbox1 {
+    width: 100%;
+    height: 70px;
+    border-radius: 9px;
+    background-color: #ffffff;
+    border: 1px solid #00000017;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.fournafourbox1 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .5rem;
+    font-weight: 600;
+    color: #672c2c;
+    margin-bottom: 10px;
+}
+
+.fourbox1four {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: -30px;
+}
+
+.fourbox1four h1 {
+    font-family: 'Inria Serif', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #000000;
+
+}
+
+.totalposted {
+    width: 42px;
+    height: 42px;
+    background-color: #672c2c54;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.totalposted svg {
+    height: 20px;
+    width: 20px;
+    color: #672c2c;
+}
+
+.sixnabelog {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.sixnabelog1 {
+    width: 80px;
+    height: 30px;
+    background-color: #FFFFFF;
+    border: 1px solid #0000001f;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.23s ease;
+}
+
+.sixnabelog1:hover {
+    background-color: #672c2c42;
+}
+
+.sixnabelog1 h1 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .8rem;
+    font-weight: 700;
+    color: #000000;
+}
+
+.boxnabrown {
+    width: 100%;
+    max-height: 600px;
+    margin-top: 20px;
+    padding: 40px;
+    box-sizing: border-box;
+    background-color: #E2D5BE;
+    border-radius: 12px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.25);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.boxnabrown1 {
+    width: 100%;
+    height: 250px;
+    box-sizing: border-box;
+    padding-bottom: 20px;
+    background-color: #FFFCF7;
+    border-radius: 0 0 10px 10px;
+    border-top: 8px solid #672c2c;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    text-indent: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+}
+
+.boxnabrown1 {
+    position: relative;
+}
+
+.boxnabrown1::before {
+    content: "";
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #B5736B;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='22' y1='2' x2='11' y2='13'/%3E%3Cpolygon points='22 2 15 22 11 13 2 9 22 2'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 14px 14px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+}
+
+.toppay {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .8rem;
+    font-weight: 800;
+    color: #C98A2C;
+    margin-top: 15px;
+}
+
+.rentdue {
+    font-family: 'Inria Serif', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #000000;
+    margin-top: -2px;
+}
+
+.friendlyreminder {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #000000a8;
+    margin-top: -2px;
+    width: 349px;
+    text-indent: 0;
+    margin-left: 20px;
+
+}
+
+.unpdaid {
+    width: 110px;
+    height: 25px;
+    border-radius: 9999px;
+    background-color: #E2D5BE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 20px;
+    margin-top: auto;
+}
+
+.unpdaid span {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .7rem;
+    font-weight: 800;
+    color: #672c2c;
+    text-indent: 0;
+}
+
+.unpdaid2 {
+    width: 110px;
+    height: 24px;
+    border-radius: 9999px;
+    background-color: #EFE7D9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 20px;
+}
+
+.unpdaid2 span {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .6rem;
+    font-weight: 800;
+    color: #000000;
+    text-indent: 0;
+}
+
+.unpdaid2main {
+    width: 100%;
+    box-sizing: border-box;
+    padding-right: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+}
+
+.unpdaid2main h1 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .9rem;
+    font-weight: 700;
+    color: #00000081;
+    margin: 0;
+    text-indent: 0;
+}
+
+.boxnabrown1 {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.boxnabrown1:hover {
+    transform: rotate(0deg) translateY(-4px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+
+.is-hidden {
+    display: none !important;
+}
+
+.boxnabrown {
+    height: auto;
+    min-height: 600px;
+    grid-template-rows: none;
+    grid-auto-rows: 250px;
+    align-content: start;
+}
+
+.boxnabrown1 {
+    transform: rotate(var(--rot, 0deg));
+}
+
+.sixnabelog1.active {
+    background-color: #672c2c;
+}
+
+.sixnabelog1.active h1 {
+    color: #ffffff;
+}
+
+.sixnabelog1.active:hover {
+    background-color: #672c2c;
+}
+
+.statcard {
+    cursor: pointer;
+    transition: all .23s ease;
+}
+
+.statcard:hover {
+    border-color: #672c2c;
+}
+
+.statcard.active-stat {
+    border: 1px solid #672c2c;
+    box-shadow: 0 0 0 2px #672c2c26;
+}
+
+.pinned-mark {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    width: 18px;
+    height: 18px;
+    color: #672c2c;
+    text-indent: 0;
+}
+
+.pinned-mark svg {
+    width: 100%;
+    height: 100%;
+}
+
+.ann-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 0;
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    color: #672c2c99;
+}
+
+.ann-pager {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 20px 0;
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+.ann-pager button {
+    min-width: 36px;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 9999px;
+    background: #fff;
+    border: 1px solid #0000001f;
+    cursor: pointer;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .8rem;
+    font-weight: 700;
+    color: #000;
+    transition: all .23s ease;
+}
+
+.ann-pager button:hover:not(:disabled) {
+    background: #672c2c42;
+}
+
+.ann-pager button.current {
+    background: #672c2c;
+    border-color: #672c2c;
+    color: #fff;
+}
+
+.ann-pager button:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+}
+
+.ann-pager span {
+    margin-left: 12px;
+    font-size: .8rem;
+    font-weight: 700;
+    color: #00000081;
+}
+
+.ann-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, .45);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.ann-overlay.open {
+    display: flex;
+}
+
+.ann-modal {
+    position: relative;
+    background: #FFFCF7;
+    width: 100%;
+    max-width: 520px;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, .3);
+    font-family: 'Nunito Sans', sans-serif;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.ann-modal-bar {
+    height: 8px;
+    background: #672c2c;
+}
+
+.ann-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 50%;
+    background: #EFE7D9;
+    color: #672c2c;
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.ann-close:hover {
+    background: #E2D5BE;
+}
+
+.ann-modal-body {
+    padding: 26px 30px 30px;
+}
+
+.ann-cat {
+    margin: 0 0 6px;
+    font-size: .8rem;
+    font-weight: 800;
+}
+
+.ann-modal h2 {
+    margin: 0 0 14px;
+    font-family: 'Inria Serif', serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #000;
+    padding-right: 30px;
+}
+
+.ann-text {
+    margin: 0 0 22px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #000000a8;
+    line-height: 1.5;
+}
+
+.ann-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.ann-meta div {
+    flex: 1;
+    min-width: 120px;
+    background: #EFE7D9;
+    border-radius: 9px;
+    padding: 10px 14px;
+}
+
+.ann-meta span {
+    display: block;
+    font-size: .7rem;
+    font-weight: 800;
+    color: #00000081;
+}
+
+.ann-meta strong {
+    font-size: .9rem;
+    font-weight: 800;
+    color: #000;
+}
+
+.sixnabelog {
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.sixnabelog .ann-pager {
+    margin: 0 0 0 auto;
+    justify-content: flex-end;
+}
+
+.topbar .gawangannbtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #672C2C;  
+    cursor: pointer;
+}
+
+.gawangannbtn svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.editdeletesaann {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    display: flex;
+    gap: 8px;
+    text-indent: 0;
+    z-index: 3;
+}
+
+.pangeditann,
+.pangburatann {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #0000001a;
+    border-radius: 6px;
+    background-color: #F7F1EE;
+    color: #534949;
+    cursor: pointer;
+    transition: all .23s ease;
+}
+
+.pangeditann svg,
+.pangburatann svg {
+    width: 15px;
+    height: 15px;
+}
+
+.pangeditann:hover {
+    background-color: #672c2c1f;
+    border-color: #672c2c55;
+    color: #672c2c;
+}
+
+.pangburatann:hover {
+    background-color: #b3261e;
+    border-color: #b3261e;
+    color: #ffffff;
+}
+
+.pangadminkard .pinned-mark {
+    top: 16px;
+    right: 88px;
+}
+
+.pangadminkard.lipasnaann {
+    opacity: .6;
+}
+
+.bagongannoverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: rgba(40, 30, 30, .45);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.bagongannoverlay[hidden] {
+    display: none;
+}
+
+.bagongannmodal {
+    position: relative;
+    width: 100%;
+    max-width: 660px;
+    max-height: 94vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 34px 46px 30px;
+    background-color: #FFFCF8;
+    border-radius: 0 12px 12px 12px;
+    font-family: 'Nunito Sans', sans-serif;
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.08),
+        0 12px 24px rgba(0, 0, 0, 0.12),
+        0 24px 48px rgba(0, 0, 0, 0.14);
+    animation: bagongannpasok .2s ease;
+}
+
+.bagongannmodal::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    background-color: #7B3D3B;
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+.sarahanann {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    color: #00000099;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color .2s ease;
+}
+
+.sarahanann:hover {
+    background-color: #0000001a;
+}
+
+.sarahanann svg {
+    width: 22px;
+    height: 22px;
+}
+
+.pamagatnamodal {
+    margin: 0 0 14px;
+    padding-right: 40px;
+    font-family: 'Inria Serif', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #7B3D3B;
+}
+
+.labelnaann {
+    display: block;
+    margin: 18px 0 8px;
+    font-size: .85rem;
+    font-weight: 800;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    color: #7B3D3B;
+}
+
+.pamagatnamodal+.labelnaann {
+    margin-top: 6px;
+}
+
+.kahonnaann {
+    width: 100%;
+    height: 48px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    border: 1px solid #0000000d;
+    border-radius: 10px;
+    background-color: #F9F5EE;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .95rem;
+    font-weight: 600;
+    color: #000000;
+    transition: border-color .2s ease, background-color .2s ease;
+}
+
+.kahonnaann::placeholder {
+    color: #0000004d;
+}
+
+.kahonnaann:focus {
+    outline: none;
+    border-color: #7B3D3B;
+    background-color: #ffffff;
+}
+
+.kahonnaannmalaki {
+    height: 112px;
+    padding: 14px 20px;
+    line-height: 1.4;
+    resize: none;
+}
+
+select.kahonnaann {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 44px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+    background-size: 14px;
+    cursor: pointer;
+}
+
+.pilikategorya {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.pilikategorya1 {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 38px;
+    padding: 0 16px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background-color: #F9F5EE;
+    color: var(--c, #7B3D3B);
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .85rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.pilikategorya1 i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--c, #7B3D3B);
+    display: inline-block;
+}
+
+.pilikategorya1:hover {
+    border-color: #7b3d3b55;
+}
+
+.pilikategorya1.is-pili {
+    border-color: #7B3D3B;
+    background-color: #ffffff;
+}
+
+.dalawahangkahon {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 20px;
+}
+
+.pinnasaitaas {
+    margin-top: 18px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background-color: #F9F5EE;
+    border: 1px solid #0000000d;
+    border-radius: 10px;
+}
+
+.pinnasaitaas h1 {
+    margin: 0;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .9rem;
+    font-weight: 800;
+    color: #000000;
+}
+
+.pinnasaitaas span {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .85rem;
+    font-weight: 600;
+    color: #00000090;
+}
+
+.switchnapin {
+    position: relative;
+    width: 54px;
+    height: 28px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.switchnapin input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.switchnapin1 {
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background-color: #D9D9D9;
+    transition: background-color .23s ease;
+}
+
+.switchnapin1::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+    transition: transform .23s ease;
+}
+
+.switchnapin input:checked+.switchnapin1 {
+    background-color: #7B3D3B;
+}
+
+.switchnapin input:checked+.switchnapin1::after {
+    transform: translateX(26px);
+}
+
+.switchnapin input:focus-visible+.switchnapin1 {
+    outline: 2px solid #A87C5F;
+    outline-offset: 2px;
+}
+
+.annmali {
+    margin: 14px 0 0;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .85rem;
+    font-weight: 700;
+    color: #b3261e;
+}
+
+
+.butonsaibaba {
+    margin-top: 22px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 14px;
+}
+
+.kanselaann,
+.ipostann {
+    height: 46px;
+    padding: 0 30px;
+    border-radius: 8px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .95rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.kanselaann {
+    background-color: #FFFCF8;
+    border: 1px solid #0000001a;
+    color: #7B3D3B;
+}
+
+.kanselaann:hover {
+    background-color: #7b3d3b14;
+}
+
+.ipostann {
+    background-color: #7B3D3B;
+    border: 1px solid #7B3D3B;
+    color: #ffffff;
+    box-shadow: 0 4px 8px rgba(123, 61, 59, .35);
+}
+
+.ipostann:hover {
+    background-color: #6a3230;
+}
+
+.ipostann:disabled {
+    opacity: .6;
+    cursor: default;
+}
+
+@keyframes bagongannpasok {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 600px) {
+    .bagongannmodal {
+        padding: 30px 22px 24px;
+    }
+
+    .dalawahangkahon {
+        grid-template-columns: 1fr;
+    }
+}
+.filtering.payfilterbar {
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filtering.payfilterbar .fiveb {
+    width: auto;
+    flex: 0 0 112px;
+}
+
+.filtering.payfilterbar .ann-pager {
+    margin: 0 0 0 auto;
+    justify-content: flex-end;
+}
+.ann-tpl {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 8px 0 12px;
+}
+
+.ann-tpl-chip {
+    border: 1px solid #d5d9e0;
+    background: #f5f7fa;
+    color: #3a4252;
+    font-size: 12px;
+    line-height: 1;
+    padding: 6px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background .15s, border-color .15s, color .15s;
+}
+
+.ann-tpl-chip:hover {
+    background: #1060BC;
+    border-color: #1060BC;
+    color: #fff;
+}
+
+@media (max-width: 1200px) {
+    .fournafourbox {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .fournafourbox1 {
+        box-sizing: border-box;
+        min-width: 0;
+        height: auto;
+        padding: 16px;
+        margin-bottom: 0;
+    }
+
+    .fourbox1four {
+        margin-top: 0;
+    }
+
+    .fourbox1four h1 {
+        margin: 0;
+        font-size: 1.6rem;
+    }
+
+    .fournafourbox1 > h1 {
+        margin: 8px 0 0;
+        font-size: .85rem;
+    }
+
+    .boxnabrown {
+        max-height: none;
+        min-height: 0;
+        padding: 32px 28px;
+        gap: 30px 28px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: auto;
+    }
+
+    .boxnabrown1 {
+        height: auto;
+        min-height: 230px;
+    }
+
+    .friendlyreminder {
+        width: auto;
+        margin-right: 20px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 960px) {
+    .boxnabrown {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .sixnabelog {
+        gap: 8px;
+    }
+
+    .sixnabelog1 {
+        flex: 0 0 auto;
+        width: auto;
+        padding: 0 16px;
+    }
+
+    .sixnabelog .ann-pager {
+        width: 100%;
+        margin: 6px 0 0;
+        justify-content: center;
+    }
+
+    .ann-pager span {
+        flex-basis: 100%;
+        margin: 4px 0 0;
+        text-align: center;
+    }
+
+    .unpdaid,
+    .unpdaid2 {
+        width: auto;
+        min-width: 110px;
+        padding: 0 12px;
+        box-sizing: border-box;
+        white-space: nowrap;
+    }
+
+    .unpdaid2 {
+        margin-left: 0;
+    }
+
+    .unpdaid2main {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .boxnabrown {
+        grid-template-columns: 1fr;
+        padding: 28px 16px;
+    }
+
+    .rentdue {
+        font-size: 1.3rem;
+        margin-right: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ann-overlay {
+        padding: 12px;
+    }
+
+    .ann-modal-body {
+        padding: 22px 18px 24px;
+    }
+
+    .ann-modal h2 {
+        font-size: 1.35rem;
+    }
+
+    .ann-meta div {
+        flex: 1 1 100%;
+    }
+
+    .fourbox1four h1 {
+        font-size: 1.4rem;
+    }
+
+    .fournafourbox1 > h1 {
+        font-size: .75rem;
+    }
+}

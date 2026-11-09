@@ -1,0 +1,1469 @@
+
+<script>
+(function () {
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    function countUp(node, dur) {
+        var txt = node.nodeValue;
+        var m = txt.match(/\d[\d,]*(?:\.\d+)?/);
+        if (!m) return;
+        var raw = m[0];
+        var target = parseFloat(raw.replace(/,/g, ''));
+        var dec = raw.indexOf('.') > -1 ? raw.split('.')[1].length : 0;
+        var pre = txt.slice(0, m.index), post = txt.slice(m.index + raw.length);
+
+        function fmt(v) {
+            return pre + v.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec }) + post;
+        }
+
+        node.nodeValue = fmt(0);
+        var start = null;
+        function step(ts) {
+            if (start === null) start = ts;
+            var p = Math.min((ts - start) / dur, 1);
+            node.nodeValue = fmt(target * (1 - Math.pow(1 - p, 3)));
+            if (p < 1) requestAnimationFrame(step);
+            else node.nodeValue = txt;
+        }
+        requestAnimationFrame(step);
+    }
+
+    document.querySelectorAll('.upatnaapatbox1 .perapera').forEach(function (el) {
+        var n = el.firstChild;
+        if (n && n.nodeType === 3) countUp(n, 1400);
+    });
+})();
+</script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var txt = function (el) { return (el.textContent || '').trim().toLowerCase(); };
+
+        var tabs = Array.prototype.slice.call(document.querySelectorAll('.fourinvoice1'));
+        var rows = Array.prototype.slice.call(document.querySelectorAll('.ibossboss'));
+        var list = document.querySelector('.finalinvoice');
+
+        var empty = document.createElement('div');
+        empty.textContent = 'No invoices to show here.';
+        empty.style.cssText = 'display:none;text-align:center;padding:50px 0;font-weight:700;color:#00000086;font-family:Nunito Sans,sans-serif';
+        if (list) list.appendChild(empty);
+
+               function statusOf(row) {
+            var badge = row.querySelector('.lubidog h1');
+            return badge ? txt(badge) : '';
+        }
+
+        var PER_PAGE = 4;
+        var page  = 1;
+        var pager = document.getElementById('invPager');
+
+        function renderPager(filter, pages, count, from, shown) {
+            pager.innerHTML = '';
+            if (pages <= 1) return;
+
+            function btn(label, target, disabled, current) {
+                var b = document.createElement('button');
+                b.type = 'button';
+                b.textContent = label;
+                if (current) b.className = 'current';
+                b.disabled = !!disabled;
+                b.addEventListener('click', function () { page = target; applyFilter(filter, true); });
+                pager.appendChild(b);
+            }
+
+            btn('‹ Prev', page - 1, page === 1, false);
+            for (var p = 1; p <= pages; p++) btn(String(p), p, false, p === page);
+            btn('Next ›', page + 1, page === pages, false);
+
+            var info = document.createElement('span');
+            info.textContent = 'Showing ' + (from + 1) + '–' + (from + shown) + ' of ' + count;
+            pager.appendChild(info);
+        }
+
+        function applyFilter(filter, keepPage) {
+            if (!keepPage) page = 1;
+
+            var matches = rows.filter(function (row) {
+                return (filter === 'all') || (filter === 'unpaid' && statusOf(row) !== 'paid') || statusOf(row) === filter;
+            });
+
+            var pages = Math.max(1, Math.ceil(matches.length / PER_PAGE));
+            if (page > pages) page = pages;
+            var from = (page - 1) * PER_PAGE;
+
+            rows.forEach(function (row) {
+                var i    = matches.indexOf(row);
+                var show = i >= from && i < from + PER_PAGE;
+                var hr   = row.nextElementSibling;
+                row.style.display = show ? '' : 'none';
+                if (hr && hr.tagName === 'HR') hr.style.display = show ? '' : 'none';
+            });
+
+            tabs.forEach(function (t) {
+                var on = txt(t) === filter;
+                t.style.border = on ? '1px solid #672C2C' : '';
+                t.style.backgroundColor = on ? '#672c2c2f' : '';
+            });
+
+            empty.style.display = matches.length ? 'none' : 'block';
+            renderPager(filter, pages, matches.length, from, Math.min(PER_PAGE, matches.length - from));
+        }
+
+        function bind(el, filter, scroll) {
+            el.style.cursor = 'pointer';
+            el.addEventListener('click', function () {
+                applyFilter(filter);
+                if (scroll) {
+                    var box = document.querySelector('.invoice1');
+                    if (box && box.scrollIntoView) box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            });
+        }
+
+        tabs.forEach(function (t) { bind(t, txt(t), false); });
+
+        document.querySelectorAll('.upatnaapatbox1').forEach(function (card) {
+            var h = card.querySelector('.currentbal h1');
+            if (!h) return;
+            var name = txt(h);
+            if (name === 'current balance') bind(card, 'unpaid', true);
+            if (name === 'overdue') bind(card, 'overdue', true);
+            if (name === 'paid this year') bind(card, 'paid', true);
+        });
+
+        var header = document.querySelector('.invoss');
+        if (header) bind(header, 'all', false);
+
+        applyFilter('all');
+
+
+        var overlay = document.createElement('div');
+        overlay.style.cssText = 'display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.45);align-items:center;justify-content:center;padding:20px;';
+        overlay.innerHTML =
+            '<div style="background:#fff;border-radius:12px;padding:30px;width:100%;max-width:360px;text-align:center;font-family:Nunito Sans,sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)">' +
+           '<h2 id="naTitle" style="margin:0 0 8px;font-size:1.2rem;font-weight:800;color:#000"></h2>' +
+'<p id="naMsg" style="margin:0 0 20px;font-size:.95rem;font-weight:600;color:#00000099;line-height:1.4"></p>' +
+            '<button type="button" id="naClose" style="background:#672C2C;color:#fff;border:0;border-radius:6px;padding:10px 28px;font-size:.95rem;font-weight:800;cursor:pointer">Okay</button>' +
+            '</div>';
+        document.body.appendChild(overlay);
+function showNA(title, msg) {
+    overlay.querySelector('#naTitle').textContent = title;
+    overlay.querySelector('#naMsg').textContent = msg;
+    overlay.style.display = 'flex';
+}
+        function closePopup() { overlay.style.display = 'none'; }
+        overlay.addEventListener('click', function (e) { if (e.target === overlay) closePopup(); });
+        overlay.querySelector('#naClose').addEventListener('click', closePopup);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePopup(); });
+
+        document.querySelectorAll('.tranparent').forEach(function (box) {
+            var h = box.querySelector('.ibosses347 h1');
+            if (!h) return;
+            var name = h.textContent.trim();
+            box.style.cursor = 'pointer';
+            box.addEventListener('click', function () {
+               if (box.dataset.unavailable !== 'true') return;
+               showNA('Not available yet', name + ' is not available right now. Please choose another payment method.');
+            });
+        });
+
+var addBtn = document.querySelector('.addpaymo');
+if (addBtn) {
+    addBtn.addEventListener('click', function () {
+        showNA('Cannot add right now', "You can't add a payment method right now. Please try again later.");
+    });
+}
+      
+
+        var money = function (n) {
+            return '₱' + n.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        };
+
+        var payModal    = document.getElementById('payModal');
+        var payModal2   = document.getElementById('payModal2');
+        var payModal3   = document.getElementById('payModal3');
+        var payBtn      = document.getElementById('makePaymentBtn');
+        var contopayBtn = document.getElementById('contopay');
+        var payNowBtn   = document.getElementById('payNowBtn');
+        var doneBtn     = document.getElementById('doneBtn');
+        var totalLabel  = document.getElementById('totalLabel');
+        var totalAmount = document.getElementById('totalAmount');
+        var methodLabel = document.getElementById('methodLabel');
+        var methodTotal = document.getElementById('methodTotal');
+        var successText = document.getElementById('successText');
+        var unavailModal = document.getElementById('unavailModal');
+
+        var checks     = document.querySelectorAll('#payModal .invoice-check');
+                var halves     = document.querySelectorAll('#payModal .half-check');
+        var methodRows = document.querySelectorAll('#payModal2 .method-pick');
+        var selectedTotal = 0, selectedCount = 0, method = 'GCash';
+             
+        function hideAnimated(el) {
+            if (el.hidden || el.classList.contains('closing')) return;
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                el.hidden = true;
+                return;
+            }
+            var finished = false;
+            function end() {
+                if (finished) return;
+                finished = true;
+                el.hidden = true;
+                el.classList.remove('closing');
+            }
+            el.classList.add('closing');
+            el.addEventListener('animationend', function h(e) {
+                if (e.target !== el) return;          
+                el.removeEventListener('animationend', h);
+                end();
+            });
+            setTimeout(end, 400);                    
+        }
+
+     
+              function updateTotal() {
+            selectedTotal = 0;
+            selectedCount = 0;
+            checks.forEach(function (c) {
+                var pick = c.closest('.invoice-pick');
+                var half = pick.querySelector('.half-check');
+
+                pick.querySelector('.duhakagatos1').classList.toggle('selected', c.checked);
+                if (half) {
+                    half.disabled = !c.checked;
+                    if (!c.checked) half.checked = false;
+                }
+                if (c.checked) {
+                    selectedCount++;
+                    var base = (half && half.checked) ? parseFloat(pick.dataset.half) : parseFloat(pick.dataset.amount);
+                    selectedTotal += base + parseFloat(pick.dataset.fee);
+                }
+            });
+            totalLabel.textContent = 'Total (' + selectedCount + ' invoice' + (selectedCount === 1 ? '' : 's') + ')';
+            totalAmount.textContent = money(selectedTotal);
+            contopayBtn.disabled = selectedCount === 0;
+        }
+        halves.forEach(function (h) { h.addEventListener('change', updateTotal); });
+        checks.forEach(function (c) { c.addEventListener('change', updateTotal); });
+
+        function openPay() {
+            checks.forEach(function (c) { c.checked = false; });
+            updateTotal();
+            payModal.hidden = false;
+        }
+        function closePay() { payModal.hidden = true; }
+
+        payBtn.addEventListener('click', openPay);
+        payModal.addEventListener('click', function (e) {
+            if (e.target === payModal || e.target.closest('[data-pay-close]')) closePay();
+        });
+
+        
+        function openPay2() {
+            if (selectedCount === 0) return;
+            methodTotal.textContent = money(selectedTotal);
+            payNowBtn.textContent = 'Pay ' + money(selectedTotal) + ' Now';
+            payModal.hidden = true;
+            payModal2.hidden = false;
+        }
+        function closePay2(goBack) {
+            payModal2.hidden = true;
+            if (goBack) payModal.hidden = false;
+        }
+        contopayBtn.addEventListener('click', openPay2);
+
+        payModal2.addEventListener('click', function (e) {
+            if (e.target === payModal2) closePay2(false);
+            if (e.target.closest('.pay-back')) closePay2(true);
+            if (e.target.closest('.pay-close')) closePay2(false);
+        });
+
+        methodRows.forEach(function (row) {
+            var box = row.querySelector('input');
+            box.addEventListener('click', function (e) {
+                if (row.dataset.available !== 'true') {
+                    e.preventDefault();                      
+                    document.getElementById('unavailName').textContent = row.dataset.method;
+                    unavailModal.hidden = false;
+                    return;
+                }
+                method = row.dataset.method;
+                methodRows.forEach(function (r) {
+                    var on = (r === row);
+                    r.classList.toggle('selected', on);
+                    r.querySelector('input').checked = on;    
+                });
+                methodLabel.textContent = 'Total (Via ' + method + ')';
+            });
+        });
+        var firstOn = Array.prototype.filter.call(methodRows, function (r) { return r.dataset.available === 'true'; })[0];
+if (firstOn) {
+    method = firstOn.dataset.method;
+    methodRows.forEach(function (r) {
+        var on = (r === firstOn);
+        r.classList.toggle('selected', on);
+        r.querySelector('input').checked = on;
+    });
+    methodLabel.textContent = 'Total (Via ' + method + ')';
+}
+        document.getElementById('unavailClose').addEventListener('click', function () {
+            unavailModal.hidden = true;
+        });
+
+        
+       payNowBtn.addEventListener('click', function () {
+        var periods = [], half = [];
+    checks.forEach(function (c) { if (c.checked) periods.push(c.value); });
+    halves.forEach(function (h) { if (h.checked) half.push(h.value); });
+
+    payNowBtn.disabled = true;
+    fetch("/home/payments/pay", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        },
+               body: JSON.stringify({ periods: periods, half: half, method: method })
+    })
+    .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+    .then(function (res) {
+        payNowBtn.disabled = false;
+        if (!res.ok || !res.d.ok) {
+            alert(res.d.message || 'Payment failed. Please try again.');
+            return;
+        }
+               successText.textContent = money(selectedTotal) + ' sent via ' + method;
+        payModal2.hidden = true;
+        payModal3.hidden = false;
+    })
+    .catch(function () {
+        payNowBtn.disabled = false;
+        alert('Something went wrong. Please try again.');
+    });
+});
+        doneBtn.addEventListener('click', function () {
+            payModal3.hidden = true;
+            window.location.href = "/home/payments";
+        });
+
+       
+        document.addEventListener('keydown', function (e) {
+            if (e.key !== 'Escape') return;
+            if (!unavailModal.hidden) unavailModal.hidden = true;
+            else if (!payModal.hidden) closePay();
+            else if (!payModal2.hidden) closePay2(false);
+        });
+    });
+</script>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/demo.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="demo">
+    <title>Payments</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@300;400;700&family=Inter:wght@400;600&family=Nunito+Sans:wght@200;300;400;600;700;800;900&family=Playfair+Display:wght@900&display=swap"
+        rel="stylesheet">
+   
+    <link rel="stylesheet" href="/css/sidebar.css?v=1794243073">
+    <link rel="stylesheet" href="/css/home.css?v=1794243073">
+    <link rel="stylesheet" href="/css/profile.css?v=1794243073">
+    <link rel="stylesheet" href="/css/dorm.css?v=1794243073">
+    <link rel="stylesheet" href="/css/logout.css?v=1794243073">
+    <link rel="stylesheet" href="/css/rooms.css?v=1794243073">
+    <link rel="stylesheet" href="/css/payments.css?v=1794243073">
+    <link rel="stylesheet"
+        href="/css/animations.css?v=1794243073">
+    <link rel="stylesheet"
+        href="/css/announcement.css?v=1794243073">
+    <link rel="stylesheet" href="/css/location.css?v=1794243073">
+    <link rel="stylesheet" href="/css/settings.css?v=1794243073">
+    <link rel="stylesheet"
+        href="/css/marketplace.css?v=1794243073">
+    <link rel="stylesheet" href="/css/calendar.css?v=1794243073">
+    <link rel="stylesheet" href="/css/dashboard.css?v=1794243073">
+    <link rel="stylesheet" href="/css/tenant.css?v=1794243073">
+    <link rel="stylesheet"
+        href="/css/paymentsadmin.css?v=1794243073">
+    <link rel="stylesheet"
+        href="/css/complaints.css?v=1794243073">
+    <link rel="stylesheet" href="/css/approvals.css?v=1794243073">
+
+
+    </head>
+
+<body>
+    <script>
+        (function () {
+            var b = document.body;
+            try {
+                if (!window.matchMedia('(max-width: 768px)').matches && localStorage.getItem('sbCollapsed') === '1') {
+                    b.classList.add('sb-collapsed');
+                }
+            } catch (e) { }
+            // no sidebar/content transitions while the page is first loading
+            b.classList.add('sb-no-anim');
+            window.addEventListener('load', function () {
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(function () { b.classList.remove('sb-no-anim'); });
+                });
+            });
+        })();
+    </script>
+    <div class="page-curtain" id="pageCurtain" aria-hidden="true">
+        <div class="pc-label" id="pcLabel">Loading</div>
+        <div class="pc-bar"><i></i></div>
+    </div>
+    <script>
+        (function () {
+            var curtain = document.getElementById('pageCurtain');
+            var label = document.getElementById('pcLabel');
+            var SLIDE_MS = 300;  
+            var MIN_SHOW = 150;  
+            var KEY = 'pageCurtain';
+            var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            var busy = false;
+
+            var saved = null;
+            try { saved = sessionStorage.getItem(KEY); sessionStorage.removeItem(KEY); } catch (e) { }
+            var parts = saved ? saved.split('|') : [];
+            if (!reduce && parts.length >= 2 && Date.now() - Number(parts[0]) < 8000) {
+                var start = Date.now();
+                var lifted = false;
+                label.textContent = parts.slice(1).join('|');
+                curtain.classList.add('covered');
+
+                var lift = function () {
+                    if (lifted) return;
+                    lifted = true;
+                    curtain.classList.remove('covered');
+                    curtain.classList.add('out');
+                    setTimeout(function () { curtain.classList.remove('out'); }, SLIDE_MS);
+                };
+                var scheduleLift = function () {
+                    setTimeout(lift, Math.max(0, MIN_SHOW - (Date.now() - start)));
+                };
+
+                if (document.readyState === 'complete') scheduleLift();
+                else window.addEventListener('load', scheduleLift);
+                setTimeout(lift, 6000); // safety: never get stuck
+            }
+
+            document.addEventListener('click', function (e) {
+                if (reduce || busy || e.defaultPrevented) return;
+                if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+                var a = e.target.closest('.sb-link, .sb-subitem');
+                if (!a || a.id === 'logoutLink') return;
+
+                var href = a.getAttribute('href');
+                if (!href || href.charAt(0) === '#' || a.target === '_blank') return;
+
+                var url = new URL(a.href, location.href);
+                if (url.origin !== location.origin) return;
+                if (url.pathname === location.pathname && url.search === location.search) return; // already here
+
+                e.preventDefault();
+                busy = true;
+
+                var span = a.querySelector('.sb-label, span');
+                var name = (span ? span.textContent : a.textContent).trim();
+                label.textContent = name;
+                try { sessionStorage.setItem(KEY, Date.now() + '|' + name); } catch (err) { }
+
+                curtain.classList.remove('out', 'covered');
+                curtain.classList.add('in');
+            setTimeout(function () { window.location.href = a.href; }, 160);
+            }, true);
+
+            window.addEventListener('pageshow', function (e) {
+                if (e.persisted) {
+                    busy = false;
+                    curtain.classList.remove('in', 'out', 'covered');
+                }
+            });
+        })();
+    </script>
+    <button type="button" class="sb-toggle" id="sbToggle" aria-label="Toggle sidebar">
+    <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+</button>
+
+<aside class="sidebar" id="sidebar" aria-label="Sidebar">
+
+    <div class="sb-brand">
+       <span class="sb-title">D&#039;aces Dormitory</span>
+            <svg class="sb-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 2.5 3 10v11h6.5v-6h5v6H21V10z" />
+    </svg>
+    </div>
+
+    <nav class="sb-nav">
+        <p class="sb-section">Menu</p>
+        <ul>
+                            <li>
+                    <a href="/home" class="sb-link"
+                         title="Home">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+                       <span class="sb-label">Home</span>
+                                            </a>
+                </li>
+                            <li>
+                    <a href="/home/profile" class="sb-link"
+                         title="Profile">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+                       <span class="sb-label">Profile</span>
+                                            </a>
+                </li>
+                            <li>
+                    <a href="/home/dorm" class="sb-link"
+                         title="Dorm">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+                       <span class="sb-label">Dorm</span>
+                                            </a>
+                </li>
+                            <li>
+                    <a href="/home/rooms" class="sb-link"
+                         title="Rooms">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
+                       <span class="sb-label">Rooms</span>
+                                            </a>
+                </li>
+                            <li>
+                    <a href="/home/payments" class="sb-link active"
+                         aria-current="page"  title="Payments">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                       <span class="sb-label">Payments</span>
+                                            </a>
+                </li>
+                            <li>
+                    <a href="/home/announcement" class="sb-link"
+                         title="Announcement">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.4 2.6a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
+                       <span class="sb-label">Announcement</span>
+                                            </a>
+                </li>
+                            <li>
+                    <a href="/home/location" class="sb-link"
+                         title="Location">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                       <span class="sb-label">Location</span>
+                                            </a>
+                </li>
+                    </ul>
+
+        <p class="sb-section">Preferences</p>
+        <ul>
+                            <li>
+                    <a href="/home/settings" class="sb-link"
+                         title="Settings">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <span class="sb-label">Settings</span>
+                                            </a>
+                </li>
+                    </ul>
+    </nav>
+
+    <div class="sb-footer">
+    <button type="button" class="sb-user" id="sbUser"
+    aria-expanded="false" >
+            <span class="sb-avatar">M</span>
+            <span class="sb-userinfo">
+                <span class="sb-name">Miguel Soriano</span>
+                <span class="sb-role">Tenant · Room 101</span>
+            </span>
+                <span class="sb-chevron"><svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span>
+        </button>
+               <div class="sb-usermenu" id="sbUserMenu" hidden>
+                            <a href="/home/marketplace" class="sb-subitem">
+                    <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2 2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7"/></svg>
+                    <span>Tenant Marketplace</span>
+                </a>
+                            <a href="/home/calendar" class="sb-subitem">
+                    <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
+                    <span>Event Calendar</span>
+                </a>
+            
+                                                <a href="#" id="logoutLink" class="sb-subitem sb-subitem-logout" title="Logout">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+                        <span>Logout</span>
+                    </a>
+                    <form id="logoutForm" action="/logout" method="POST" hidden><input type="hidden" name="_token" value="demo" autocomplete="off"></form>
+                                    </div>
+
+            </div>
+</aside>
+<div class="sb-backdrop" id="sbBackdrop"></div>
+    <div class="overlay" id="logoutModal" hidden>
+    <div class="card" role="dialog" aria-modal="true" aria-labelledby="loTitle" aria-describedby="loText">
+<span class="lo-corner" aria-hidden="true"></span>
+
+        <button type="button" class="close" data-lo-close aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+        </button>
+
+<div class="bilog"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <path d="m16 17 5-5-5-5" />
+                <path d="M21 12H9" />
+            </svg></div>
+        <h2 class="title" id="loTitle">Log Out?</h2>
+        <p class="text" id="loText">Are you sure you want to log out of<br> your account?</p>
+
+        <div class="butans">
+            <button type="button" class="cancel" data-lo-close>Cancel</button>
+            <button type="button" class="confirm" id="loConfirm">Yes, Log Out</button>
+        </div>
+    </div>
+</div>    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-text">
+                <h1 class="topbar-title">Payments</h1>
+                <p class="topbar-sub">Complete your payment here</p>
+            </div>
+
+            <div class="topbar-actions">
+                    <button id="makePaymentBtn" class="roomlist-btn" style="border: 1px solid #672C2C; cursor: pointer;">Make a payment</button>
+
+                                    <div class="notif" id="msgRoot">
+    <button class="notif-btn" id="msgBtn" type="button" aria-label="Messages" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#672C2C" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+       <span class="notif-label">Messages</span>
+<span class="notif-dot" id="msgDot" hidden></span>
+    </button>
+    <div class="notif-panel" id="msgPanel" hidden>
+        <div class="notif-head"><span>Messages</span></div>
+        <div class="notif-list" id="msgList">
+            <p class="notif-empty">No messages yet.</p>
+        </div>
+    </div>
+</div>
+    
+<div class="notif" id="notif"
+    data-list-url="/home/notifications"
+    data-read-all-url="/home/notifications/read-all"
+    data-read-url="/home/notifications/__ID__/read">
+    <button class="notif-btn" id="notifBtn" aria-label="Notifications" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#672C2C" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.7 21a2 2 0 0 1-3.4 0" />
+        </svg>
+    <span class="notif-label">Notifications</span>
+<span class="notif-dot" id="notifDot" hidden></span>
+    </button>
+    <div class="notif-panel" id="notifPanel" hidden>
+        <div class="notif-head">
+            <span>Notifications</span>
+            <button type="button" id="notifReadAll">Mark all as read</button>
+        </div>
+        <div class="notif-list" id="notifList">
+            <p class="notif-empty">No notifications yet.</p>
+        </div>
+    </div>
+</div>                            </div>
+        </header>
+                                            <div class="upatnaapatbox">
+        <div class="upatnaapatbox1 clickcard" data-filter="overdue" role="button" tabindex="0" title="View balance due">
+            <div class="currentbal">
+                <h1>Current balance</h1>
+                <div class="balcurrent"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
+                        <path d="M20 7H5a2 2 0 0 1 0-4h13a2 2 0 0 1 2 2v2z" />
+                        <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
+                        <path d="M21 12v4h-4a2 2 0 0 1 0-4h4z" />
+                    </svg></div>
+            </div>
+            <h1 class="perapera">₱400</h1>
+            <div class="duevoice"><span>Due Jan 5, 2027</span></div>
+        </div>
+        <div class="upatnaapatbox1 clickcard" data-filter="overdue" role="button" tabindex="0"
+            title="View overdue invoices">
+            <div class="currentbal">
+                <h1>Overdue</h1>
+                <div class="balcurrent"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="7" x2="12" y2="13" />
+                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                </div>
+            </div>
+            <h1 class="perapera">₱0</h1>
+            <div class="duevoice"><span>No overdue invoices</span></div>
+        </div>
+        <div class="upatnaapatbox1 clickcard" data-filter="paid" role="button" tabindex="0" title="View paid invoices">
+            <div class="currentbal">
+                <h1>Paid this year</h1>
+                <div class="balcurrent"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
+                        <rect x="3" y="4" width="18" height="18" rx="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                        <polyline points="9 16 11 18 15 14" />
+                    </svg></div>
+            </div>
+            <h1 class="perapera">₱800</h1>
+            <div class="duevoice"><span>2 payments in 2026</span></div>
+        </div>
+        <div class="upatnaapatbox1">
+            <div class="currentbal">
+                <h1>Autopay</h1>
+                <div class="balcurrent"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
+                        <polyline points="17 1 21 5 17 9" />
+                        <path d="M3 11V9a4 4 0 0 1 4-4h14" />
+                        <polyline points="7 23 3 19 7 15" />
+                        <path d="M21 13v2a4 4 0 0 1-4 4H3" />
+                    </svg></div>
+            </div>
+            <h1 class="perapera" id="autopayState">On</h1>
+            <div class="duevoice duevoice-fit"><span id="autopayMethod">You will be reminded before the due date</span></div>
+        </div>
+    </div>
+    <div class="invoice">
+        <div class="invoice1">
+
+            <div class="invoiceboss">
+                <div class="invoss" id="invoicesHeader" data-filter="all" role="button" tabindex="0"
+                    title="Show all invoices">
+                    <div class="invoss1">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M4 2v20l3-2 3 2 2-2 2 2 3-2 3 2V2l-3 2-3-2-2 2-2-2-3 2z" />
+                            <line x1="8" y1="9" x2="16" y2="9" />
+                            <line x1="8" y1="13" x2="14" y2="13" />
+                        </svg>
+                    </div>
+                    <div class="ibosses">
+                        <h1>Invoices</h1>
+                        <span>Room 101 Monthly rent</span>
+                    </div>
+                </div>
+                <div class="fourinvoice" role="tablist">
+                    <div class="fourinvoice1 active" data-filter="all" role="tab" tabindex="0">
+                        <h1>All</h1>
+                    </div>
+                    <div class="fourinvoice1" data-filter="pending" role="tab" tabindex="0">
+                        <h1>Pending</h1>
+                    </div>
+                    <div class="fourinvoice1" data-filter="paid" role="tab" tabindex="0">
+                        <h1>Paid</h1>
+                    </div>
+                    <div class="fourinvoice1" data-filter="overdue" role="tab" tabindex="0">
+                        <h1>Overdue</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="finalinvoice">
+                                    <div class="ibossboss">
+                        <div class="invoss3">
+                            <div class="invoss13" style="background-color:#90b49f">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg>
+                                                            </div>
+                            <div class="ibosses3">
+                                <h1>November 2026 — Room 101</h1>
+                                                               <span>· Due November 5, 2026 </span>
+                            </div>
+                        </div>
+                        <div class="ungprice">
+                                                       <h1>₱400.00</h1>
+                            <div class="lubidog" style="background-color:#90b49f">
+                                <h1>Paid</h1>
+                            </div>
+                            <div class="lubidog1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    aria-hidden="true">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                    <polyline points="7 10 12 15 17 10" />
+                                    <line x1="12" y1="15" x2="12" y2="3" />
+                                </svg></div>
+                        </div>
+                    </div>
+                    <hr class="padiretso231">
+                                    <div class="ibossboss">
+                        <div class="invoss3">
+                            <div class="invoss13" style="background-color:#90b49f">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg>
+                                                            </div>
+                            <div class="ibosses3">
+                                <h1>December 2026 — Room 101</h1>
+                                                               <span>· Due December 5, 2026 </span>
+                            </div>
+                        </div>
+                        <div class="ungprice">
+                                                       <h1>₱400.00</h1>
+                            <div class="lubidog" style="background-color:#90b49f">
+                                <h1>Paid</h1>
+                            </div>
+                            <div class="lubidog1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    aria-hidden="true">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                    <polyline points="7 10 12 15 17 10" />
+                                    <line x1="12" y1="15" x2="12" y2="3" />
+                                </svg></div>
+                        </div>
+                    </div>
+                    <hr class="padiretso231">
+                                    <div class="ibossboss">
+                        <div class="invoss3">
+                            <div class="invoss13" style="">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <polyline points="12 6 12 12 16 14" />
+                                    </svg>
+                                                            </div>
+                            <div class="ibosses3">
+                                <h1>January 2027 — Room 101</h1>
+                                                               <span>· Due January 5, 2027 </span>
+                            </div>
+                        </div>
+                        <div class="ungprice">
+                                                       <h1>₱400.00</h1>
+                            <div class="lubidog" style="">
+                                <h1>Pending</h1>
+                            </div>
+                            <div class="lubidog1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    aria-hidden="true">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                    <polyline points="7 10 12 15 17 10" />
+                                    <line x1="12" y1="15" x2="12" y2="3" />
+                                </svg></div>
+                        </div>
+                    </div>
+                    <hr class="padiretso231">
+                
+                <div class="inv-empty" id="invEmpty" hidden>No invoices to show here.</div>
+            </div>
+            <div class="ann-pager" id="invPager"></div>
+            <a class="rightarrow" href="/home/settings#billing">
+                <h1 class="viewfullpay">View full payment history</h1>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="9 18 15 12 9 6" />
+                </svg>
+            </a>
+
+
+        </div>
+        <div class="invoice2">
+            <div class="invoss34">
+                <div class="invoss134"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
+                        <rect x="3" y="5" width="18" height="14" rx="2" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                        <line x1="7" y1="15" x2="11" y2="15" />
+                    </svg></div>
+                <div class="ibosses34">
+                    <h1>Payment method</h1>
+                </div>
+            </div>
+            <div class="tranparentboss">
+                <div class="tranparent method" data-method="GCash"  role="button" tabindex="0">
+                    <div class="invoss347">
+                        <div class="invoss1347"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                aria-hidden="true">
+                                <rect x="6" y="2" width="12" height="20" rx="2" />
+                                <line x1="12" y1="18" x2="12.01" y2="18" />
+                            </svg></div>
+                        <div class="ibosses347">
+                            <h1>GCash</h1>
+                            <span>•••• 4821</span>
+                        </div>
+
+                    </div>
+                    <div class="lubidog43">
+                        <h1>Dafault</h1>
+                    </div>
+                </div>
+                <div class="tranparent method"  data-unavailable="true"  role="button"
+                    tabindex="0">
+                    <div class="invoss347">
+                        <div class="invoss1347"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                aria-hidden="true">
+                                <rect x="3" y="5" width="18" height="14" rx="2" />
+                                <line x1="3" y1="10" x2="21" y2="10" />
+                                <line x1="7" y1="15" x2="11" y2="15" />
+                            </svg></div>
+                        <div class="ibosses347">
+                            <h1>Debit / Credit</h1>
+                            <span>•••• 4821</span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="tranparent method"  data-unavailable="true"  role="button"
+                    tabindex="0">
+                    <div class="invoss347">
+                        <div class="invoss1347"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                aria-hidden="true">
+                                <line x1="3" y1="21" x2="21" y2="21" />
+                                <path d="M5 21V10l7-5 7 5v11" />
+                                <line x1="9" y1="21" x2="9" y2="13" />
+                                <line x1="15" y1="21" x2="15" y2="13" />
+                            </svg></div>
+                        <div class="ibosses347">
+                            <h1>Bank Transfer</h1>
+                            <span>•••• 4821</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <button class="addpaymo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    aria-hidden="true">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>Add payment method</button>
+
+            <div class="autopayrow">
+                <div class="ibosses39">
+                    <h1>Autopay</h1>
+                    <span>Auto charge default method on due date</span>
+                </div>
+
+                <label class="toggle39">
+                    <input type="checkbox" id="autopayToggle" checked>
+                    <span class="toggle39-track" aria-hidden="true"></span>
+                    <span class="sr-only39">Autopay</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="unavail-overlay" id="unavailModal" hidden>
+        <div class="unavail-box" role="dialog" aria-modal="true" aria-labelledby="unavailTitle">
+            <div class="unavail-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="7" x2="12" y2="13" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+            </div>
+            <h2 id="unavailTitle">Not available yet</h2>
+          <p><span id="unavailName">This payment method</span> is not available right now. Please choose another payment method.</p>
+            <button type="button" class="unavail-btn" id="unavailClose">Okay</button>
+        </div>
+    </div>
+    <div class="pay-overlay" id="payModal" hidden>
+        <div class="pay-box" role="dialog" aria-modal="true">
+            <span class="pay-corner" aria-hidden="true"></span>
+
+            <button type="button" class="pay-close" data-pay-close aria-label="Close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    aria-hidden="true">
+                    <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+            </button>
+
+            <div class="invoss3479">
+                <div class="invoss13479"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
+                        <path d="M4 2v20l3-2 3 2 2-2 2 2 3-2 3 2V2l-3 2-3-2-2 2-2-2-3 2z" />
+                        <line x1="8" y1="9" x2="16" y2="9" />
+                        <line x1="8" y1="13" x2="14" y2="13" />
+                    </svg></div>
+                <div class="ibosses3479">
+                    <h1>Select invoices</h1>
+                    <span>Room 100 · Montly rent</span>
+                </div>
+
+            </div>
+            <hr class="padiretso23159">
+            <div class="duhakagatos">
+          
+   
+    <p style="text-align:center;font-weight:700;color:#00000086;">No unpaid invoices.</p>
+
+<hr class="padiretso231591">
+<div class="totalinvoice12">
+    <h1 id="totalLabel">Total (0 invoices)</h1>
+    <span id="totalAmount">₱0.00</span>
+</div>
+<button id="contopay" class="contopay" disabled>Continue to payment</button>
+            </div>
+        </div>
+
+    </div>
+    <div class="pay-overlay" id="payModal2" hidden>
+    <div class="pay-box" role="dialog" aria-modal="true" style="min-width: 720px; min-height: 555px;">
+        <span class="pay-corner" aria-hidden="true"></span>
+
+        <button type="button" class="pay-back" data-pay2-close aria-label="Go back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 18l-6-6 6-6" />
+            </svg>
+        </button>
+
+        <button type="button" class="pay-close" data-pay2-close aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+        </button>
+<div class="invoss34791">
+                <div class="invoss13479"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
+                        <path d="M4 2v20l3-2 3 2 2-2 2 2 3-2 3 2V2l-3 2-3-2-2 2-2-2-3 2z" />
+                        <line x1="8" y1="9" x2="16" y2="9" />
+                        <line x1="8" y1="13" x2="14" y2="13" />
+                    </svg></div>
+                <div class="ibosses3479">
+                    <h1>Choose payment method</h1>
+                    <span>Room 100 · Montly rent</span>
+                </div>
+
+            </div>
+            <hr class="padiretso23159">
+               <div class="duhakagatos">
+               <label class="duhakagatos1 method-pick selected" data-method="GCash" data-available="true">
+    <div class="tempo">
+        <input type="checkbox" class="radi" checked>
+        <div class="modalboxesss">
+         <div class="modalboxesss">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="6" y="2" width="12" height="20" rx="2" />
+        <line x1="12" y1="18" x2="12.01" y2="18" />
+    </svg>
+</div>
+        </div>
+        <div class="ibosses34791"><h1>GCash</h1><span>•••• 4821</span></div>
+    </div>
+    <div class="samodapid"><div class="difults"><h1>default</h1></div></div>
+</label>
+
+<label class="duhakagatos1 method-pick" data-method="Debit / Credit" data-available="false">
+    <div class="tempo">
+        <input type="checkbox" class="radi">
+        <div class="modalboxesss">
+            <div class="modalboxesss">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="5" width="18" height="14" rx="2" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+        <line x1="7" y1="15" x2="11" y2="15" />
+    </svg>
+</div>
+        </div>
+        <div class="ibosses34791"><h1>Debit / Credit</h1><span>•••• 4821</span></div>
+    </div>
+</label>
+
+<label class="duhakagatos1 method-pick" data-method="Bank Transfer" data-available="false">
+    <div class="tempo">
+        <input type="checkbox" class="radi">
+        <div class="modalboxesss">
+           <div class="modalboxesss">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="3" y1="21" x2="21" y2="21" />
+        <path d="M5 21V10l7-5 7 5v11" />
+        <line x1="9" y1="21" x2="9" y2="13" />
+        <line x1="15" y1="21" x2="15" y2="13" />
+    </svg>
+</div>
+        </div>
+        <div class="ibosses34791"><h1>Bank Transfer</h1><span>•••• 4821</span></div>
+    </div>
+</label>
+
+<div class="encri1">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3z" />
+        <rect x="9" y="11" width="6" height="5" rx="1" />
+        <path d="M10.5 11V9.5a1.5 1.5 0 0 1 3 0V11" />
+    </svg>
+    <h1 class="encri">Payments are encrypted and processed securely.</h1>
+</div>
+
+<hr class="padiretso2315912">
+
+<div class="totalinvoice12" style="gap:490px;">
+    <h1 id="methodLabel">Total (Via GCash)</h1>
+    <span id="methodTotal">₱0.00</span>
+</div>
+<button id="payNowBtn" class="contopay">Pay ₱0.00 Now</button>
+            </div>
+       
+    </div>
+</div>
+<div class="pay-overlay" id="payModal3" hidden>
+    <div class="pay-box" role="dialog" aria-modal="true" style="display:flex; align-items: center; justify-content:center; min-height: 300px; flex-direction: column; gap: 5px;">
+        <span class="pay-corner" aria-hidden="true"></span>
+
+
+        <div class="logbi21"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="10" />
+    <path d="m9 12 2 2 4-4" />
+</svg></div>
+<h2 class="paymentsuc">Payment Sent</h2>
+<h1 class="paymentsuc1" id="successText">₱0.00 sent via GCash</h1>
+<span class="paymentsuc2">Please wait for the admin to confirm your payment. Your invoice will show as paid once it's approved.</span>
+        <button type="button" id="doneBtn" class="contopay1">Done</button>
+    </div>
+</div>
+    </main>
+            <div class="cb" id="chatbox" hidden>
+    <div class="cb-head" id="cbHead">
+        <div class="cb-avatar" id="cbAvatar">?</div>
+        <div class="cb-who">
+            <div class="cb-name" id="cbName"></div>
+            <div class="cb-room" id="cbRoom"></div>
+        </div>
+        <button type="button" class="cb-btn" id="cbMin" aria-label="Minimize">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14"/></svg>
+        </button>
+        <button type="button" class="cb-btn" id="cbClose" aria-label="Close chat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+    </div>
+
+    <div class="cb-body">
+        <div class="cb-item">
+            <div class="cb-thumb" id="cbThumb">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            </div>
+            <div>
+                <div class="cb-item-title" id="cbItemTitle"></div>
+                <div class="cb-item-price" id="cbItemPrice"></div>
+            </div>
+        </div>
+
+        <div class="cb-msgs" id="cbMsgs"></div>
+        <p class="cb-err" id="cbErr" hidden></p>
+
+        <div class="cb-form">
+            <input type="text" class="cb-input" id="cbInput" maxlength="500" placeholder="Write a message..." autocomplete="off">
+            <button type="button" class="cb-send" id="cbSend" aria-label="Send" disabled>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12 2-12 2z"/></svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    var IS_ADMIN = false;
+    var URLS = {
+        inbox:        "\/home\/marketplace\/inbox",
+        thread:       "\/home\/marketplace\/chat",
+        send:         "\/home\/marketplace\/chat",
+        ctInbox:      "\/home\/complaints\/inbox",
+        ctThread:     "\/home\/complaints\/chat",
+        ctSend:       "\/home\/complaints\/chat",
+        adminInbox:   "\/admin\/complaints\/inbox",
+        dmInbox:      "\/home\/dm\/inbox",
+        dmAdminInbox: "\/admin\/dm\/inbox",
+        dmThread:     "\/home\/dm\/chat",
+        dmSend:       "\/home\/dm\/chat",
+        rmInbox:      "\/home\/roommates\/inbox",
+        rmThread:     "\/home\/roommates\/chat",
+        rmSend:       "\/home\/roommates\/chat"    };
+    var CSRF = document.querySelector('meta[name="csrf-token"]').content;
+    var $ = function (id) { return document.getElementById(id); };
+
+    var box = $('chatbox'), msgs = $('cbMsgs'), input = $('cbInput'), sendBtn = $('cbSend'), errEl = $('cbErr');
+    var mRoot = $('msgRoot'), mBtn = $('msgBtn'), mDot = $('msgDot'), mPanel = $('msgPanel'), mList = $('msgList');
+
+    var cur = null, lastId = 0, count = 0, sending = false, threads = [];
+
+    function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+
+    function ago(iso) {
+        var s = Math.floor((Date.now() - new Date(iso)) / 1000);
+        if (s < 60) return 'just now';
+        if (s < 3600) return Math.floor(s / 60) + ' mins ago';
+        if (s < 86400) return Math.floor(s / 3600) + ' hrs ago';
+        return Math.floor(s / 86400) + ' days ago';
+    }
+
+    function dayLabel(iso) {
+        var d = new Date(iso), t = new Date(), y = new Date();
+        y.setDate(t.getDate() - 1);
+        if (d.toDateString() === t.toDateString()) return 'Today';
+        if (d.toDateString() === y.toDateString()) return 'Yesterday';
+        return d.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function say(t) { errEl.hidden = !t; errEl.textContent = t || ''; }
+
+    function remember() {
+        try {
+            if (cur) sessionStorage.setItem('daceChat', JSON.stringify({
+                kind: cur.kind, item_id: cur.item_id, with_id: cur.with_id, min: box.classList.contains('is-min')
+            }));
+            else sessionStorage.removeItem('daceChat');
+        } catch (e) {}
+    }
+
+    function setThumb(url) {
+        var t = $('cbThumb');
+        t.style.backgroundImage = url ? 'url("' + url + '")' : '';
+        t.classList.toggle('has-photo', !!url);
+    }
+    function fill(d) {
+        if (d.with_name != null)  { $('cbName').textContent = d.with_name; $('cbAvatar').textContent = (d.with_name || '').charAt(0).toUpperCase(); }
+        if (d.with_room != null)  $('cbRoom').textContent = d.with_room;
+        if (d.item_title != null) $('cbItemTitle').textContent = d.item_title;
+        if (d.item_price != null) $('cbItemPrice').textContent = d.item_price;
+        if (d.photo !== undefined) setThumb(d.photo);
+    }
+
+    function render(list, force) {
+        var near = msgs.scrollHeight - msgs.scrollTop - msgs.clientHeight < 60;
+        msgs.innerHTML = '';
+        if (!list.length) { msgs.innerHTML = '<p class="cb-empty">No messages yet. Say hi!</p>'; return; }
+
+        var day = '';
+        list.forEach(function (m) {
+            var label = dayLabel(m.at);
+            if (label !== day) {
+                day = label;
+                var t = document.createElement('div');
+                t.className = 'cb-time';
+                t.textContent = label;
+                msgs.appendChild(t);
+            }
+            var d = document.createElement('div');
+            d.className = 'msg ' + (m.mine ? 'me' : 'them');
+            d.textContent = m.body;
+            d.title = new Date(m.at).toLocaleString();
+            msgs.appendChild(d);
+        });
+        if (force || near) msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    async function loadThread(force) {
+        if (!cur) return;
+        var mine = cur;
+        var peek = box.classList.contains('is-min') ? '&peek=1' : '';
+        try {
+            var url = mine.kind === 'roommate'
+                ? URLS.rmThread + '?with=' + mine.with_id + peek
+                : mine.kind === 'complaint'
+                ? URLS.ctThread + '?complaint_id=' + mine.item_id + peek
+                : mine.kind === 'direct'
+                    ? URLS.dmThread + '?tenant_id=' + mine.item_id + peek
+                    : URLS.thread + '?item_id=' + mine.item_id + '&with=' + mine.with_id + peek;
+            var res = await fetch(url, {
+                headers: { 'Accept': 'application/json' }, credentials: 'same-origin', cache: 'no-store'
+            });
+            if (res.status === 403 || res.status === 404 || res.status === 422) { if (cur === mine) close(); return; }
+            if (!res.ok) return;
+            var data = await res.json();
+            if (cur !== mine) return;
+
+            fill({ with_name: data.other.name, with_room: data.other.room,
+                   item_title: data.item.title, item_price: data.item.price, photo: data.item.photo || '' });
+
+            var list = data.messages, last = list.length ? list[list.length - 1].id : 0;
+            if (force || last !== lastId || list.length !== count) {
+                render(list, force);
+                refreshInbox();
+            }
+            lastId = last; count = list.length;
+        } catch (e) {}
+    }
+
+    function open(d) {
+        cur = { kind: d.kind || 'item', item_id: Number(d.item_id), with_id: Number(d.with_id) };
+        lastId = 0; count = 0;
+        fill({ with_name: '', with_room: '', item_title: '', item_price: '', photo: '' });
+        fill(d);
+        say('');
+        input.value = ''; sendBtn.disabled = true;
+        msgs.innerHTML = '<p class="cb-empty">Loading...</p>';
+        box.hidden = false;
+        box.classList.toggle('is-min', !!d.min);
+        remember();
+        loadThread(true);
+        if (!d.quiet && !d.min) input.focus();
+    }
+
+    function close() {
+        box.hidden = true;
+        cur = null;
+        msgs.innerHTML = '';
+        remember();
+        refreshInbox();
+    }
+
+    async function send() {
+        var text = input.value.trim();
+        if (!text || !cur || sending) return;
+        sending = true; sendBtn.disabled = true; say('');
+        try {
+            var isC = cur.kind === 'complaint', isD = cur.kind === 'direct', isR = cur.kind === 'roommate';
+            var res = await fetch(isC ? URLS.ctSend : isD ? URLS.dmSend : isR ? URLS.rmSend : URLS.send, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': CSRF },
+                credentials: 'same-origin',
+                body: JSON.stringify(isC ? { complaint_id: cur.item_id, body: text } : isD ? { tenant_id: cur.item_id, body: text } : isR ? { recipient_id: cur.with_id, body: text } : { item_id: cur.item_id, recipient_id: cur.with_id, body: text })
+            });
+            var data = await res.json().catch(function () { return {}; });
+            if (res.status === 419) throw new Error('Session expired. Refresh the page.');
+            if (res.status === 429) throw new Error('You are sending too fast. Please wait a moment.');
+            if (res.status === 422 && data.errors) throw new Error(Object.values(data.errors)[0][0]);
+            if (!res.ok) throw new Error(data.message || 'Could not send your message.');
+            input.value = '';
+            await loadThread(true);
+        } catch (e) {
+            say(e instanceof TypeError ? 'No connection. Check your internet.' : e.message);
+        } finally {
+            sending = false;
+            sendBtn.disabled = !input.value.trim();
+        }
+    }
+
+    input.addEventListener('input', function () { sendBtn.disabled = !input.value.trim(); });
+    input.addEventListener('keydown', function (e) { if (e.key === 'Enter') send(); });
+    sendBtn.addEventListener('click', send);
+
+    $('cbHead').addEventListener('click', function (e) {
+        if (e.target.closest('#cbClose')) return;
+        box.classList.toggle('is-min');
+        remember();
+        if (!box.classList.contains('is-min')) { loadThread(true); input.focus(); }
+    });
+    $('cbClose').addEventListener('click', close);
+
+    function setBadge(n) {
+        mDot.hidden = n < 1;
+        mDot.textContent = n > 9 ? '9+' : n;
+        mBtn.classList.toggle('has-unread', n > 0);
+    }
+
+    function renderInbox() {
+        if (!threads.length) {
+            mList.innerHTML = '<p class="notif-empty">' + (IS_ADMIN ? 'No conversations yet. Click Message on a complaint or a tenant.' : 'No messages yet. Message a seller from the Marketplace.') + '</p>';
+            return;
+        }
+        mList.innerHTML = threads.map(function (t, i) {
+            return '<div class="notif-item' + (t.unread ? ' unread' : '') + '" data-i="' + i + '">'
+                + '<b>' + esc(t.with_name) + ' · ' + esc(t.item_title) + '</b>'
+                + '<p>' + (t.last_mine ? 'You: ' : '') + esc(t.last) + '</p>'
+                + '<small>' + ago(t.at) + (t.unread ? ' · ' + t.unread + ' new' : '') + '</small></div>';
+        }).join('');
+    }
+
+    async function refreshInbox() {
+        if (!mBtn) return;
+        try {
+            var o = { headers: { 'Accept': 'application/json' }, credentials: 'same-origin', cache: 'no-store' };
+            var none = { unread: 0, threads: [] };
+            var urls = IS_ADMIN ? [URLS.adminInbox, URLS.dmAdminInbox] : [URLS.inbox, URLS.ctInbox, URLS.dmInbox, URLS.rmInbox];
+            var rs = await Promise.all(urls.map(function (u) { return fetch(u, o); }));
+            var parts = await Promise.all(rs.map(function (r) { return r.ok ? r.json() : none; }));
+
+            threads = []; var unread = 0;
+            parts.forEach(function (p) { threads = threads.concat(p.threads); unread += p.unread; });
+            threads.sort(function (x, y) { return new Date(y.at) - new Date(x.at); });
+
+            setBadge(unread);
+            if (!mPanel.hidden) renderInbox();
+        } catch (e) {}
+    }
+
+    if (mBtn) mBtn.addEventListener('click', function () {
+        mPanel.hidden = !mPanel.hidden;
+        mBtn.setAttribute('aria-expanded', String(!mPanel.hidden));
+        if (!mPanel.hidden) { renderInbox(); refreshInbox(); }
+    });
+    if (mList) mList.addEventListener('click', function (e) {
+        var row = e.target.closest('.notif-item');
+        if (!row) return;
+        var t = threads[Number(row.dataset.i)];
+        if (!t) return;
+        mPanel.hidden = true;
+        open({ kind: t.kind, item_id: t.item_id, with_id: t.with_id, with_name: t.with_name, with_room: t.with_room,
+               item_title: t.item_title, item_price: t.item_price, photo: t.photo || '' });
+    });
+    if (mRoot) document.addEventListener('click', function (e) { if (!mRoot.contains(e.target)) mPanel.hidden = true; }, true);
+
+    setInterval(function () {
+        if (cur && !box.hidden && !box.classList.contains('is-min') && !document.hidden) loadThread(false);
+    }, 4000);
+       setInterval(function () { if (!document.hidden) refreshInbox(); }, 15000);
+
+    window.DaceChat = { open: open, refresh: refreshInbox };
+
+    try {
+        var s = JSON.parse(sessionStorage.getItem('daceChat') || 'null');
+        if (s && s.item_id) open({ kind: s.kind, item_id: s.item_id, with_id: s.with_id || 0, min: s.min, quiet: true });
+    } catch (e) {}
+
+    refreshInbox();
+})();
+</script>    <script src="/js/sidebar.js?v=1794243073"></script>
+    <script src="/js/notifications.js"></script>
+    <script src="/js/logout-modal.js"></script>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    var toggle = document.getElementById('autopayToggle');
+    var state  = document.getElementById('autopayState');
+    var method = document.getElementById('autopayMethod');
+    var box    = state ? state.closest('.upatnaapatbox1') : null;
+    var url    = "\/home\/settings\/autopay";
+    var busy   = false;
+
+    function paint(on) {
+        if (toggle) toggle.checked = on;
+        if (state)  state.textContent = on ? 'On' : 'Off';
+        if (method) method.textContent = on ? 'You will be reminded before the due date' : 'Autopay is turned off';
+    }
+
+    function save(on) {
+        if (busy) return;
+        busy = true;
+        paint(on);
+        fetch(url, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': "JoL9Jw3qsKDld0MIWftyCKKqrVnwXDRvBLSfUmyW" },
+            body: JSON.stringify({ autopay: on })
+        }).then(function (r) { if (!r.ok) throw new Error(); })
+          .catch(function () { paint(!on); alert('Could not save Autopay. Please try again.'); })
+          .finally(function () { busy = false; });
+    }
+
+    if (toggle) toggle.addEventListener('change', function () { save(toggle.checked); });
+    if (box) {
+        box.style.cursor = 'pointer';
+        box.addEventListener('click', function () { save(state.textContent.trim() !== 'On'); });
+    }
+});
+</script>
+</body>
+
+</html>
+<script src="/js/animations.js?v=1794243073"></script>

@@ -1,0 +1,1578 @@
+.upatnaapatbox {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.upatnaapatbox1 {
+    width: 100%;
+    height: 105px;
+    border-radius: 9px;
+    background-color: #ffffff;
+    border: 1px solid #00000013;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.perapera {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #000000;
+    margin-top: -5px;
+}
+
+.currentbal {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.currentbal h1 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #00000086;
+    margin: 0;
+}
+
+.balcurrent {
+    width: 40px;
+    height: 40px;
+    background-color: #FDF0E6;
+    border-radius: 5px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.balcurrent svg {
+    height: 20px;
+    width: 20px;
+    color: #00000086;
+}
+
+.duevoice {
+    width: 70%;
+    height: 40px;
+    border-radius: 20px;
+    background-color: #FDF0E6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.duevoice span {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .9rem;
+    font-weight: 700;
+    color: #00000086;
+}
+
+.invoice {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.invoice1 {
+    width: 75%;
+    height: 580px;
+    background-color: #ffffff;
+    border-radius: 9px;
+    border: 1px solid #00000013;
+    padding: 30px;
+}
+
+.invoice2 {
+    width: 25%;
+    height: 580px;
+    background-color: #672C2C;
+    border-radius: 9px;
+    border: 1px solid #00000013;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.invoss {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.invoss1 {
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
+    background-color: #FDF0E6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.invoss1 svg {
+    height: 20px;
+    width: 20px;
+    color: #0000007e;
+}
+
+.ibosses {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+
+}
+
+.invoss3 {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    margin-top: 40px;
+}
+
+.invoss13 {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    background-color: #FDF0E6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.invoss13 svg {
+    height: 17px;
+    width: 17px;
+    color: #0000007e;
+}
+
+.ibosses3 {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 5px;
+
+}
+
+.ibosses3 h1 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .9rem;
+    font-weight: 700;
+    color: #000000;
+    margin: 0;
+}
+
+.ibosses3 span {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .7rem;
+    font-weight: 700;
+    color: #00000086;
+}
+
+.ibosses h1 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #000000;
+    margin: 0;
+}
+
+.ibosses span {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .7rem;
+    font-weight: 700;
+    color: #00000086;
+}
+
+.fourinvoice {
+    display: flex;
+    flex-direction: row;
+    gap: 7px;
+    margin: 0;
+}
+
+.fourinvoice1 {
+    width: 80px;
+    height: 25px;
+    background-color: #F9F9F9;
+    border-radius: 9999px;
+    border: 1px solid #00000013;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.23s ease;
+    cursor: pointer;
+}
+
+.fourinvoice1:hover {
+    border: 1px solid #672C2C;
+    background-color: #672c2c2f;
+}
+
+.fourinvoice1 h1 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .8rem;
+    font-weight: 700;
+    color: #000000;
+}
+
+.invoiceboss {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ungprice {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: -50px;
+}
+
+.ungprice h1 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #000000;
+}
+
+.lubidog {
+    width: 95px;
+    height: 25px;
+    background-color: #FDF0E6;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+.lubidog a {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .8rem;
+    font-weight: 800;
+    color: #00000086;
+
+}
+
+.lubidog h1 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .8rem;
+    font-weight: 800;
+    color: #000000c9;
+
+}
+
+.lubidog1 {
+    width: 35px;
+    height: 35px;
+    background-color: #F9F9F9;
+    border-radius: 6px;
+    border: 1px solid #00000013;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.23s ease;
+}
+
+.lubidog1:hover {
+    background-color: #672c2c49;
+    border: 1px solid #672C2C;
+    color: #ffffff;
+}
+
+.lubidog1 svg {
+    height: 17px;
+    width: 17px;
+    color: #0000007e;
+}
+
+.ibossboss {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    margin-top: -30px;
+}
+
+.padiretso231 {
+    width: 100%;
+    height: 1px;
+    border: none;
+    background-color: #00000027;
+    transition: background-color .25s ease;
+    margin-top: 20px;
+}
+
+.padiretso2315 {
+    width: 100%;
+    height: 1px;
+    border: none;
+    background-color: #ffffff65;
+    transition: background-color .25s ease;
+    margin-top: 25px;
+}
+
+.padiretso23159 {
+    width: 100%;
+    height: 1px;
+    border: none;
+    background-color: #00000028;
+    transition: background-color .25s ease;
+    margin-top: 20px;
+}
+
+.padiretso231591 {
+    width: 100%;
+    height: 1px;
+    border: none;
+    background-color: #00000028;
+    transition: background-color .25s ease;
+    margin-top: 10px;
+}
+
+.padiretso2315912 {
+    width: 100%;
+    height: 1px;
+    border: none;
+    background-color: #00000028;
+    transition: background-color .25s ease;
+    margin-top: -15px;
+}
+
+.finalinvoice {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+.viewfullpay {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .9rem;
+    font-weight: 800;
+    color: #672C2C;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rightarrow {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.pay-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(40, 30, 30, 0.45);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
+
+.pay-overlay[hidden] {
+    display: none;
+}
+
+.pay-box {
+    position: relative;
+    width: 100%;
+    max-width: 580px;
+    min-height: 440px;
+    background: #fff;
+    border-radius: 0 20px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.pay-corner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-top: 40px solid #7a3a3a;
+    border-right: 40px solid transparent;
+}
+
+.pay-close {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #6b6b6b;
+    cursor: pointer;
+}
+
+.pay-close svg {
+    width: 22px;
+    height: 22px;
+}
+
+.rightarrow svg {
+    height: 17px;
+    width: 17px;
+    color: #672C2C;
+}
+
+.invoss34 {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.invoss134 {
+    width: 45px;
+    height: 45px;
+    border-radius: 6px;
+    background-color: #ffffff1f;
+    border: 1px solid #ffffff13;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.invoss134 svg {
+    height: 19px;
+    width: 19px;
+    color: #ffffff;
+}
+
+.ibosses34 {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 5px;
+
+}
+
+.ibosses34 h1 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .9rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+}
+
+.tranparent {
+    background-color: #ffffff1f;
+    border: 1px solid #ffffff13;
+    width: 100%;
+    height: 85px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    justify-content: space-between;
+}
+
+.invoss347 {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-left: 20px;
+}
+
+.invoss1347 {
+    width: 45px;
+    height: 45px;
+    border-radius: 6px;
+    background-color: #ffffff1f;
+    border: 1px solid #ffffff13;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.invoss1347 svg {
+    height: 19px;
+    width: 19px;
+    color: #ffffff;
+}
+
+.ibosses347 {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 5px;
+
+}
+
+.ibosses347 h1 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .9rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+}
+
+.ibosses347 span {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .9rem;
+    font-weight: 700;
+    color: #fdfdfdde;
+}
+
+.lubidog43 {
+    width: 75px;
+    height: 23px;
+    background-color: #FDF0E6;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    margin-right: 20px;
+}
+
+.lubidog43 h1 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .7rem;
+    font-weight: 800;
+    color: #672C2C;
+}
+
+.tranparentboss {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    gap: 20px;
+}
+
+.addpaymo {
+    width: 100%;
+    height: 50px;
+    background-color: transparent;
+    border: 1px solid #f9f9f969;
+    border-radius: 8px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .9rem;
+    font-weight: 700;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.23s ease;
+
+}
+
+.addpaymo svg {
+    height: 17px;
+    width: 17px;
+}
+
+.addpaymo:hover {
+    background-color: #F9F9F9;
+    border: 1px solid #f9f9f969;
+    color: #672C2C;
+}
+
+.ibosses39 {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 5px;
+}
+
+.autopayrow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.toggle39 {
+    position: relative;
+    flex: none;
+    width: 54px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.toggle39 input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    cursor: pointer;
+}
+
+.toggle39-track {
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .35);
+    transition: background .2s;
+}
+
+.toggle39-track::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #fff;
+    transition: transform .2s;
+}
+
+.toggle39 input:checked+.toggle39-track {
+    background: #312525;
+}
+
+.toggle39 input:checked+.toggle39-track::after {
+    transform: translateX(24px);
+}
+
+.toggle39 input:focus-visible+.toggle39-track {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+.sr-only39 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+}
+
+.ibosses39 h1 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+}
+
+.ibosses39 span {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .9rem;
+    font-weight: 500;
+    color: #ffffff86;
+}
+
+.unavail-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, .45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.unavail-overlay[hidden] {
+    display: none !important;
+}
+
+.unavail-box {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+    font-family: 'Nunito Sans', sans-serif;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, .25);
+}
+
+.unavail-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    background: #FDF0E6;
+    color: #672C2C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.unavail-icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.unavail-box h2 {
+    margin: 0 0 8px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #000;
+}
+
+.unavail-box p {
+    margin: 0 0 20px;
+    font-size: .95rem;
+    font-weight: 600;
+    color: #00000099;
+    line-height: 1.4;
+}
+
+.unavail-btn {
+    background: #672C2C;
+    color: #fff;
+    border: 0;
+    border-radius: 6px;
+    padding: 10px 28px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .95rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background .23s ease;
+}
+
+.unavail-btn:hover {
+    background: #4f2020;
+}
+
+.invoss3479 {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-left: 30px;
+    margin-top: 25px;
+}
+
+.invoss34791 {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-left: 80px;
+    margin-top: 25px;
+}
+
+.invoss13479 {
+    width: 45px;
+    height: 45px;
+    border-radius: 6px;
+    background-color: #672c2c42;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.invoss13479 svg {
+    height: 19px;
+    width: 19px;
+    color: #9b1919;
+}
+
+.ibosses3479 {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 1px;
+
+}
+
+.ibosses3479 h1 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #000000;
+    margin: 0;
+}
+
+.ibosses3479 span {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .8rem;
+    font-weight: 600;
+    color: #0000008e;
+}
+
+.duhakagatos {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+
+}
+
+.duhakagatos1 {
+    width: 90%;
+    height: 70px;
+    background-color: transparent;
+    border: 1px solid #83818142;
+    border-radius: 8px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+
+}
+
+.duhakagatos1:hover {
+    border: 1px solid #672c2c;
+    background-color: #672c2c0c;
+}
+
+.remember {
+    margin: 0;
+}
+
+.ibosses34791 {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 4px;
+
+}
+
+.invoice1 {
+    display: flex;
+    flex-direction: column;
+}
+
+.invoice1 .ann-pager {
+    margin: auto 0 10px;
+}
+
+.invoice1 .rightarrow {
+    margin-top: 0;
+    padding-top: 10px;
+    border-top: 1px solid #00000013;
+}
+
+.ibosses34791 h1 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #000000;
+    margin: 0;
+}
+
+.ibosses34791 span {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .7rem;
+    font-weight: 600;
+    color: #0000008e;
+}
+
+.tempo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.pidbayad {
+    width: 90px;
+    height: 25px;
+    background-color: #90B49F;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pidbayad h1 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .8rem;
+    font-weight: 800;
+    color: #00000077;
+}
+
+.samodal {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #000000;
+}
+
+.samodapid {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-right: 20px;
+}
+
+.totalinvoice12 {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 350px;
+    margin-top: -20px;
+}
+
+.totalinvoice12 h1 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .9rem;
+    font-weight: 600;
+    color: #672C2C;
+}
+
+.totalinvoice12 span {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #672C2C;
+}
+
+.contopay {
+    width: 90%;
+    height: 50px;
+    border-radius: 9999px;
+    background-color: #672c2c;
+    /* solid color when enabled */
+    border: 1px solid #672c2c;
+    margin-top: -10px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fdfdfd;
+    cursor: pointer;
+    transition: all 0.23s ease;
+}
+
+.contopay:hover {
+    background-color: #672c2cc9;
+}
+
+.contopay:disabled {
+    background-color: #672c2c8a;
+    border: 1px solid #672c2c49;
+    cursor: not-allowed;
+}
+
+.contopay:disabled:hover {
+    background-color: #672c2c8a;
+}
+
+.contopay1 {
+    width: 90%;
+    height: 50px;
+    border-radius: 9999px;
+    background-color: #672c2c;
+    border: 1px solid #672c2c;
+    margin-top: -10px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fdfdfd;
+    cursor: pointer;
+    transition: all 0.23s ease;
+    margin-top: 20px;
+}
+
+.contopay1:hover {
+    border: 1px solid #672c2c;
+    background-color: #672c2c00;
+    color: #672c2c;
+}
+
+.pay-back {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: #f2eded;
+    color: #6b6b6b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pay-back:hover {
+    background: #e7dede;
+}
+
+.pay-back svg {
+    width: 20px;
+    height: 20px;
+}
+
+.modalboxesss {
+    width: 45px;
+    height: 45px;
+    border-radius: 6px;
+    background-color: #faf6ee7c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modalboxesss svg {
+    height: 20px;
+    width: 20px;
+    color: #672C2C;
+}
+
+.difults {
+    height: 30px;
+    width: 80px;
+    border-radius: 6px;
+    background-color: #672C2C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.difults h1 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .8rem;
+    font-weight: 700;
+    color: #fdfdfd;
+}
+
+.encri1 {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin-top: -14px;
+    margin-left: -340px;
+}
+
+.encri1 h1 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .8rem;
+    font-weight: 600;
+    color: #00000062;
+}
+
+.encri1 svg {
+    height: 20px;
+    width: 20px;
+    color: #00000062;
+}
+
+.logbi21 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #2b64399c;
+    margin-top: -10px;
+}
+
+.logbi21 svg {
+    height: 30px;
+    width: 30px;
+    color: #2b6439f6;
+}
+
+.paymentsuc {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #000000;
+}
+
+.paymentsuc1 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .9rem;
+    font-weight: 700;
+    color: #0000009a;
+    margin-top: -6px;
+}
+
+.paymentsuc2 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .85rem;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #0000009a;
+    margin-top: 4px;
+    margin-bottom: 14px;
+    padding: 0 32px;
+    max-width: 420px;
+    text-align: center;
+}
+
+.duhakagatos1:has(.radi:checked) {
+    border: 1px solid #672C2C;
+    background-color: #672c2c21;
+}
+
+
+.pidbayad.pending {
+    background: #FDF0E6;
+    gap: 6px;
+}
+
+.pidbayad.pending::before {
+    content: "";
+    width: 12px;
+    height: 12px;
+    border: 2px solid #00000077;
+    border-radius: 50%;
+}
+
+
+
+.pay-overlay:not([hidden]),
+.unavail-overlay:not([hidden]) {
+    animation: modalFade .25s ease-out;
+}
+
+
+.pay-overlay:not([hidden]) .pay-box,
+.unavail-overlay:not([hidden]) .unavail-box {
+    animation: modalPop .3s cubic-bezier(.2, .9, .3, 1.1);
+}
+
+@keyframes modalFade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modalPop {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+.duhakagatos1:active {
+    transform: scale(.985);
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    .pay-overlay:not([hidden]),
+    .unavail-overlay:not([hidden]),
+    .pay-overlay:not([hidden]) .pay-box,
+    .unavail-overlay:not([hidden]) .unavail-box {
+        animation: none;
+    }
+}
+
+.pay-overlay.closing,
+.unavail-overlay.closing {
+    animation: modalFadeOut .2s ease-in forwards;
+}
+
+.pay-overlay.closing .pay-box,
+.unavail-overlay.closing .unavail-box {
+    animation: modalPopOut .2s ease-in forwards;
+}
+
+@keyframes modalFadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes modalPopOut {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(16px) scale(.96);
+    }
+}
+
+#payModal .duhakagatos {
+    flex: 1;
+    justify-content: flex-start;
+    padding-bottom: 24px;
+}
+
+#payModal .padiretso231591 {
+    margin-top: auto;
+}
+
+.payfeenote {
+    margin: -6px 0 8px 16px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .78rem;
+    font-weight: 800;
+    color: #A72121;
+}
+
+.payhalf {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: -2px 0 10px 16px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: .8rem;
+    font-weight: 700;
+    color: #000000b0;
+    cursor: pointer;
+}
+
+.payhalf input:disabled+*,
+.payhalf:has(input:disabled) {
+    opacity: .5;
+    cursor: default;
+}
+
+#payModal .invoice-pick {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+#payModal .invoice-pick .duhakagatos1 {
+    width: 100%;
+    height: auto;
+    min-height: 70px;
+    padding: 10px 14px;
+    box-sizing: border-box;
+}
+
+#payModal .invoice-pick .tempo {
+    flex: 1;
+    min-width: 0;
+    justify-content: flex-start;
+}
+
+#payModal .invoice-pick .ibosses34791 h1 {
+    white-space: nowrap;
+}
+
+#payModal .invoice-pick .ibosses34791 span {
+    white-space: normal;
+}
+
+#payModal .invoice-pick .samodapid {
+    margin-right: 0;
+    flex-shrink: 0;
+}
+
+#payModal .invoice-pick .pidbayad {
+    width: 90px;
+    flex-shrink: 0;
+}
+
+#payModal .invoice-pick .payfeenote,
+#payModal .invoice-pick .payhalf {
+    margin: 0 0 0 4px;
+}
+
+#payModal3 .pay-box {
+    padding: 40px 0 28px;
+}
+
+#payModal3 .logbi21 {
+    margin-top: 0;
+    margin-bottom: 6px;
+}
+
+.duevoice.duevoice-fit {
+    box-sizing: border-box;
+    width: fit-content;
+    max-width: 100%;
+    height: auto;
+    min-height: 40px;
+    padding: 6px 18px;
+    border-radius: 25px;
+}
+
+.duevoice-fit span {
+    text-align: center;
+    line-height: 1.3;
+}
+
+.upatnaapatbox1 {
+    height: auto;
+    min-height: 80px;
+}
+
+
+@media (max-width: 1100px) {
+    body .invoice {
+        flex-direction: column;
+    }
+
+    body .invoice1,
+    body .invoice2 {
+        width: 100%;
+        height: auto;
+        box-sizing: border-box;
+        padding: 24px;
+    }
+}
+
+@media (max-width: 900px) {
+
+
+    body .upatnaapatbox {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+
+    body .upatnaapatbox1 {
+        height: auto;
+        padding: 16px;
+        box-sizing: border-box;
+    }
+
+    body .duevoice,
+    body .duevoice.duevoice-fit {
+        width: 100%;
+        height: auto;
+        min-height: 32px;
+    }
+
+    body .invoiceboss {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    body .fourinvoice {
+        width: 100%;
+    }
+
+    body .fourinvoice1 {
+        flex: 1;
+        width: auto;
+    }
+
+    body .ibossboss {
+        flex-direction: column;
+        align-items: stretch;
+        margin-top: 0;
+        gap: 10px;
+    }
+
+    body .invoss3 {
+        margin-top: 20px;
+    }
+
+    body .ibosses3 {
+        min-width: 0;
+    }
+
+    body .ungprice {
+        margin-bottom: 0;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px 14px;
+        padding-left: 55px;
+    }
+
+    body .ungprice h1 {
+        margin: 0;
+    }
+
+    body .padiretso231 {
+        margin-top: 14px;
+    }
+}
+
+@media (max-width: 700px) {
+
+    body .pay-overlay {
+        padding: 10px;
+    }
+
+    body .pay-box {
+        max-width: 100%;
+        min-height: 0;
+        max-height: calc(100vh - 20px);
+        overflow-y: auto;
+    }
+
+    body #payModal2 .pay-box {
+        min-width: 0 !important;
+        min-height: 0 !important;
+    }
+
+    body .pay-close {
+        top: 12px;
+        right: 12px;
+    }
+
+    body .pay-back {
+        top: 14px;
+        left: 14px;
+    }
+
+    body .invoss3479 {
+        margin: 20px 52px 0 20px;
+    }
+
+    body .invoss34791 {
+        margin: 20px 52px 0 62px;
+    }
+
+    body .duhakagatos {
+        gap: 12px;
+    }
+
+    body .duhakagatos1 {
+        width: calc(100% - 32px);
+        padding: 0 12px;
+        box-sizing: border-box;
+    }
+
+    body .difults {
+        width: 64px;
+    }
+
+    body #payModal .invoice-pick {
+        width: calc(100% - 32px);
+    }
+
+    body #payModal .invoice-pick .duhakagatos1 {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    body #payModal .invoice-pick .tempo {
+        flex: 1 1 100%;
+    }
+
+    body #payModal .invoice-pick .ibosses34791 h1 {
+        white-space: normal;
+    }
+
+    body #payModal .invoice-pick .samodapid {
+        flex: 1 1 100%;
+        justify-content: space-between;
+        margin-left: 0;
+    }
+
+    body .encri1 {
+        margin: 0 auto;
+        padding: 0 16px;
+        text-align: center;
+    }
+
+    body .encri1 h1 {
+        font-size: .75rem;
+    }
+
+    body .padiretso2315912 {
+        margin-top: 0;
+    }
+
+    body .totalinvoice12 {
+        gap: 12px !important;
+        width: calc(100% - 32px);
+        margin: 0 auto;
+        align-self: center;
+        box-sizing: border-box;
+    }
+
+    body .contopay {
+        width: calc(100% - 32px);
+        margin: 8px auto 20px;
+        align-self: center;
+    }
+
+    body .paymentsuc2 {
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    body .perapera {
+        font-size: 1.05rem;
+    }
+
+    body .currentbal h1 {
+        font-size: .85rem;
+    }
+
+    body .duevoice span {
+        font-size: .75rem;
+    }
+
+    body .invoice1,
+    body .invoice2 {
+        padding: 18px;
+    }
+
+    body .fourinvoice1 h1 {
+        font-size: .75rem;
+    }
+
+    body .tranparent {
+        height: auto;
+        min-height: 85px;
+    }
+
+    body .invoss347 {
+        margin-left: 14px;
+        gap: 14px;
+    }
+
+    body .lubidog43 {
+        margin-right: 14px;
+    }
+}

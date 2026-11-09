@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/demo.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="demo">
+    <title>Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@300;400;700&family=Inter:wght@400;600&family=Nunito+Sans:wght@200;300;400;600;700;800;900&family=Playfair+Display:wght@900&display=swap"
+        rel="stylesheet">
+   
+    <link rel="stylesheet" href="/css/sidebar.css?v=1794243073">
+    <link rel="stylesheet" href="/css/home.css?v=1794243073">
+    <link rel="stylesheet" href="/css/profile.css?v=1794243073">
+    <link rel="stylesheet" href="/css/dorm.css?v=1794243073">
+    <link rel="stylesheet" href="/css/logout.css?v=1794243073">
+    <link rel="stylesheet" href="/css/rooms.css?v=1794243073">
+    <link rel="stylesheet" href="/css/payments.css?v=1794243073">
+    <link rel="stylesheet"
+        href="/css/animations.css?v=1794243073">
+    <link rel="stylesheet"
+        href="/css/announcement.css?v=1794243073">
+    <link rel="stylesheet" href="/css/location.css?v=1794243073">
+    <link rel="stylesheet" href="/css/settings.css?v=1794243073">
+    <link rel="stylesheet"
+        href="/css/marketplace.css?v=1794243073">
+    <link rel="stylesheet" href="/css/calendar.css?v=1794243073">
+    <link rel="stylesheet" href="/css/dashboard.css?v=1794243073">
+    <link rel="stylesheet" href="/css/tenant.css?v=1794243073">
+    <link rel="stylesheet"
+        href="/css/paymentsadmin.css?v=1794243073">
+    <link rel="stylesheet"
+        href="/css/complaints.css?v=1794243073">
+    <link rel="stylesheet" href="/css/approvals.css?v=1794243073">
+
+
+    </head>
+
+<body>
+    <script>
+        (function () {
+            var b = document.body;
+            try {
+                if (!window.matchMedia('(max-width: 768px)').matches && localStorage.getItem('sbCollapsed') === '1') {
+                    b.classList.add('sb-collapsed');
+                }
+            } catch (e) { }
+            // no sidebar/content transitions while the page is first loading
+            b.classList.add('sb-no-anim');
+            window.addEventListener('load', function () {
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(function () { b.classList.remove('sb-no-anim'); });
+                });
+            });
+        })();
+    </script>
+    <div class="page-curtain" id="pageCurtain" aria-hidden="true">
+        <div class="pc-label" id="pcLabel">Loading</div>
+        <div class="pc-bar"><i></i></div>
+    </div>
+    <script>
+        (function () {
+            var curtain = document.getElementById('pageCurtain');
+            var label = document.getElementById('pcLabel');
+            var SLIDE_MS = 300;  
+            var MIN_SHOW = 150;  
+            var KEY = 'pageCurtain';
+            var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            var busy = false;
+
+            var saved = null;
+            try { saved = sessionStorage.getItem(KEY); sessionStorage.removeItem(KEY); } catch (e) { }
+            var parts = saved ? saved.split('|') : [];
+            if (!reduce && parts.length >= 2 && Date.now() - Number(parts[0]) < 8000) {
+                var start = Date.now();
+                var lifted = false;
+                label.textContent = parts.slice(1).join('|');
+                curtain.classList.add('covered');
+
+                var lift = function () {
+                    if (lifted) return;
+                    lifted = true;
+                    curtain.classList.remove('covered');
+                    curtain.classList.add('out');
+                    setTimeout(function () { curtain.classList.remove('out'); }, SLIDE_MS);
+                };
+                var scheduleLift = function () {
+                    setTimeout(lift, Math.max(0, MIN_SHOW - (Date.now() - start)));
+                };
+
+                if (document.readyState === 'complete') scheduleLift();
+                else window.addEventListener('load', scheduleLift);
+                setTimeout(lift, 6000); // safety: never get stuck
+            }
+
+            document.addEventListener('click', function (e) {
+                if (reduce || busy || e.defaultPrevented) return;
+                if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+                var a = e.target.closest('.sb-link, .sb-subitem');
+                if (!a || a.id === 'logoutLink') return;
+
+                var href = a.getAttribute('href');
+                if (!href || href.charAt(0) === '#' || a.target === '_blank') return;
+
+                var url = new URL(a.href, location.href);
+                if (url.origin !== location.origin) return;
+                if (url.pathname === location.pathname && url.search === location.search) return; // already here
+
+                e.preventDefault();
+                busy = true;
+
+                var span = a.querySelector('.sb-label, span');
+                var name = (span ? span.textContent : a.textContent).trim();
+                label.textContent = name;
+                try { sessionStorage.setItem(KEY, Date.now() + '|' + name); } catch (err) { }
+
+                curtain.classList.remove('out', 'covered');
+                curtain.classList.add('in');
+            setTimeout(function () { window.location.href = a.href; }, 160);
+            }, true);
+
+            window.addEventListener('pageshow', function (e) {
+                if (e.persisted) {
+                    busy = false;
+                    curtain.classList.remove('in', 'out', 'covered');
+                }
+            });
+        })();
+    </script>
+    <button type="button" class="sb-toggle" id="sbToggle" aria-label="Toggle sidebar">
+    <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+</button>
+
+<aside class="sidebar" id="sidebar" aria-label="Sidebar">
+
+    <div class="sb-brand">
+       <span class="sb-title">D&#039;aces Dormitory</span>
+            <svg class="sb-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 2.5 3 10v11h6.5v-6h5v6H21V10z" />
+    </svg>
+    </div>
+
+    <nav class="sb-nav">
+        <p class="sb-section">Menu</p>
+        <ul>
+                            <li>
+                    <a href="/admin" class="sb-link active"
+                         aria-current="page"  title="Dashboard">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+                       <span class="sb-label">Dashboard</span>
+                                            </a>
+                </li>
+                            <li>
+                    <a href="/admin/tenants" class="sb-link"
+                         title="Tenants">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                       <span class="sb-label">Tenants</span>
+                                            </a>
+                </li>
+                            <li>
+                    <a href="/admin/announcement" class="sb-link"
+                         title="Announcement">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.4 2.6a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
+                       <span class="sb-label">Announcement</span>
+                                            </a>
+                </li>
+                            <li>
+                    <a href="/admin/rooms" class="sb-link"
+                         title="Rooms">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
+                       <span class="sb-label">Rooms</span>
+                                            </a>
+                </li>
+                            <li>
+                    <a href="/admin/payments" class="sb-link"
+                         title="Payments">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                       <span class="sb-label">Payments</span>
+                                                    <span class="sb-new" aria-label="New">1</span>
+                                            </a>
+                </li>
+                            <li>
+                    <a href="/admin/complaints" class="sb-link"
+                         title="Complaints">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                       <span class="sb-label">Complaints</span>
+                                                    <span class="sb-new" aria-label="New">2</span>
+                                            </a>
+                </li>
+                            <li>
+                    <a href="/admin/approvals" class="sb-link"
+                         title="Approvals">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+                       <span class="sb-label">Approvals</span>
+                                            </a>
+                </li>
+                    </ul>
+
+        <p class="sb-section">Preferences</p>
+        <ul>
+                            <li>
+                    <a href="/admin/settings" class="sb-link"
+                         title="Settings">
+                        <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <span class="sb-label">Settings</span>
+                                            </a>
+                </li>
+                    </ul>
+    </nav>
+
+    <div class="sb-footer">
+    <button type="button" class="sb-user" id="sbUser"
+    aria-expanded="false" disabled>
+            <span class="sb-avatar">A</span>
+            <span class="sb-userinfo">
+                <span class="sb-name">Admin Paolo</span>
+                <span class="sb-role">Owner / Admin</span>
+            </span>
+                    </button>
+               <div class="sb-usermenu" id="sbUserMenu" hidden>
+            
+                    </div>
+
+                    <a href="#" id="logoutLink" class="sb-link sb-logout" title="Logout">
+                <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+                <span class="sb-label">Logout</span>
+            </a>
+            <form id="logoutForm" action="/logout" method="POST" hidden><input type="hidden" name="_token" value="demo" autocomplete="off"></form>
+            </div>
+</aside>
+<div class="sb-backdrop" id="sbBackdrop"></div>
+    <div class="overlay" id="logoutModal" hidden>
+    <div class="card" role="dialog" aria-modal="true" aria-labelledby="loTitle" aria-describedby="loText">
+<span class="lo-corner" aria-hidden="true"></span>
+
+        <button type="button" class="close" data-lo-close aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+        </button>
+
+<div class="bilog"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <path d="m16 17 5-5-5-5" />
+                <path d="M21 12H9" />
+            </svg></div>
+        <h2 class="title" id="loTitle">Log Out?</h2>
+        <p class="text" id="loText">Are you sure you want to log out of<br> your account?</p>
+
+        <div class="butans">
+            <button type="button" class="cancel" data-lo-close>Cancel</button>
+            <button type="button" class="confirm" id="loConfirm">Yes, Log Out</button>
+        </div>
+    </div>
+</div>    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-text">
+                <h1 class="topbar-title">Admin Dashboard</h1>
+                <p class="topbar-sub">1 approval, 0 overdue rent and 2 open complaints need you today.</p>
+            </div>
+
+            <div class="topbar-actions">
+                
+                                    <div class="notif" id="msgRoot">
+    <button class="notif-btn" id="msgBtn" type="button" aria-label="Messages" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#672C2C" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        <span class="notif-label">Messages</span>
+        <span class="notif-dot" id="msgDot" hidden></span>
+    </button>
+    <div class="notif-panel" id="msgPanel" hidden>
+        <div class="notif-head"><span>Messages</span></div>
+        <div class="notif-list" id="msgList">
+            <p class="notif-empty">No messages yet.</p>
+        </div>
+    </div>
+</div>
+<div class="notif" id="notif"
+    data-list-url="/admin/notifications"
+    data-read-all-url="/admin/notifications/read-all"
+    data-read-url="/admin/notifications/__ID__/read">
+    <button class="notif-btn" id="notifBtn" aria-label="Notifications" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#672C2C" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.7 21a2 2 0 0 1-3.4 0" />
+        </svg>
+        <span class="notif-label">Notifications</span>
+        <span class="notif-dot" id="notifDot" hidden></span>
+    </button>
+    <div class="notif-panel" id="notifPanel" hidden>
+        <div class="notif-head">
+            <span>Notifications</span>
+            <button type="button" id="notifReadAll">Mark all as read</button>
+        </div>
+        <div class="notif-list" id="notifList">
+            <p class="notif-empty">No notifications yet.</p>
+        </div>
+    </div>
+</div>                            </div>
+        </header>
+                   <div class="upataapatfourboxw">
+      <div class="upataapatfourboxw1" style="border-right:none; border-radius:6px 0 0 6px ;">
+         <h1>Total tenants</h1>
+         <h2>16</h2>
+         <span>+7 this month</span>
+      </div>
+      <div class="upataapatfourboxw1" style="border-right:none; ">
+         <h1>Occupied rooms
+         </h1>
+         <h2>3/17</h2>
+         <span>18% occupancy</span>
+      </div>
+      <div class="upataapatfourboxw1" style="border-right:none; ">
+         <h1>Pending payments
+         </h1>
+         <h2>0
+
+         </h2>
+         <span>₱0 outstanding
+
+         </span>
+      </div>
+      <div class="upataapatfourboxw1" style=" border-radius:0 6px 6px 0 ;">
+         <h1>Maintenance requests
+         </h1>
+         <h2>3
+         </h2>
+         <span>0 high urgency
+         </span>
+      </div>
+   </div>
+   <div class="pendingannounce">
+
+      <div class="pendingannounce1">
+         <h1 class="pendingapp">Pending approvals</h1>
+         <div class="allpendingdocs">
+            <button type="button" class="allpendingdocs1 is-on" data-f="all" data-label="All">All
+               (1)</button>
+            <button type="button" class="allpendingdocs1" data-f="new_tenant" data-label="New tenants">New tenants
+               (0)</button>
+            <button type="button" class="allpendingdocs1" data-f="payment" data-label="Payments">Payments
+               (1)</button>
+            <button type="button" class="allpendingdocs1" data-f="document" data-label="Documents">Documents
+               (0)</button>
+         </div>
+         <hr class="padiretso23175927" style="margin-top:0px;">
+              <div class="scrollbaaa" id="aprList">
+                           <div class="approvalsto" data-type="payment" data-id="28" data-href="/admin/payments">
+                  <div class="approvalsto23">
+                     <div class="logbilogbulog">
+                        <h1>G</h1>
+                     </div>
+                     <div class="macolumbia">
+                        <h1>Payment</h1>
+                        <h2>Grace Reyes</h2>
+                        <span>GCash payment · ₱1,000 · December 2026 · 2 days ago</span>
+                     </div>
+                  </div>
+                  <div class="approvalstobutton">
+                     <button type="button" class="approvalstobutton2" data-act="view"><svg style="color:#00000065;" xmlns="http://www.w3.org/2000/svg"
+                           width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                           stroke-linecap="round" stroke-linejoin="round">
+                           <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" />
+                           <circle cx="12" cy="12" r="3" />
+                        </svg></button>
+                     <button type="button" class="approvalstobutton2" data-act="approve" style="background-color: #227429d7"><svg style="color:#ffffff;"
+                           xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                           stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                           <path d="M5 12.5l4.5 4.5L19 7.5" />
+                        </svg></button>
+                     <button type="button" class="approvalstobutton2" data-act="reject" style="border:1px solid #681f1f65;"><svg style="color:#681f1fb6;"
+                           xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                           stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                           <path d="M6 6l12 12M18 6L6 18" />
+                        </svg></button>
+                  </div>
+               </div>
+            
+            <div class="annempty" id="aprEmpty"  style="display:none" >Nothing waiting for review.</div>
+         </div>
+      </div>
+
+
+    
+      <div class="pendingannounce12">
+         <div class="pendingannounce123">
+            <div class="parightsakage">
+               <h1>Room map</h1>
+               <div class="palogbipula">
+                <h1>3 of 17 occupied</h1>
+               </div>
+            </div>
+                    <div class="mgaroomlahat18">
+                                 <div class="mmgarooms18">
+                                             <div class="mmgarooms181 is-occ"
+                           title="Room 100 · Occupied">
+                           <h1>100</h1>
+                        </div>
+                                             <div class="mmgarooms181 is-occ"
+                           title="Room 101 · Occupied">
+                           <h1>101</h1>
+                        </div>
+                                             <div class="mmgarooms181 is-occ"
+                           title="Room 102 · Occupied">
+                           <h1>102</h1>
+                        </div>
+                                             <div class="mmgarooms181 is-vacant"
+                           title="Room 103 · Vacant">
+                           <h1>103</h1>
+                        </div>
+                                             <div class="mmgarooms181 is-vacant"
+                           title="Room 104 · Vacant">
+                           <h1>104</h1>
+                        </div>
+                                             <div class="mmgarooms181 is-maint"
+                           title="Room 105 · Under maintenance">
+                           <h1>105</h1>
+                        </div>
+                                       </div>
+                                 <div class="mmgarooms18">
+                                             <div class="mmgarooms181 is-maint"
+                           title="Room 106 · Under maintenance">
+                           <h1>106</h1>
+                        </div>
+                                             <div class="mmgarooms181 is-vacant"
+                           title="Room 107 · Vacant">
+                           <h1>107</h1>
+                        </div>
+                                             <div class="mmgarooms181 is-vacant"
+                           title="Room 108 · Vacant">
+                           <h1>108</h1>
+                        </div>
+                                             <div class="mmgarooms181 is-vacant"
+                           title="Room 109 · Vacant">
+                           <h1>109</h1>
+                        </div>
+                                             <div class="mmgarooms181 is-vacant"
+                           title="Room 110 · Vacant">
+                           <h1>110</h1>
+                        </div>
+                                             <div class="mmgarooms181 is-vacant"
+                           title="Room 111 · Vacant">
+                           <h1>111</h1>
+                        </div>
+                                       </div>
+                                 <div class="mmgarooms18">
+                                             <div class="mmgarooms181 is-vacant"
+                           title="Room 112 · Vacant">
+                           <h1>112</h1>
+                        </div>
+                                             <div class="mmgarooms181 is-vacant"
+                           title="Room 113 · Vacant">
+                           <h1>113</h1>
+                        </div>
+                                             <div class="mmgarooms181 is-vacant"
+                           title="Room 114 · Vacant">
+                           <h1>114</h1>
+                        </div>
+                                             <div class="mmgarooms181 is-vacant"
+                           title="Room 115 · Vacant">
+                           <h1>115</h1>
+                        </div>
+                                             <div class="mmgarooms181 is-vacant"
+                           title="Room 116 · Vacant">
+                           <h1>116</h1>
+                        </div>
+                                       </div>
+                           </div>
+            <div class="tatlongoccupiedsakamain">
+               <div class="dalawahanlang">
+                  <div class="occupiedsaadmina"></div>
+                  <h1>Occupied</h1>
+               </div>
+               <div class="dalawahanlang">
+                  <div class="occupiedsaadmina" style="background-color: transparent; border:1px solid #00000065 ;"></div>
+                  <h1>Vacant</h1>
+               </div>
+               <div class="dalawahanlang">
+                  <div class="occupiedsaadmina" style="background-color: #a17413"></div>
+                  <h1>Maintenance</h1>
+               </div>
+            </div>
+
+
+         </div>
+         <div class="pendingannounce124">
+            <div class="parightsakage5">
+               <h1>Announcement</h1>
+               <h1 class="pepepending" id="annNewBtn" role="button" tabindex="0">+ New</h1>
+            </div>
+
+            <div class="anntimeline " id="annList">
+                                 <div class="annitem" data-id="7">
+                     <div class="needtuwid">
+                        <h1>Curfew Reminder</h1>
+                        <div class="belognapulanamyhalo">
+                           <h1>All tenants</h1>
+                        </div>
+                     </div>
+                     <h1 class="schedyle">Please do not leave the dormitory</h1>
+                     <div class="needtuwid2">
+                        <h1>Posted 3 days ago</h1>
+                        <div class="editdeltet32">
+                           <h1 class="editdeletetetete" data-ann="edit">Edit</h1>
+                           <h1 class="editdeletetetete" data-ann="delete">Delete</h1>
+                        </div>
+                     </div>
+                  </div>
+                                 <div class="annitem" data-id="6">
+                     <div class="needtuwid">
+                        <h1>Announcement</h1>
+                        <div class="belognapulanamyhalo">
+                           <h1>All tenants</h1>
+                        </div>
+                     </div>
+                     <h1 class="schedyle">Water interruption scheduled on July 30, 10:00 AM – 12:00 PM. Please store water in advance.</h1>
+                     <div class="needtuwid2">
+                        <h1>Posted 4 days ago</h1>
+                        <div class="editdeltet32">
+                           <h1 class="editdeletetetete" data-ann="edit">Edit</h1>
+                           <h1 class="editdeletetetete" data-ann="delete">Delete</h1>
+                        </div>
+                     </div>
+                  </div>
+                                 <div class="annitem" data-id="1">
+                     <div class="needtuwid">
+                        <h1>Announcement</h1>
+                        <div class="belognapulanamyhalo">
+                           <h1>All tenants</h1>
+                        </div>
+                     </div>
+                     <h1 class="schedyle">Water interruption scheduled on July 28, 8:00 AM – 12:00 PM. Please store water in advance.</h1>
+                     <div class="needtuwid2">
+                        <h1>Posted 2 weeks ago</h1>
+                        <div class="editdeltet32">
+                           <h1 class="editdeletetetete" data-ann="edit">Edit</h1>
+                           <h1 class="editdeletetetete" data-ann="delete">Delete</h1>
+                        </div>
+                     </div>
+                  </div>
+                                 <div class="annitem" data-id="2">
+                     <div class="needtuwid">
+                        <h1>Announcements</h1>
+                        <div class="belognapulanamyhalo">
+                           <h1>All tenants</h1>
+                        </div>
+                     </div>
+                     <h1 class="schedyle">Friendly reminder that August rent is due on the 5th. Message admin if you need an extension.</h1>
+                     <div class="needtuwid2">
+                        <h1>Posted 2 weeks ago</h1>
+                        <div class="editdeltet32">
+                           <h1 class="editdeletetetete" data-ann="edit">Edit</h1>
+                           <h1 class="editdeletetetete" data-ann="delete">Delete</h1>
+                        </div>
+                     </div>
+                  </div>
+               
+               <div class="annempty" id="annEmpty"  style="display:none" >No
+                  announcements yet.</div>
+            </div>
+
+            <div class="annform" id="annForm" hidden>
+                           <input type="text" class="annfield" id="annTitle" placeholder="Title" maxlength="60">
+               <div class="ann-tpl" id="annTemplates">
+                  <button type="button" class="ann-tpl-chip" data-title="Announcement">Announcement</button>
+                  <button type="button" class="ann-tpl-chip" data-title="Water Interruption - ">Water Interruption</button>
+                  <button type="button" class="ann-tpl-chip" data-title="Power Interruption - ">Power Interruption</button>
+                  <button type="button" class="ann-tpl-chip" data-title="Rent Due Reminder">Rent Due Reminder</button>
+                  <button type="button" class="ann-tpl-chip" data-title="Curfew Reminder">Curfew Reminder</button>
+                  <button type="button" class="ann-tpl-chip" data-title="Dorm Meeting - ">Dorm Meeting</button>
+               </div>
+               <select class="annfield" id="annAudience">
+                  <option value="All tenants">All tenants</option>
+                  <option value="Unpaid only">Unpaid only</option>
+               </select>
+               <textarea class="annfield annarea" id="annBody" placeholder="What should tenants know?"
+                  maxlength="150"></textarea>
+               <div class="annactions">
+                  <button type="button" class="annpost" id="annPost">Post</button>
+                  <button type="button" class="anncancel" id="annCancel">Cancel</button>
+               </div>
+            </div>
+
+
+         </div>
+      </div>
+   </div>
+   <div class="babarecentrecent">
+      <div class="babarecentrecent1 rt">
+         <div class="recenttenatnsa">
+            <h1>Recent tenants</h1>
+            <a href="/admin/tenants" style="text-decoration:none;color:inherit"><span>View all
+                  tenants</span></a>
+         </div>
+
+         <div class="rt-body">
+
+            <div class="rt-row rt-head">
+               <span>Tenant</span>
+               <span>Room</span>
+               <span>Rent status</span>
+               <span></span>
+            </div>
+            <div class="withscrollreas">
+                                 <div class="rt-row">
+                     <div class="approvalsto23y">
+                        <div class="logbilogbulogy">
+                           <h1>T</h1>
+                        </div>
+                        <div class="macolumbiay">
+                           <h1>Tina Salazar</h1>
+                           <h2>Moved in November 18, 2026</h2>
+                        </div>
+                     </div>
+                     <span class="rt-room">100</span>
+                     <span class="rt-status"><i class="rt-dot rt-ok"></i>Up to date</span>
+                     <a href="/admin/tenants?tenant=19" class="rt-view">View</a>
+                  </div>
+                                 <div class="rt-row">
+                     <div class="approvalsto23y">
+                        <div class="logbilogbulogy">
+                           <h1>L</h1>
+                        </div>
+                        <div class="macolumbiay">
+                           <h1>Luis Ramos</h1>
+                           <h2>Moved in November 5, 2026</h2>
+                        </div>
+                     </div>
+                     <span class="rt-room">102</span>
+                     <span class="rt-status"><i class="rt-dot rt-ok"></i>Up to date</span>
+                     <a href="/admin/tenants?tenant=18" class="rt-view">View</a>
+                  </div>
+                                 <div class="rt-row">
+                     <div class="approvalsto23y">
+                        <div class="logbilogbulogy">
+                           <h1>G</h1>
+                        </div>
+                        <div class="macolumbiay">
+                           <h1>Grace Reyes</h1>
+                           <h2>Moved in November 6, 2026</h2>
+                        </div>
+                     </div>
+                     <span class="rt-room">102</span>
+                     <span class="rt-status"><i class="rt-dot rt-ok"></i>Up to date</span>
+                     <a href="/admin/tenants?tenant=17" class="rt-view">View</a>
+                  </div>
+                                 <div class="rt-row">
+                     <div class="approvalsto23y">
+                        <div class="logbilogbulogy">
+                           <h1>M</h1>
+                        </div>
+                        <div class="macolumbiay">
+                           <h1>Mark Rivera</h1>
+                           <h2>Moved in November 14, 2026</h2>
+                        </div>
+                     </div>
+                     <span class="rt-room">101</span>
+                     <span class="rt-status"><i class="rt-dot rt-ok"></i>Up to date</span>
+                     <a href="/admin/tenants?tenant=16" class="rt-view">View</a>
+                  </div>
+                                 <div class="rt-row">
+                     <div class="approvalsto23y">
+                        <div class="logbilogbulogy">
+                           <h1>N</h1>
+                        </div>
+                        <div class="macolumbiay">
+                           <h1>Nina Pascual</h1>
+                           <h2>Moved in November 14, 2026</h2>
+                        </div>
+                     </div>
+                     <span class="rt-room">101</span>
+                     <span class="rt-status"><i class="rt-dot rt-ok"></i>Up to date</span>
+                     <a href="/admin/tenants?tenant=13" class="rt-view">View</a>
+                  </div>
+                           </div>
+
+
+         </div>
+      </div>
+      <div class="babarecentrecent12">
+         <div class="recenttenatnsa">
+            <h1>Recent complaints</h1>
+            <a href="/admin/complaints" style="text-decoration:none;color:inherit"><span>See all</span></a>
+         </div>
+         <hr class="padiretso23175927" style="margin-top:15px;">
+         <div class="withpababascroll">
+             <div class="maymessagedsa">
+      <div class="approvalsto23y5">
+         <div class="logbilogbulogy5">
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
+                           <path d="M12 9v4" />
+                           <circle cx="12" cy="17" r=".6" fill="currentColor" />
+                        </svg>
+         </div>
+         <div class="macolumbiay5">
+            <h1>Jose Castro</h1>
+            <h2>The lock on our room door is damaged and cannot be secured p...</h2>
+            <span>5 days ago</span>
+         </div>
+      </div>
+      <button type="button" class="pangmessagetenant"
+         data-id="7"
+         data-name="Jose Castro"
+         data-room="Room 100"
+         data-title="Complaint: Others"
+         data-msg="The lock on our room door is damaged and cannot be secured properly. T...">Message</button>
+   </div>
+   <hr class="padiretso23175927" style="margin-top:15px;">
+   <div class="maymessagedsa">
+      <div class="approvalsto23y5">
+         <div class="logbilogbulogy5">
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
+                           <path d="M12 9v4" />
+                           <circle cx="12" cy="17" r=".6" fill="currentColor" />
+                        </svg>
+         </div>
+         <div class="macolumbiay5">
+            <h1>Jose Castro</h1>
+            <h2>There has been no water supply in our room since this mornin...</h2>
+            <span>5 days ago</span>
+         </div>
+      </div>
+      <button type="button" class="pangmessagetenant"
+         data-id="6"
+         data-name="Jose Castro"
+         data-room="Room 100"
+         data-title="Complaint: Noise and disturbance"
+         data-msg="There has been no water supply in our room since this morning. We are...">Message</button>
+   </div>
+   <hr class="padiretso23175927" style="margin-top:15px;">
+   <div class="maymessagedsa">
+      <div class="approvalsto23y5">
+         <div class="logbilogbulogy5">
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
+                           <path d="M12 9v4" />
+                           <circle cx="12" cy="17" r=".6" fill="currentColor" />
+                        </svg>
+         </div>
+         <div class="macolumbiay5">
+            <h1>Jose Castro</h1>
+            <h2>fktjryetsrfdxcvcbmfjuyt</h2>
+            <span>3 weeks ago</span>
+         </div>
+      </div>
+      <button type="button" class="pangmessagetenant"
+         data-id="3"
+         data-name="Jose Castro"
+         data-room="Room 100"
+         data-title="Complaint: Staff or management"
+         data-msg="fktjryetsrfdxcvcbmfjuyt">Message</button>
+   </div>
+   <hr class="padiretso23175927" style="margin-top:15px;">
+   <div class="maymessagedsa">
+      <div class="approvalsto23y5">
+         <div class="logbilogbulogy5">
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
+                           <path d="M12 9v4" />
+                           <circle cx="12" cy="17" r=".6" fill="currentColor" />
+                        </svg>
+         </div>
+         <div class="macolumbiay5">
+            <h1>Jose Castro</h1>
+            <h2>liyuktyrhefadw</h2>
+            <span>3 weeks ago</span>
+         </div>
+      </div>
+      <button type="button" class="pangmessagetenant"
+         data-id="2"
+         data-name="Jose Castro"
+         data-room="Room 100"
+         data-title="Complaint: Electrical"
+         data-msg="liyuktyrhefadw">Message</button>
+   </div>
+   <hr class="padiretso23175927" style="margin-top:15px;">
+          
+         </div>
+
+
+      </div>
+   </div>
+   
+   <div class="ev-toast" id="dsToast"></div>
+    </main>
+            <div class="cb" id="chatbox" hidden>
+    <div class="cb-head" id="cbHead">
+        <div class="cb-avatar" id="cbAvatar">?</div>
+        <div class="cb-who">
+            <div class="cb-name" id="cbName"></div>
+            <div class="cb-room" id="cbRoom"></div>
+        </div>
+        <button type="button" class="cb-btn" id="cbMin" aria-label="Minimize">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14"/></svg>
+        </button>
+        <button type="button" class="cb-btn" id="cbClose" aria-label="Close chat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+    </div>
+
+    <div class="cb-body">
+        <div class="cb-item">
+            <div class="cb-thumb" id="cbThumb">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            </div>
+            <div>
+                <div class="cb-item-title" id="cbItemTitle"></div>
+                <div class="cb-item-price" id="cbItemPrice"></div>
+            </div>
+        </div>
+
+        <div class="cb-msgs" id="cbMsgs"></div>
+        <p class="cb-err" id="cbErr" hidden></p>
+
+        <div class="cb-form">
+            <input type="text" class="cb-input" id="cbInput" maxlength="500" placeholder="Write a message..." autocomplete="off">
+            <button type="button" class="cb-send" id="cbSend" aria-label="Send" disabled>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12 2-12 2z"/></svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    var IS_ADMIN = true;
+    var URLS = {
+        inbox:        "\/home\/marketplace\/inbox",
+        thread:       "\/home\/marketplace\/chat",
+        send:         "\/home\/marketplace\/chat",
+        ctInbox:      "\/home\/complaints\/inbox",
+        ctThread:     "\/admin\/complaints\/chat",
+        ctSend:       "\/admin\/complaints\/chat",
+        adminInbox:   "\/admin\/complaints\/inbox",
+        dmInbox:      "\/home\/dm\/inbox",
+        dmAdminInbox: "\/admin\/dm\/inbox",
+        dmThread:     "\/admin\/dm\/chat",
+        dmSend:       "\/admin\/dm\/chat",
+        rmInbox:      "\/home\/roommates\/inbox",
+        rmThread:     "\/home\/roommates\/chat",
+        rmSend:       "\/home\/roommates\/chat"    };
+    var CSRF = document.querySelector('meta[name="csrf-token"]').content;
+    var $ = function (id) { return document.getElementById(id); };
+
+    var box = $('chatbox'), msgs = $('cbMsgs'), input = $('cbInput'), sendBtn = $('cbSend'), errEl = $('cbErr');
+    var mRoot = $('msgRoot'), mBtn = $('msgBtn'), mDot = $('msgDot'), mPanel = $('msgPanel'), mList = $('msgList');
+
+    var cur = null, lastId = 0, count = 0, sending = false, threads = [];
+
+    function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+
+    function ago(iso) {
+        var s = Math.floor((Date.now() - new Date(iso)) / 1000);
+        if (s < 60) return 'just now';
+        if (s < 3600) return Math.floor(s / 60) + ' mins ago';
+        if (s < 86400) return Math.floor(s / 3600) + ' hrs ago';
+        return Math.floor(s / 86400) + ' days ago';
+    }
+
+    function dayLabel(iso) {
+        var d = new Date(iso), t = new Date(), y = new Date();
+        y.setDate(t.getDate() - 1);
+        if (d.toDateString() === t.toDateString()) return 'Today';
+        if (d.toDateString() === y.toDateString()) return 'Yesterday';
+        return d.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function say(t) { errEl.hidden = !t; errEl.textContent = t || ''; }
+
+    function remember() {
+        try {
+            if (cur) sessionStorage.setItem('daceChat', JSON.stringify({
+                kind: cur.kind, item_id: cur.item_id, with_id: cur.with_id, min: box.classList.contains('is-min')
+            }));
+            else sessionStorage.removeItem('daceChat');
+        } catch (e) {}
+    }
+
+    function setThumb(url) {
+        var t = $('cbThumb');
+        t.style.backgroundImage = url ? 'url("' + url + '")' : '';
+        t.classList.toggle('has-photo', !!url);
+    }
+    function fill(d) {
+        if (d.with_name != null)  { $('cbName').textContent = d.with_name; $('cbAvatar').textContent = (d.with_name || '').charAt(0).toUpperCase(); }
+        if (d.with_room != null)  $('cbRoom').textContent = d.with_room;
+        if (d.item_title != null) $('cbItemTitle').textContent = d.item_title;
+        if (d.item_price != null) $('cbItemPrice').textContent = d.item_price;
+        if (d.photo !== undefined) setThumb(d.photo);
+    }
+
+    function render(list, force) {
+        var near = msgs.scrollHeight - msgs.scrollTop - msgs.clientHeight < 60;
+        msgs.innerHTML = '';
+        if (!list.length) { msgs.innerHTML = '<p class="cb-empty">No messages yet. Say hi!</p>'; return; }
+
+        var day = '';
+        list.forEach(function (m) {
+            var label = dayLabel(m.at);
+            if (label !== day) {
+                day = label;
+                var t = document.createElement('div');
+                t.className = 'cb-time';
+                t.textContent = label;
+                msgs.appendChild(t);
+            }
+            var d = document.createElement('div');
+            d.className = 'msg ' + (m.mine ? 'me' : 'them');
+            d.textContent = m.body;
+            d.title = new Date(m.at).toLocaleString();
+            msgs.appendChild(d);
+        });
+        if (force || near) msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    async function loadThread(force) {
+        if (!cur) return;
+        var mine = cur;
+        var peek = box.classList.contains('is-min') ? '&peek=1' : '';
+        try {
+            var url = mine.kind === 'roommate'
+                ? URLS.rmThread + '?with=' + mine.with_id + peek
+                : mine.kind === 'complaint'
+                ? URLS.ctThread + '?complaint_id=' + mine.item_id + peek
+                : mine.kind === 'direct'
+                    ? URLS.dmThread + '?tenant_id=' + mine.item_id + peek
+                    : URLS.thread + '?item_id=' + mine.item_id + '&with=' + mine.with_id + peek;
+            var res = await fetch(url, {
+                headers: { 'Accept': 'application/json' }, credentials: 'same-origin', cache: 'no-store'
+            });
+            if (res.status === 403 || res.status === 404 || res.status === 422) { if (cur === mine) close(); return; }
+            if (!res.ok) return;
+            var data = await res.json();
+            if (cur !== mine) return;
+
+            fill({ with_name: data.other.name, with_room: data.other.room,
+                   item_title: data.item.title, item_price: data.item.price, photo: data.item.photo || '' });
+
+            var list = data.messages, last = list.length ? list[list.length - 1].id : 0;
+            if (force || last !== lastId || list.length !== count) {
+                render(list, force);
+                refreshInbox();
+            }
+            lastId = last; count = list.length;
+        } catch (e) {}
+    }
+
+    function open(d) {
+        cur = { kind: d.kind || 'item', item_id: Number(d.item_id), with_id: Number(d.with_id) };
+        lastId = 0; count = 0;
+        fill({ with_name: '', with_room: '', item_title: '', item_price: '', photo: '' });
+        fill(d);
+        say('');
+        input.value = ''; sendBtn.disabled = true;
+        msgs.innerHTML = '<p class="cb-empty">Loading...</p>';
+        box.hidden = false;
+        box.classList.toggle('is-min', !!d.min);
+        remember();
+        loadThread(true);
+        if (!d.quiet && !d.min) input.focus();
+    }
+
+    function close() {
+        box.hidden = true;
+        cur = null;
+        msgs.innerHTML = '';
+        remember();
+        refreshInbox();
+    }
+
+    async function send() {
+        var text = input.value.trim();
+        if (!text || !cur || sending) return;
+        sending = true; sendBtn.disabled = true; say('');
+        try {
+            var isC = cur.kind === 'complaint', isD = cur.kind === 'direct', isR = cur.kind === 'roommate';
+            var res = await fetch(isC ? URLS.ctSend : isD ? URLS.dmSend : isR ? URLS.rmSend : URLS.send, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': CSRF },
+                credentials: 'same-origin',
+                body: JSON.stringify(isC ? { complaint_id: cur.item_id, body: text } : isD ? { tenant_id: cur.item_id, body: text } : isR ? { recipient_id: cur.with_id, body: text } : { item_id: cur.item_id, recipient_id: cur.with_id, body: text })
+            });
+            var data = await res.json().catch(function () { return {}; });
+            if (res.status === 419) throw new Error('Session expired. Refresh the page.');
+            if (res.status === 429) throw new Error('You are sending too fast. Please wait a moment.');
+            if (res.status === 422 && data.errors) throw new Error(Object.values(data.errors)[0][0]);
+            if (!res.ok) throw new Error(data.message || 'Could not send your message.');
+            input.value = '';
+            await loadThread(true);
+        } catch (e) {
+            say(e instanceof TypeError ? 'No connection. Check your internet.' : e.message);
+        } finally {
+            sending = false;
+            sendBtn.disabled = !input.value.trim();
+        }
+    }
+
+    input.addEventListener('input', function () { sendBtn.disabled = !input.value.trim(); });
+    input.addEventListener('keydown', function (e) { if (e.key === 'Enter') send(); });
+    sendBtn.addEventListener('click', send);
+
+    $('cbHead').addEventListener('click', function (e) {
+        if (e.target.closest('#cbClose')) return;
+        box.classList.toggle('is-min');
+        remember();
+        if (!box.classList.contains('is-min')) { loadThread(true); input.focus(); }
+    });
+    $('cbClose').addEventListener('click', close);
+
+    function setBadge(n) {
+        mDot.hidden = n < 1;
+        mDot.textContent = n > 9 ? '9+' : n;
+        mBtn.classList.toggle('has-unread', n > 0);
+    }
+
+    function renderInbox() {
+        if (!threads.length) {
+            mList.innerHTML = '<p class="notif-empty">' + (IS_ADMIN ? 'No conversations yet. Click Message on a complaint or a tenant.' : 'No messages yet. Message a seller from the Marketplace.') + '</p>';
+            return;
+        }
+        mList.innerHTML = threads.map(function (t, i) {
+            return '<div class="notif-item' + (t.unread ? ' unread' : '') + '" data-i="' + i + '">'
+                + '<b>' + esc(t.with_name) + ' · ' + esc(t.item_title) + '</b>'
+                + '<p>' + (t.last_mine ? 'You: ' : '') + esc(t.last) + '</p>'
+                + '<small>' + ago(t.at) + (t.unread ? ' · ' + t.unread + ' new' : '') + '</small></div>';
+        }).join('');
+    }
+
+    async function refreshInbox() {
+        if (!mBtn) return;
+        try {
+            var o = { headers: { 'Accept': 'application/json' }, credentials: 'same-origin', cache: 'no-store' };
+            var none = { unread: 0, threads: [] };
+            var urls = IS_ADMIN ? [URLS.adminInbox, URLS.dmAdminInbox] : [URLS.inbox, URLS.ctInbox, URLS.dmInbox, URLS.rmInbox];
+            var rs = await Promise.all(urls.map(function (u) { return fetch(u, o); }));
+            var parts = await Promise.all(rs.map(function (r) { return r.ok ? r.json() : none; }));
+
+            threads = []; var unread = 0;
+            parts.forEach(function (p) { threads = threads.concat(p.threads); unread += p.unread; });
+            threads.sort(function (x, y) { return new Date(y.at) - new Date(x.at); });
+
+            setBadge(unread);
+            if (!mPanel.hidden) renderInbox();
+        } catch (e) {}
+    }
+
+    if (mBtn) mBtn.addEventListener('click', function () {
+        mPanel.hidden = !mPanel.hidden;
+        mBtn.setAttribute('aria-expanded', String(!mPanel.hidden));
+        if (!mPanel.hidden) { renderInbox(); refreshInbox(); }
+    });
+    if (mList) mList.addEventListener('click', function (e) {
+        var row = e.target.closest('.notif-item');
+        if (!row) return;
+        var t = threads[Number(row.dataset.i)];
+        if (!t) return;
+        mPanel.hidden = true;
+        open({ kind: t.kind, item_id: t.item_id, with_id: t.with_id, with_name: t.with_name, with_room: t.with_room,
+               item_title: t.item_title, item_price: t.item_price, photo: t.photo || '' });
+    });
+    if (mRoot) document.addEventListener('click', function (e) { if (!mRoot.contains(e.target)) mPanel.hidden = true; }, true);
+
+    setInterval(function () {
+        if (cur && !box.hidden && !box.classList.contains('is-min') && !document.hidden) loadThread(false);
+    }, 4000);
+       setInterval(function () { if (!document.hidden) refreshInbox(); }, 15000);
+
+    window.DaceChat = { open: open, refresh: refreshInbox };
+
+    try {
+        var s = JSON.parse(sessionStorage.getItem('daceChat') || 'null');
+        if (s && s.item_id) open({ kind: s.kind, item_id: s.item_id, with_id: s.with_id || 0, min: s.min, quiet: true });
+    } catch (e) {}
+
+    refreshInbox();
+})();
+</script>    <script src="/js/sidebar.js?v=1794243073"></script>
+    <script src="/js/notifications.js"></script>
+    <script src="/js/logout-modal.js"></script>
+    <script>
+(function () {
+    var CSRF = document.querySelector('meta[name="csrf-token"]').content;
+    var APPROVALS_URL = "\/admin\/approvals";
+    var ANN_URL = "\/admin\/announcements";
+    var $ = function (id) { return document.getElementById(id); };
+
+    var tt;
+    function toast(msg, bad) {
+        var t = $('dsToast');
+        t.textContent = msg;
+        t.className = 'ev-toast is-show' + (bad ? ' is-bad' : '');
+        clearTimeout(tt);
+        tt = setTimeout(function () { t.className = 'ev-toast'; }, 2400);
+    }
+
+    function api(url, method, body) {
+        return fetch(url, {
+            method: method,
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF },
+            credentials: 'same-origin',
+            body: body ? JSON.stringify(body) : undefined
+        }).then(function (r) {
+            return r.json().catch(function () { return {}; }).then(function (d) {
+                if (!r.ok) {
+                    var msg = d.errors ? Object.values(d.errors)[0][0] : (d.message || 'Something went wrong.');
+                    if (r.status === 419) msg = 'Session expired. Refresh the page.';
+                    throw new Error(msg);
+                }
+                return d;
+            });
+        });
+    }
+
+    /* ---------- approvals: filter + approve / reject ---------- */
+    var tabs = document.querySelectorAll('.allpendingdocs1');
+    var filter = 'all';
+
+    function rows() { return Array.prototype.slice.call(document.querySelectorAll('#aprList .approvalsto')); }
+
+    function recount() {
+        var r = rows(), c = { all: r.length, new_tenant: 0, payment: 0, document: 0 };
+        r.forEach(function (x) { if (c[x.dataset.type] !== undefined) c[x.dataset.type]++; });
+
+        tabs.forEach(function (b) {
+            b.textContent = b.dataset.label + ' (' + c[b.dataset.f] + ')';
+            b.classList.toggle('is-on', b.dataset.f === filter);
+        });
+
+        var shown = 0;
+        r.forEach(function (x) {
+            var show = filter === 'all' || x.dataset.type === filter;
+            x.style.display = show ? '' : 'none';
+            if (show) shown++;
+        });
+        $('aprEmpty').style.display = shown ? 'none' : '';
+
+        var sub = document.querySelector('.topbar-sub');
+        if (sub) sub.textContent = sub.textContent.replace(/^\d+ approvals?/, c.all + ' approval' + (c.all === 1 ? '' : 's'));
+    }
+
+    tabs.forEach(function (b) {
+        b.addEventListener('click', function () { filter = b.dataset.f; recount(); });
+    });
+
+    $('aprList').addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-act]');
+        if (!btn) return;
+        var row = btn.closest('.approvalsto'), act = btn.dataset.act;
+
+        if (act === 'view') { window.location.href = row.dataset.href; return; }
+        if (act === 'reject' && !confirm('Reject this and notify the tenant?')) return;
+
+        btn.disabled = true;
+        api(APPROVALS_URL + '/' + row.dataset.id + '/' + act, 'POST')
+            .then(function () {
+                row.remove();
+                recount();
+                toast(act === 'approve' ? 'Approved. The tenant was notified.' : 'Rejected. The tenant was notified.');
+            })
+            .catch(function (err) { btn.disabled = false; toast(err.message, true); });
+    });
+    recount();
+
+    /* ---------- announcements: new / edit / delete ---------- */
+    var list = $('annList'), form = $('annForm');
+    var title = $('annTitle'), audience = $('annAudience'), body = $('annBody'), postBtn = $('annPost');
+    var editId = null;
+
+    function showForm(on) {
+        form.hidden = !on;
+        list.hidden = on;
+        if (on) title.focus();
+    }
+    function reset() {
+        title.value = ''; body.value = ''; audience.selectedIndex = 0;
+        editId = null; postBtn.textContent = 'Post';
+    }
+    function checkEmpty() {
+        $('annEmpty').style.display = list.querySelector('.annitem') ? 'none' : '';
+    }
+    function build(a) {
+        var el = document.createElement('div');
+        el.className = 'annitem';
+        el.dataset.id = a.id;
+        el.innerHTML =
+            '<div class="needtuwid"><h1></h1><div class="belognapulanamyhalo"><h1></h1></div></div>' +
+            '<h1 class="schedyle"></h1>' +
+            '<div class="needtuwid2"><h1></h1><div class="editdeltet32">' +
+            '<h1 class="editdeletetetete" data-ann="edit">Edit</h1>' +
+            '<h1 class="editdeletetetete" data-ann="delete">Delete</h1></div></div>';
+        el.querySelector('.needtuwid > h1').textContent = a.title;
+        el.querySelector('.belognapulanamyhalo h1').textContent = a.audience;
+        el.querySelector('.schedyle').textContent = a.message;
+        el.querySelector('.needtuwid2 > h1').textContent = 'Posted ' + a.ago;
+        return el;
+    }
+
+    $('annNewBtn').addEventListener('click', function () { reset(); showForm(true); });
+       $('annCancel').addEventListener('click', function () { reset(); showForm(false); });
+
+    $('annTemplates').addEventListener('click', function (e) {
+        var b = e.target.closest('[data-title]');
+        if (!b) return;
+        title.value = b.dataset.title;
+        title.focus();
+        title.setSelectionRange(title.value.length, title.value.length);
+    });
+
+    postBtn.addEventListener('click', function () {
+        var t = title.value.trim(), b = body.value.trim();
+        if (!t) { title.focus(); return; }
+        if (!b) { body.focus(); return; }
+
+        var wasEdit = editId;
+        postBtn.disabled = true;
+        var payload = { title: t, audience: audience.value, message: b };
+        var req = wasEdit ? api(ANN_URL + '/' + wasEdit, 'PUT', payload) : api(ANN_URL, 'POST', payload);
+
+        req.then(function (a) {
+            var el = build(a);
+            if (wasEdit) {
+                var old = list.querySelector('.annitem[data-id="' + wasEdit + '"]');
+                if (old) old.replaceWith(el); else list.prepend(el);
+            } else {
+                list.prepend(el);
+            }
+            reset(); showForm(false); checkEmpty();
+            toast(wasEdit ? 'Announcement updated.' : 'Announcement posted.');
+        })
+        .catch(function (err) { toast(err.message, true); })
+        .then(function () { postBtn.disabled = false; });
+    });
+
+    list.addEventListener('click', function (e) {
+        var t = e.target.closest('[data-ann]');
+        if (!t) return;
+        var item = t.closest('.annitem'), id = item.dataset.id;
+
+        if (t.dataset.ann === 'delete') {
+            if (!confirm('Delete this announcement?')) return;
+            api(ANN_URL + '/' + id, 'DELETE')
+                .then(function () { item.remove(); checkEmpty(); toast('Announcement deleted.'); })
+                .catch(function (err) { toast(err.message, true); });
+        } else {
+            editId = id;
+            title.value = item.querySelector('.needtuwid > h1').textContent.trim();
+            audience.value = item.querySelector('.belognapulanamyhalo h1').textContent.trim();
+            body.value = item.querySelector('.schedyle').textContent.trim();
+            postBtn.textContent = 'Save';
+            showForm(true);
+        }
+    });
+    checkEmpty();
+
+    /* ---------- complaints: Message opens the chatbox ---------- */
+    document.addEventListener('click', function (e) {
+        var b = e.target.closest('.pangmessagetenant');
+        if (!b) return;
+        if (!window.DaceChat) { toast('Chat is not ready. Refresh the page.', true); return; }
+        window.DaceChat.open({
+            kind: 'complaint', item_id: b.dataset.id, with_id: 0,
+            with_name: b.dataset.name, with_room: b.dataset.room,
+            item_title: b.dataset.title, item_price: b.dataset.msg, photo: ''
+        });
+    });
+})();
+</script>
+
+
+</body>
+
+</html>
+<script src="/js/animations.js?v=1794243073"></script>

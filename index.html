@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/demo.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in</title>
+    <meta name="csrf-token" content="demo">
+    <link rel="stylesheet" href="/css/login.css?v=1794243073">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@300;400;700&family=Inter:wght@400;600&family=Nunito+Sans:wght@400;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="all">
+        <div class="Main">
+
+            <div id="loginView" class="view" >
+                <form action="/login" method="POST">
+                    <input type="hidden" name="_token" value="demo" autocomplete="off">                    <div class="top">
+                        <div><img src="/images/logo.png" alt="Logo" class="logo"></div>
+                        <div>
+                            <p class="lg">Log in</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="h3">Welcome back! Please login to your<br> account.</p>
+                    </div>
+
+                                        
+                    <div class="inpots">
+                        <div class="inputs">
+                            <svg class="iconsa" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                                <path d="M2 7l10 6 10-6"></path>
+                            </svg>
+                            <div class="inputr">
+                                <input type="text" id="email" name="email" placeholder=" " value=""
+                                    autocomplete="username" required>
+                                <label for="email">Email Address</label>
+                            </div>
+                        </div>
+
+                        <div class="inputs" style="margin-top: 40px;">
+                            <svg class="iconsa" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="4" y="11" width="16" height="10" rx="2"></rect>
+                                <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
+                            </svg>
+                            <div class="inputr">
+                                <input type="password" id="password" name="password" placeholder=" " required>
+                                <label for="password">Password</label>
+                            </div>
+
+                            <button type="button" class="hides" aria-label="Show password">
+                                <svg class="iconsa eye-show" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+
+                                <svg class="iconsa eye-hide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" style="display:none;">
+                                    <path
+                                        d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.4 21.4 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 5c7 0 11 7 11 7a21.4 21.4 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24">
+                                    </path>
+                                    <path d="M1 1l22 22"></path>
+                                </svg>
+                            </button>
+
+                        </div>
+
+                    </div>
+                    <div class="remember">
+                        <input type="checkbox" name="remember" id="remember" class="radi" value="1" >
+                        <label for="remember">Remember me</label>
+                        <label for="forgot" style="margin-left: auto;">Forgot Password?</label>
+                    </div>
+                    <div><input type="submit" value="Login" class="loginbo"></div>
+                    <div>
+                        <p class="create">New to D'Aces? &nbsp;<a href="#" class="crea" id="showSignup">Create an
+                                account</a>
+                        </p>
+                    </div>
+                    <div class="divider">
+                        <hr>
+                        <p class="divider-text">Or continue with</p>
+                        <hr>
+                    </div>
+                    <div>
+                        <button type="submit" form="guestForm" class="loginbo2">
+                            <svg class="guestsicon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                                aria-hidden="true">
+                                <path d="M20 21a8 8 0 0 0-16 0"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            Continue as Guest
+                        </button>
+                    </div>
+                    <div class="below">
+                        <div class="social facebook">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path
+                                    d="M13.5 22v-8h3l.5-3h-3.5V7.5c0-.9.4-1.5 1.5-1.5H17V3.1c-.3-.1-1.4-.1-2.6-.1-2.5 0-4.4 1.5-4.4 4.5V11H7v3h3.1v8h3.4z" />
+                            </svg>
+                            <span>Facebook</span>
+                        </div>
+                        <div class="social apple">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path
+                                    d="M15.7 12.5c0-2.2 1.8-3.3 1.9-3.4-1-1.5-2.6-1.7-3.1-1.7-1.3-.1-2.6.8-3.3.8-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.7 2.2-1.6 2.8-.4 6.9 1.1 9.1.8 1.1 1.6 2.3 2.8 2.2 1.1-.1 1.6-.7 3-.7s1.8.7 3 .7c1.2 0 2-.9 2.8-2 .9-1.3 1.3-2.6 1.3-2.7-.1-.1-2.4-.9-3.6-3.3zM14.4 5.9c.6-.7 1-1.7.9-2.7-.9.1-2.1.6-2.8 1.4-.6.7-1.1 1.7-1 2.7 1 .1 2.1-.5 2.9-1.4z" />
+                            </svg>
+                            <span>Apple</span>
+                        </div>
+                        <div class="social google">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path
+                                    d="M21.8 12.2c0-.7-.1-1.4-.2-2.1H12v4h5.4a4.6 4.6 0 0 1-2 3.1v2.6h3.3c1.9-1.7 3.1-4.3 3.1-7.6z"
+                                    fill="#4285F4" />
+                                <path
+                                    d="M12 22c2.7 0 5-.9 6.7-2.4l-3.3-2.6c-.9.6-2.1 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H.7v2.7A10 10 0 0 0 12 22z"
+                                    fill="#34A853" />
+                                <path
+                                    d="M6.4 18.9c-.7-1.3-1.1-2.7-1.1-4.2s.4-2.9 1.1-4.2V7.8H2.9A10 10 0 0 0 1 12c0 1.6.4 3.2 1 4.6l4.4-2.7z"
+                                    fill="#FBBC05" />
+                                <path
+                                    d="M12 4.8c1.4 0 2.7.5 3.7 1.5l2.7-2.7A10 10 0 0 0 2.9 7.8l3.5 2.7C7.2 6.6 9.4 4.8 12 4.8z"
+                                    fill="#EA4335" />
+                            </svg>
+                            <span>Google</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+            <div id="signupView" class="view" hidden>
+                <form action="/signup" method="POST">
+                    <input type="hidden" name="_token" value="demo" autocomplete="off">                    <div class="kaliwa">
+                        <div class="top">
+                            <div><img src="/images/logo.png" alt="Logo" class="logo"></div>
+                            <div>
+                                <p class="lg1">Sign Up</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="h31">Create your account to book a room, track payments,<br> and manage your
+                                stay.</p>
+                        </div>
+
+                                                
+                        <div class="inputs1" style="margin-top: 40px;">
+                            <svg class="iconsa" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                                <path d="M2 7l10 6 10-6"></path>
+                            </svg>
+                            <div class="inputr1">
+                                <input type="email" id="signupEmail" name="email" placeholder=" " required>
+                                <label for="signupEmail">Email Address</label>
+                            </div>
+                        </div>
+
+                        <div class="inputs1" style="margin-top: 10px;">
+                            <svg class="iconsa" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="4" y="11" width="16" height="10" rx="2"></rect>
+                                <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
+                            </svg>
+                            <div class="inputr1">
+                                <input type="password" id="signupPassword" name="password" placeholder=" " required>
+                                <label for="signupPassword">Password</label>
+                            </div>
+
+                            <button type="button" class="hides" aria-label="Show password">
+                                <svg class="iconsa eye-show" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+
+                                <svg class="iconsa eye-hide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" style="display:none;">
+                                    <path
+                                        d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.4 21.4 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 5c7 0 11 7 11 7a21.4 21.4 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24">
+                                    </path>
+                                    <path d="M1 1l22 22"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="inputs1" style="margin-top: 10px;">
+                            <svg class="iconsa" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="4" y="11" width="16" height="10" rx="2"></rect>
+                                <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
+                            </svg>
+                            <div class="inputr1">
+                                <input type="password" id="confirmpassword" name="confirm_password" placeholder=" "
+                                    required>
+                                <label for="confirmpassword">Confirm Password</label>
+                            </div>
+
+                            <button type="button" class="hides" aria-label="Show password">
+                                <svg class="iconsa eye-show" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+
+                                <svg class="iconsa eye-hide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" style="display:none;">
+                                    <path
+                                        d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.4 21.4 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 5c7 0 11 7 11 7a21.4 21.4 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24">
+                                    </path>
+                                    <path d="M1 1l22 22"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="inputs1" style="margin-top: 40px;">
+                            <svg class="iconsa" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="8" r="4"></circle>
+                                <path d="M4 21a8 8 0 0 1 16 0"></path>
+                            </svg>
+                            <div class="inputr1">
+                                <input type="text" id="signupName" name="full_name" placeholder=" " maxlength="100"
+                                    required>
+                                <label for="signupName">Full Name</label>
+                            </div>
+                        </div>
+                        <div class="ags">
+                            <input type="checkbox" name="agree" id="agree" class="radi" required>
+                            <label for="agree">I agree to the &nbsp; <a href="#" data-legal="terms">Term of Service</a>
+                                &nbsp;and&nbsp; <a href="#" data-legal="privacy">Privacy Policy</a>.</label>
+                        </div>
+                        <div><input type="submit" value="Sign Up" class="loginbo"></div>
+                        <p class="have1">Already have an account? &nbsp;<a href="#" class="crea1" id="showLogin">Log
+                                in</a></p>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <nav class="right" aria-label="Main navigation">
+            <a href="#home">
+                <h3>Home</h3>
+            </a>
+            <a href="#about">
+                <h3>About Us</h3>
+            </a>
+            <a href="#hours">
+                <h3>Open Hours</h3>
+            </a>
+            <a href="#settings">
+                <h3>Settings</h3>
+            </a>
+        </nav>
+    </div>
+
+    <section id="home" class="lipat">
+
+        <h2>Home</h2>
+        <p class="find">Find your next room, check availability, and manage your stay — <br>all in one place.</p>
+        <p class="find2">Featured Rooms</p>
+        <hr class="hr1">
+        <div class="boxes" id="featuredBoxes">
+                            <div class="box1 fr-card">
+                    <h1 class="roomp">Room 100</h1>&nbsp;<h1 class="roomp1">— Good For 6
+                    </h1>
+                    <h1 class="roomp2">Double Bed For 2</h1>
+                    <h1 class="roomp3">₱2,000 / month</h1>
+                </div>
+                            <div class="box2 fr-card">
+                    <h1 class="roomp">Room 101</h1>&nbsp;<h1 class="roomp1">— Good For 6
+                    </h1>
+                    <h1 class="roomp22">Double Bed For 2</h1>
+                    <h1 class="roomp3">₱2,000 / month</h1>
+                </div>
+                    </div>
+        <h1 class="viewsa">View More.</h1>
+        <p class="find3">Announcements</p>
+        <hr class="hr2">
+                    <div class="anns">
+                <h1 class="wat">Please do not leave the dormitory</h1>
+            </div>
+                    <div class="anns1">
+                <h1 class="wat1">Water interruption scheduled on July 30, 10:00 AM – 12:00 PM. Please store water in advance.</h1>
+            </div>
+                <div class="buttonsa"><button type="button" class="book" href="#">Book Now</button> <button type="button"
+                class="viewa" href="#">View Rooms</button></div>
+    </section>
+
+    <section id="about" class="lipat">
+        <h2>About Us</h2>
+        <div class="abt">
+            <h1 class="wel">Welcome to D'aces Dormitory, Your Comfortable Home Away From Home.</h1>
+
+        </div>
+        <p class="find4">Quick Overview</p>
+        <hr class="hr3">
+        <div class="bomx">
+            <div class="bomx1">
+                <h1 class="num">17</h1>
+                <h1 class="tx">Available Rooms</h1>
+            </div>
+            <div class="bomx1">
+                <h1 class="num">204</h1>
+                <h1 class="tx">Total Bed spaces</h1>
+            </div>
+            <div class="bomx1">
+                <h1 class="num">195</h1>
+                <h1 class="tx">Current Vacancies</h1>
+            </div>
+        </div>
+        <h1 class="viewsa">View More.</h1>
+        <p class="find5">Features</p>
+        <hr class="hr4">
+        <div class="amenities">
+            <ul>
+                <li>Free Wi-Fi</li>
+                <li>Study Area</li>
+                <li>24/7 Water &amp; Electricity</li>
+            </ul>
+            <ul>
+                <li>CCTV Security</li>
+                <li>Have Gate and fence</li>
+            </ul>
+        </div>
+        <div class="buttonsa"><button type="button" class="book" href="#">Book Now</button> <button type="button"
+                class="viewa" href="#">View Rooms</button></div>
+    </section>
+
+        <section id="hours" class="lipat">
+        <h2>Open Hours</h2>
+        <p class="find">Visit our front desk for inquiries, payments, and room viewings.</p>
+
+        <div class="hrs-card">
+            <div class="hrs-top">
+                <div class="hrs-clock">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                        stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <path d="M12 7v5l3 2"></path>
+                    </svg>
+                </div>
+                <div>
+                    <p class="hrs-label">Front Desk</p>
+                    <p class="hrs-status" id="hrsStatus">Checking…</p>
+                </div>
+                <span class="hrs-pill" id="hrsPill" hidden></span>
+            </div>
+
+            <ul class="hrs-list">
+                                    <li class="hrs-row" data-dow="1"
+                        data-open="1" data-from="08:00" data-to="17:00">
+                        <span class="hrs-day">Monday</span>
+                        <span class="hrs-time">
+                                                            8:00 AM –
+                                5:00 PM
+                                                    </span>
+                    </li>
+                                    <li class="hrs-row" data-dow="2"
+                        data-open="1" data-from="08:00" data-to="17:00">
+                        <span class="hrs-day">Tuesday</span>
+                        <span class="hrs-time">
+                                                            8:00 AM –
+                                5:00 PM
+                                                    </span>
+                    </li>
+                                    <li class="hrs-row" data-dow="3"
+                        data-open="1" data-from="08:00" data-to="17:00">
+                        <span class="hrs-day">Wednesday</span>
+                        <span class="hrs-time">
+                                                            8:00 AM –
+                                5:00 PM
+                                                    </span>
+                    </li>
+                                    <li class="hrs-row" data-dow="4"
+                        data-open="1" data-from="08:00" data-to="17:00">
+                        <span class="hrs-day">Thursday</span>
+                        <span class="hrs-time">
+                                                            8:00 AM –
+                                5:00 PM
+                                                    </span>
+                    </li>
+                                    <li class="hrs-row" data-dow="5"
+                        data-open="1" data-from="08:00" data-to="17:00">
+                        <span class="hrs-day">Friday</span>
+                        <span class="hrs-time">
+                                                            8:00 AM –
+                                5:00 PM
+                                                    </span>
+                    </li>
+                                    <li class="hrs-row" data-dow="6"
+                        data-open="1" data-from="08:00" data-to="17:00">
+                        <span class="hrs-day">Saturday</span>
+                        <span class="hrs-time">
+                                                            8:00 AM –
+                                5:00 PM
+                                                    </span>
+                    </li>
+                                    <li class="hrs-row closed" data-dow="0"
+                        data-open="0" data-from="08:00" data-to="17:00">
+                        <span class="hrs-day">Sunday</span>
+                        <span class="hrs-time">
+                                                            Closed
+                                                    </span>
+                    </li>
+                            </ul>
+        </div>
+    </section>
+
+    <section id="settings" class="lipat">
+        <h2>Settings</h2>
+        <div class="glass">
+            <div class="circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="4" y="11" width="16" height="10" rx="2"></rect>
+                    <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
+                </svg></div>
+
+            <h1 class="lks">Log in to use this feature</h1>
+            <h1 class="lks1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log in to book and manage your reservations,<br> or continue
+                as a guest to view the available rooms.</h1>
+            <div class="but"><button type="button" class="but1">Log In</button>
+                <button type="submit" form="guestForm" class="but2">Continue as Guest</button>
+            </div>
+        </div>
+    </section>
+    <form id="guestForm" action="/guest" method="POST" hidden><input type="hidden" name="_token" value="demo" autocomplete="off"></form>
+    <style>
+    .legalmodal {
+        position: fixed;
+        inset: 0;
+        z-index: 1400;
+        background-color: rgba(0, 0, 0, 0.55);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        box-sizing: border-box;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity .25s ease, visibility 0s linear .25s;
+    }
+
+    .legalmodal.is-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transition: opacity .25s ease, visibility 0s;
+    }
+
+    .legalbox {
+        position: relative;
+        width: 720px;
+        max-width: 100%;
+        max-height: 88vh;
+        display: flex;
+        flex-direction: column;
+        background-color: #ffffff;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        transform: translateY(16px) scale(.97);
+        transition: transform .25s ease;
+        font-family: 'Nunito Sans', sans-serif;
+    }
+
+    .legalmodal.is-open .legalbox {
+        transform: none;
+    }
+
+    .legalbox::before {
+        content: "";
+        position: absolute;
+        top: -1px;
+        left: 0;
+        width: 60px;
+        height: 60px;
+        background-color: #672C2C;
+        clip-path: polygon(0 0, 100% 0, 0 100%);
+        pointer-events: none;
+    }
+
+    .legal-close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 32px;
+        height: 32px;
+        border: none;
+        border-radius: 50%;
+        background-color: transparent;
+        color: #672C2C;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color .2s ease;
+    }
+
+    .legal-close:hover {
+        background-color: #f0e8e3;
+    }
+
+    .legal-close svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .legalhead {
+        padding: 28px 28px 0;
+    }
+
+    .legaltitle {
+        margin: -1px 40px 14px 15px;
+        font-family: 'Inria Serif', serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: #672C2C;
+    }
+
+    .legaltabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-left: 15px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #0000000f;
+    }
+
+    .legaltab {
+        height: 34px;
+        padding: 0 16px;
+        border-radius: 20px;
+        background-color: #d9d9d960;
+        border: 1px solid #00000011;
+        color: #08080894;
+        font-family: 'Nunito Sans', sans-serif;
+        font-size: .8rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all .2s ease;
+    }
+
+    .legaltab:hover {
+        background-color: #672c2c48;
+        border-color: #672C2C;
+        color: #672C2C;
+    }
+
+    .legaltab.active,
+    .legaltab.active:hover {
+        background-color: #672C2C;
+        border-color: #672C2C;
+        color: #fff;
+    }
+
+    .legalbody {
+        flex: 1;
+        overflow-y: auto;
+        padding: 18px 28px 10px 43px;
+    }
+
+    .legalpanel[hidden] {
+        display: none;
+    }
+
+    .legaldate {
+        margin: 0 0 14px;
+        font-size: .78rem;
+        font-weight: 700;
+        color: #00000080;
+    }
+
+    .legalpanel h2 {
+        margin: 22px 0 6px;
+        font-size: 1rem;
+        font-weight: 800;
+        color: #000;
+    }
+
+    .legalpanel p,
+    .legalpanel li {
+        font-size: .88rem;
+        font-weight: 600;
+        line-height: 1.6;
+        color: #000000b8;
+    }
+
+    .legalpanel ul,
+    .legalpanel ol {
+        margin: 6px 0;
+        padding-left: 22px;
+    }
+
+    .legalpanel li {
+        margin-bottom: 5px;
+    }
+
+    .legalfaq {
+        border-bottom: 1px solid #0000000f;
+    }
+
+    .legalfaq summary {
+        cursor: pointer;
+        padding: 11px 0;
+        font-size: .92rem;
+        font-weight: 800;
+        color: #000;
+    }
+
+    .legalfaq summary:hover {
+        color: #672C2C;
+    }
+
+    .legalfaq p {
+        margin: 0 0 12px;
+    }
+
+    .legalfoot {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        padding: 16px 28px 22px;
+        border-top: 1px solid #0000000f;
+    }
+
+    .legalbtn {
+        height: 42px;
+        padding: 0 28px;
+        border: 1px solid #672C2C;
+        border-radius: 6px;
+        background-color: #672C2C;
+        color: #fff;
+        font-family: 'Nunito Sans', sans-serif;
+        font-size: .85rem;
+        font-weight: 800;
+        cursor: pointer;
+        transition: all .2s ease;
+    }
+
+    .legalbtn:hover {
+        background-color: #672c2c00;
+        color: #672C2C;
+    }
+
+    .legalbtn.ghost {
+        background-color: transparent;
+        color: #672C2C;
+    }
+
+     .legalbtn.ghost:hover {
+        background-color: #f0e8e3;
+    }
+
+    .legalpanel[contenteditable="true"] {
+        outline: 2px dashed #672C2C;
+        outline-offset: 8px;
+        border-radius: 4px;
+    }
+
+    .legalstatus {
+        margin-right: auto;
+        align-self: center;
+        font-size: .85rem;
+        font-weight: 700;
+        color: #16a34a;
+    }
+</style>
+
+<div class="legalmodal" id="legalModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="legalbox">
+        <button type="button" class="legal-close" data-legal-close aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+        </button>
+
+        <div class="legalhead">
+            <h1 class="legaltitle" id="legalTitle">Terms of Service</h1>
+            <div class="legaltabs">
+                <button type="button" class="legaltab active" data-tab="terms">Terms of Service</button>
+                <button type="button" class="legaltab" data-tab="privacy">Privacy Policy</button>
+                <button type="button" class="legaltab" data-tab="faqs">FAQs</button>
+                <button type="button" class="legaltab" data-tab="rules">House Rules</button>
+            </div>
+        </div>
+
+        <div class="legalbody" id="legalBody">
+
+            <div class="legalpanel" data-panel="terms">
+                <p class="legaldate">Terms of stay &middot; Last updated November 2, 2026</p>
+
+                <h2>1. Acceptance of these terms</h2>
+                <p>By creating an account, booking a bed, or staying at D'aces Dormitory, you agree to these Terms of
+                    Service and to our Privacy Policy and House Rules. If you do not agree, please do not use the
+                    website or book a bed.</p>
+
+                <h2>2. Your account</h2>
+                <ul>
+                    <li>You must give true and complete information, including your name, contact details, and a valid
+                        government-issued ID.</li>
+                    <li>You are responsible for keeping your password private and for everything done through your
+                        account.</li>
+                    <li>Guests may browse the home page, dorm layout, rooms, and location, but only signed-in tenants
+                        can book or manage a stay.</li>
+                </ul>
+
+                <h2>3. Booking and admin approval</h2>
+                <ul>
+                    <li>When you pick a bed, we hold it for you for 15 minutes while you complete the booking form.</li>
+                    <li>A submitted booking is <b>not final</b>. The dormitory admin must review and approve it first.
+                        Until then your booking shows as "waiting for admin approval" and the room does not appear in
+                        your tenant details.</li>
+                    <li>We may decline a booking, for example if the bed is no longer available or the information is
+                        incomplete. If declined, the bed is released and you may book again.</li>
+                </ul>
+
+                <h2>4. Rent and fees</h2>
+                <ul>
+                    <li>Rent is charged monthly per bed at the rate shown for the room. Your next rent payment is due 30
+                        days after your move-in date.</li>
+                    <li>The reservation fee is <b>non-refundable</b>. The security fee and clean fee are shown in your
+                        booking summary before you pay.</li>
+                    <li>Late or unpaid rent may lead to reminders, restricted access to some services, and, if it
+                        continues, ending of the stay.</li>
+                </ul>
+
+                <h2>5. Length of stay, transfers, and move-out</h2>
+                <ul>
+                    <li>You choose an expected length of stay when you book (for example 1 month, 3 months, 6 months, or
+                        1 year).</li>
+                    <li>Room or bed transfers are subject to availability and admin approval.</li>
+                    <li>To leave, submit a move-out request from your Settings page and settle any unpaid balance before
+                        your move-out date.</li>
+                </ul>
+
+                <h2>6. Using the room and shared areas</h2>
+                <p>Each bed is for one tenant only. You may not sublet your bed, let others stay overnight without
+                    approval, or use the room for any business. Please follow the House Rules at all times.</p>
+
+                <h2>7. Damages and lost items</h2>
+                <p>You are responsible for damage you or your visitors cause to the room, furniture, or shared
+                    facilities, and the cost of repair may be charged to you. The dormitory is not responsible for lost,
+                    stolen, or damaged personal belongings. Keep valuables locked.</p>
+
+                <h2>8. Ending a stay</h2>
+                <p>We may end a stay with written notice for serious or repeated violations of these terms or the House
+                    Rules, non-payment, or conduct that puts other tenants at risk. You may end your stay by following
+                    the move-out steps above.</p>
+
+                <h2>9. Changes to these terms</h2>
+                <p>We may update these terms from time to time. The "last updated" date above shows the latest version.
+                    Continuing to use the website or stay after a change means you accept it.</p>
+
+                <h2>10. Contact us</h2>
+                <p>Questions about these terms? Use the <b>Message admin</b> button in your account, or the contact
+                    details in the website footer.</p>
+            </div>
+
+            <div class="legalpanel" data-panel="privacy" hidden>
+                <p class="legaldate">Last updated November 2, 2026</p>
+
+                <p>D'aces Dormitory respects your privacy. This policy explains what personal information we collect,
+                    why we collect it, and how we protect it, in line with the Philippine Data Privacy Act of 2012
+                    (Republic Act No. 10173).</p>
+
+                <h2>1. Information we collect</h2>
+                <ul>
+                    <li><b>Account details:</b> full name, email address, and password (stored in a scrambled, hashed
+                        form).</li>
+                    <li><b>Booking and tenant details:</b> date of birth, sex, civil status, occupation, school or
+                        employer, mobile number, and home address.</li>
+                    <li><b>Emergency contact:</b> the name, relationship, phone number, and address of the person we may
+                        contact for you.</li>
+                    <li><b>Identity document:</b> your ID type, ID number, and a photo of your valid ID.</li>
+                    <li><b>Stay and payment records:</b> your room and bed, move-in date, rent, payments made, and
+                        billing email.</li>
+                    <li><b>Messages and requests:</b> chats, complaints, suggestions, and maintenance requests you send
+                        us.</li>
+                </ul>
+
+                <h2>2. Why we collect it</h2>
+                <ul>
+                    <li>To create your account and process, approve, and manage your booking.</li>
+                    <li>To verify your identity and keep the dormitory safe.</li>
+                    <li>To collect rent, record payments, and send receipts and reminders.</li>
+                    <li>To respond to your messages, complaints, and repair requests.</li>
+                    <li>To contact your emergency contact if something happens to you.</li>
+                </ul>
+
+                <h2>3. Who can see your information</h2>
+                <p>Only the dormitory admin and authorized staff can see your tenant records. Other tenants only see
+                    what you choose to share, such as your name and room in the marketplace and chat. We do not sell
+                    your personal information. We share it only with payment providers needed to process your payments,
+                    or when the law requires it.</p>
+
+                <h2>4. How long we keep it</h2>
+                <p>We keep your information while you are a tenant and for a reasonable period afterwards for billing,
+                    legal, and security purposes, then delete or anonymize it.</p>
+
+                <h2>5. How we protect it</h2>
+                <ul>
+                    <li>Passwords are hashed, never stored as plain text.</li>
+                    <li>Access to tenant records is limited to authorized admins.</li>
+                    <li>Our forms are protected against common web attacks, and sessions end when you log out.</li>
+                </ul>
+
+                <h2>6. Cookies</h2>
+                <p>We use only the cookies needed to keep you signed in and to protect your forms. We do not use
+                    advertising cookies.</p>
+
+                <h2>7. Your rights</h2>
+                <p>You have the right to be informed, to access and correct your information, to object to or withdraw
+                    your consent, and to ask us to delete your information where the law allows. You can update most
+                    details in your Profile and Settings pages, or message the admin for anything else.</p>
+
+                <h2>8. Changes and contact</h2>
+                <p>We may update this policy and will change the date above when we do. For privacy questions, use
+                    <b>Message admin</b> in your account or the contact details in the footer.</p>
+            </div>
+
+            <div class="legalpanel" data-panel="faqs" hidden>
+                <p class="legaldate">Quick answers about staying at D'aces Dormitory</p>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>How do I book a bed?</summary>
+                        <p>Create an account and log in, open <b>Rooms</b>, pick a room, choose an available bed and
+                            deck (lower or upper), and click <b>Book this room</b>. Fill in your details, choose a
+                            payment method, and confirm.</p>
+                    </details>
+                </div>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>Why does my booking say "waiting for admin approval"?</summary>
+                        <p>Every new booking is reviewed by the dormitory admin first. Your bed is held for you in the
+                            meantime, and the room appears in your details once the admin approves it. You will get a
+                            notification either way.</p>
+                    </details>
+                </div>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>What do I need to book?</summary>
+                        <p>Your personal and contact details, an emergency contact, one valid government-issued ID (JPG
+                            or PNG, up to 5MB), and your preferred move-in date.</p>
+                    </details>
+                </div>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>What payment methods can I use?</summary>
+                        <p>GCash is available now. Debit/credit card and bank transfer are not available yet.</p>
+                    </details>
+                </div>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>When is my rent due?</summary>
+                        <p>Your next rent payment is due 30 days after your move-in date. You can see what you owe and
+                            your payment history on the Payments page.</p>
+                    </details>
+                </div>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>Is the reservation fee refundable?</summary>
+                        <p>No. The reservation fee is non-refundable, as stated before you pay.</p>
+                    </details>
+                </div>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>What is included in the room?</summary>
+                        <p>Free Wi-Fi, a study area, 24/7 water and electricity, CCTV security, and a gate and fence.
+                            Rooms have shared cabinets, their own toilet and bath, a kitchen for everyone, and a free
+                            electric fan.</p>
+                    </details>
+                </div>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>Something in my room is broken. What do I do?</summary>
+                        <p>Go to your Profile and click <b>Request Maintenance</b>, choose a category and urgency, and
+                            describe the problem. The dorm team will follow up.</p>
+                    </details>
+                </div>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>Can I change rooms or leave early?</summary>
+                        <p>Yes. Use the room transfer or move-out request in your Settings page. Transfers depend on
+                            availability and admin approval.</p>
+                    </details>
+                </div>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>How do I contact the admin?</summary>
+                        <p>Use the <b>Ask Admin</b> button on the Dorm page or <b>Message admin</b> on the Rooms page to
+                            chat with the dormitory admin directly, or use the contact details in the footer.</p>
+                    </details>
+                </div>
+
+                <div class="legalfaq">
+                    <details>
+                        <summary>Can I look around without an account?</summary>
+                        <p>Yes. Choose <b>Continue as Guest</b> to view the home page, dorm layout, rooms, and location.
+                            You need an account to book or use other features.</p>
+                    </details>
+                </div>
+            </div>
+
+            <div class="legalpanel" data-panel="rules" hidden>
+                <p class="legaldate">Please read and follow these rules so everyone can live comfortably</p>
+
+                <h2>Respect and quiet</h2>
+                <ol>
+                    <li>Be respectful to your roommates, other tenants, staff, and neighbors.</li>
+                    <li>Quiet hours are from 10:00 PM to 6:00 AM. Keep music, calls, and gatherings low during this
+                        time.</li>
+                    <li>Settle disagreements calmly. If you cannot, ask the admin to help.</li>
+                </ol>
+
+                <h2>Visitors and security</h2>
+                <ol start="4">
+                    <li>Visitors are allowed only in common areas from 8:00 AM to 9:00 PM and must be accompanied by the
+                        tenant.</li>
+                    <li>No overnight guests without the admin's approval.</li>
+                    <li>The gate closes at 11:00 PM. Tell the admin ahead of time if you will come home late.</li>
+                    <li>Never prop the gate or doors open, and do not share your key or access with anyone.</li>
+                    <li>Report lost keys, suspicious people, or anything unsafe to the admin right away.</li>
+                </ol>
+
+                <h2>Cleanliness</h2>
+                <ol start="9">
+                    <li>Keep your bed, cabinet, and area clean and tidy.</li>
+                    <li>Wash your dishes and clean the kitchen after you use it. Do not leave food out.</li>
+                    <li>Segregate your trash and throw it in the proper bins.</li>
+                    <li>Leave the shared toilet and bath clean for the next person.</li>
+                </ol>
+
+                <h2>Safety and use of the room</h2>
+                <ol start="13">
+                    <li>No smoking or vaping inside the building.</li>
+                    <li>No illegal drugs, weapons, or open flames. No cooking inside the sleeping rooms.</li>
+                    <li>Do not bring heaters, extra air conditioners, or other high-power appliances without approval.
+                    </li>
+                    <li>Turn off lights, fans, and appliances when you leave the room.</li>
+                    <li>No pets unless the admin has approved it.</li>
+                    <li>Do not move, remove, or damage furniture and fixtures. Report repairs through <b>Request
+                            Maintenance</b>.</li>
+                </ol>
+
+                <h2>Payments</h2>
+                <ol start="19">
+                    <li>Pay your rent on or before the due date.</li>
+                    <li>Tell the admin early if you will have trouble paying.</li>
+                </ol>
+
+                <h2>If a rule is broken</h2>
+                <p>A first violation usually gets a verbal reminder, then a written warning. Serious or repeated
+                    violations may lead to fees for damages or the ending of the stay, as explained in the Terms of
+                    Service.</p>
+            </div>
+
+        </div>
+
+             <div class="legalfoot">
+                            <button type="button" class="legalbtn ghost" data-legal-close>Close</button>
+                <button type="button" class="legalbtn" id="legalAgree">I agree</button>
+                    </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        var modal = document.getElementById('legalModal');
+        if (!modal) return;
+        document.body.appendChild(modal);   
+
+        var titles = { terms: 'Terms of Service', privacy: 'Privacy Policy', faqs: 'FAQs', rules: 'House Rules' };
+        var tabs = modal.querySelectorAll('.legaltab');
+        var panels = modal.querySelectorAll('.legalpanel');
+
+        function show(key) {
+            if (!titles[key]) key = 'terms';
+            tabs.forEach(function (t) { t.classList.toggle('active', t.dataset.tab === key); });
+            panels.forEach(function (p) { p.hidden = (p.dataset.panel !== key); });
+            document.getElementById('legalTitle').textContent = titles[key];
+            document.getElementById('legalBody').scrollTop = 0;
+        }
+
+        function openLegal(key) {
+            show(key);
+            modal.classList.add('is-open');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLegal() {
+            modal.classList.remove('is-open');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('click', function (e) {
+            var link = e.target.closest('[data-legal]');
+            if (link) { e.preventDefault(); openLegal(link.dataset.legal); }
+        });
+
+        tabs.forEach(function (t) { t.addEventListener('click', function () { show(t.dataset.tab); }); });
+
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal || e.target.closest('[data-legal-close]')) closeLegal();
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && modal.classList.contains('is-open')) closeLegal();
+        });
+
+        var agreeBtn = document.getElementById('legalAgree');
+        if (agreeBtn) {
+            agreeBtn.addEventListener('click', function () {
+                var box = document.getElementById('agree');
+                if (box) box.checked = true;
+                closeLegal();
+            });
+        }
+
+        var editBtn = document.getElementById('legalEdit');
+        var saveBtn = document.getElementById('legalSave');
+        var statusEl = document.getElementById('legalStatus');
+        if (editBtn && saveBtn) {
+            function say(text) { statusEl.textContent = text; statusEl.hidden = !text; }
+            function stopEdit() {
+                panels.forEach(function (p) { p.removeAttribute('contenteditable'); });
+                editBtn.hidden = false;
+                saveBtn.hidden = true;
+            }
+
+            editBtn.addEventListener('click', function () {
+                var p = modal.querySelector('.legalpanel:not([hidden])');
+                p.querySelectorAll('details').forEach(function (d) { d.open = true; });
+                p.setAttribute('contenteditable', 'true');
+                p.focus();
+                editBtn.hidden = true;
+                saveBtn.hidden = false;
+                say('');
+            });
+
+            saveBtn.addEventListener('click', function () {
+                stopEdit();
+                say('Saved.');
+            });
+
+            tabs.forEach(function (t) {
+                t.addEventListener('click', function () { stopEdit(); say(''); });
+            });
+
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal || e.target.closest('[data-legal-close]')) { stopEdit(); say(''); }
+                if (e.target.closest('.legalpanel[contenteditable] summary')) e.preventDefault();
+            });
+        }
+    })();
+</script>    <style>
+        .viewsa {
+            cursor: pointer;
+        }
+
+        .gp-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, .45);
+            padding: 20px;
+        }
+
+        .gp-overlay[hidden] {
+            display: none;
+        }
+
+        .gp-box {
+            width: 100%;
+            max-width: 360px;
+            text-align: center;
+            background: #fff;
+            border-radius: 16px;
+            padding: 28px 24px 22px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
+            font-family: 'Nunito Sans', sans-serif;
+            animation: gpPop .22s ease-out;
+        }
+
+        .gp-box h2 {
+            margin: 0 0 6px;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #000;
+        }
+
+        .gp-box p {
+            margin: 0 0 18px;
+            font-size: .9rem;
+            font-weight: 600;
+            color: #0000009a;
+            line-height: 1.5;
+        }
+
+        .gp-box button {
+            width: 100%;
+            height: 44px;
+            border-radius: 9999px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: .95rem;
+            font-weight: 700;
+            border: 1px solid #672c2c;
+        }
+
+        .gp-box .gp-primary {
+            background: #672c2c;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .gp-box .gp-primary:hover {
+            background: transparent;
+            color: #672c2c;
+        }
+
+        .gp-box .gp-secondary {
+            background: transparent;
+            color: #672c2c;
+        }
+
+        .gp-box .gp-secondary:hover {
+            background: #672c2c14;
+        }
+
+        @keyframes gpPop {
+            from {
+                transform: scale(.94);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+
+    <div class="gp-overlay" id="guestPrompt" hidden>
+        <div class="gp-box" role="dialog" aria-modal="true" aria-labelledby="guestPromptTitle">
+            <h2 id="guestPromptTitle">Want to see more?</h2>
+            <p id="guestPromptText"></p>
+            <button type="button" class="gp-primary" id="guestPromptGo">Continue as Guest</button>
+            <button type="button" class="gp-secondary" id="guestPromptLogin">Log in</button>
+        </div>
+    </div>
+    <style>
+        .social {
+            cursor: pointer;
+        }
+
+        .soon-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, .45);
+            padding: 20px;
+        }
+
+        .soon-overlay[hidden] {
+            display: none;
+        }
+
+        .soon-box {
+            width: 100%;
+            max-width: 340px;
+            text-align: center;
+            background: #fff;
+            border-radius: 16px;
+            padding: 28px 24px 22px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
+            font-family: 'Nunito Sans', sans-serif;
+            animation: soonPop .22s ease-out;
+        }
+
+        .soon-box h2 {
+            margin: 0 0 6px;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #000;
+        }
+
+        .soon-box p {
+            margin: 0 0 18px;
+            font-size: .9rem;
+            font-weight: 600;
+            color: #0000009a;
+            line-height: 1.5;
+        }
+
+        .soon-box button {
+            width: 100%;
+            height: 44px;
+            border-radius: 9999px;
+            cursor: pointer;
+            background: #672c2c;
+            border: 1px solid #672c2c;
+            color: #fff;
+            font-family: inherit;
+            font-size: .95rem;
+            font-weight: 700;
+        }
+
+        .soon-box button:hover {
+            background: transparent;
+            color: #672c2c;
+        }
+
+        @keyframes soonPop {
+            from {
+                transform: scale(.94);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+
+    <div class="soon-overlay" id="soonModal" hidden>
+        <div class="soon-box" role="dialog" aria-modal="true" aria-labelledby="soonTitle">
+            <h2 id="soonTitle">Coming soon</h2>
+            <p id="soonText">This sign-in option isn't available yet. Please log in with your email for now.</p>
+            <button type="button" id="soonClose">Okay</button>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var modal = document.getElementById('soonModal');
+            var text = document.getElementById('soonText');
+
+            document.querySelectorAll('.social').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var name = btn.querySelector('span').textContent.trim();
+                    text.textContent = 'Continue with ' + name + " isn't available yet. Please log in with your email for now.";
+                    modal.hidden = false;
+                });
+            });
+
+            function close() { modal.hidden = true; }
+            document.getElementById('soonClose').addEventListener('click', close);
+            modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+        })();
+    </script>
+</body>
+
+<script>
+
+    document.querySelectorAll('.hides').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const input = btn.parentElement.querySelector('input');
+            const isHidden = input.type === 'password';
+            input.type = isHidden ? 'text' : 'password';
+
+            btn.querySelector('.eye-show').style.display = isHidden ? 'none' : 'block';
+            btn.querySelector('.eye-hide').style.display = isHidden ? 'block' : 'none';
+            btn.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+        });
+    });
+
+
+    const loginView = document.getElementById('loginView');
+    const signupView = document.getElementById('signupView');
+
+    function hideStatusMessages() {
+        document.querySelectorAll('.message').forEach(message => {
+            message.hidden = true;
+        });
+    }
+
+    document.getElementById('showSignup').addEventListener('click', (e) => {
+        e.preventDefault();
+        hideStatusMessages();
+        loginView.hidden = true;
+        signupView.hidden = false;
+    });
+
+    document.getElementById('showLogin').addEventListener('click', (e) => {
+        e.preventDefault();
+        hideStatusMessages();
+        signupView.hidden = true;
+        loginView.hidden = false;
+    });
+
+
+    const navLinks = document.querySelectorAll('.right a');
+    const sections = document.querySelectorAll('.lipat');
+
+    function setActiveNav() {
+        const hash = window.location.hash || '#home';
+
+        sections.forEach(section => {
+            const isVisible = `#${section.id}` === hash;
+            section.style.display = isVisible ? 'block' : 'none';
+            section.classList.toggle('is-active', isVisible);
+        });
+
+        navLinks.forEach(link => {
+            const isActive = link.getAttribute('href') === hash;
+            link.classList.toggle('active', isActive);
+        });
+    }
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', setActiveNav);
+    });
+
+    window.addEventListener('hashchange', setActiveNav);
+    setActiveNav();
+
+    (function () {
+        var rows = [].slice.call(document.querySelectorAll('.hrs-row'));
+        if (!rows.length) return;
+
+        var names = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        var now = new Date(), dow = now.getDay(), mins = now.getHours() * 60 + now.getMinutes();
+        var byDow = {};
+        rows.forEach(function (r) { byDow[r.dataset.dow] = r; });
+
+        function toMin(t) { var p = t.split(':'); return (+p[0]) * 60 + (+p[1]); }
+        function fmt(t) { var p = t.split(':'), h = +p[0], ap = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12; return h + ':' + p[1] + ' ' + ap; }
+
+        var today = byDow[dow], status = '', open = false;
+        if (today) today.classList.add('today');
+
+        if (today && today.dataset.open === '1') {
+            var f = toMin(today.dataset.from), t = toMin(today.dataset.to);
+            if (mins >= f && mins < t) { open = true; status = 'Open now · closes at ' + fmt(today.dataset.to); }
+            else if (mins < f) { status = 'Opens today at ' + fmt(today.dataset.from); }
+        }
+        if (!status) {
+            for (var i = 1; i <= 7; i++) {
+                var d = (dow + i) % 7, r = byDow[d];
+                if (r && r.dataset.open === '1') {
+                    status = 'Closed now · opens ' + (i === 1 ? 'tomorrow' : names[d]) + ' at ' + fmt(r.dataset.from);
+                    break;
+                }
+            }
+        }
+        document.getElementById('hrsStatus').textContent = status || 'Currently closed';
+        var pill = document.getElementById('hrsPill');
+        pill.hidden = false;
+        pill.textContent = open ? 'Open now' : 'Closed';
+        pill.classList.toggle('is-open', open);
+    })();
+
+   
+    const FEATURED = JSON.parse('[{\u0022number\u0022:\u0022100\u0022,\u0022beds\u0022:6,\u0022decks\u0022:2,\u0022price\u0022:2000,\u0022free\u0022:10},{\u0022number\u0022:\u0022101\u0022,\u0022beds\u0022:6,\u0022decks\u0022:2,\u0022price\u0022:2000,\u0022free\u0022:7},{\u0022number\u0022:\u0022102\u0022,\u0022beds\u0022:6,\u0022decks\u0022:2,\u0022price\u0022:2000,\u0022free\u0022:10},{\u0022number\u0022:\u0022103\u0022,\u0022beds\u0022:6,\u0022decks\u0022:2,\u0022price\u0022:2000,\u0022free\u0022:12},{\u0022number\u0022:\u0022104\u0022,\u0022beds\u0022:6,\u0022decks\u0022:2,\u0022price\u0022:2000,\u0022free\u0022:12},{\u0022number\u0022:\u0022107\u0022,\u0022beds\u0022:6,\u0022decks\u0022:2,\u0022price\u0022:2000,\u0022free\u0022:12}]');
+    const ANNOUNCEMENTS = JSON.parse('[\u0022Please do not leave the dormitory\u0022,\u0022Water interruption scheduled on July 30, 10:00 AM – 12:00 PM. Please store water in advance.\u0022,\u0022Water interruption scheduled on July 28, 8:00 AM – 12:00 PM. Please store water in advance.\u0022,\u0022Friendly reminder that August rent is due on the 5th. Message admin if you need an extension.\u0022]');
+
+    (function () {
+        var INTERVAL = 2000;
+        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        function rotator(slots, items, fill, startDelay) {
+            if (!slots.length || items.length <= slots.length || reduce) return;
+            var page = 0, paused = false;
+            slots.forEach(function (s) {
+                s.addEventListener('mouseenter', function () { paused = true; });
+                s.addEventListener('mouseleave', function () { paused = false; });
+            });
+            function tick() {
+                if (paused || document.hidden || !slots[0].offsetParent) return;
+                page++;
+                slots.forEach(function (slot, i) {
+                    setTimeout(function () {
+                        slot.classList.add('fr-out');
+                        setTimeout(function () {
+                            fill(slot, items[(page * slots.length + i) % items.length]);
+                            slot.style.transition = 'none';
+                            slot.classList.remove('fr-out');
+                            slot.classList.add('fr-pre');
+                            void slot.offsetWidth;
+                            slot.style.transition = '';
+                            slot.classList.remove('fr-pre');
+                        }, 350);
+                    }, i * 120);
+                });
+            }
+            setTimeout(function () { setInterval(tick, INTERVAL); }, startDelay || 0);
+        }
+
+        rotator(
+            [].slice.call(document.querySelectorAll('#featuredBoxes .fr-card')),
+            FEATURED,
+            function (card, r) {
+                card.querySelector('.roomp').textContent = 'Room ' + r.number;
+                card.querySelector('.roomp1').textContent = '— Good For ' + r.beds;
+                card.querySelector('.roomp2, .roomp22').textContent = 'Double Bed For ' + r.decks;
+                card.querySelector('.roomp3').textContent =
+                    '₱' + Math.round(r.price).toLocaleString('en-US') + ' / month';
+            },
+            0
+        );
+
+        rotator(
+            [].slice.call(document.querySelectorAll('#home .anns, #home .anns1')),
+            ANNOUNCEMENTS,
+            function (slot, msg) { slot.querySelector('h1').textContent = msg; },
+            1000
+        );
+    })();
+
+    
+    (function () {
+        var KEY = 'daces_remember_email';
+        var email = document.getElementById('email');
+        var box = document.getElementById('remember');
+        if (!email || !box) return;
+
+        try {
+            var saved = localStorage.getItem(KEY);
+            if (saved && !email.value) { email.value = saved; box.checked = true; }
+        } catch (e) { }
+
+        email.closest('form').addEventListener('submit', function () {
+            try {
+                if (box.checked) localStorage.setItem(KEY, email.value.trim());
+                else localStorage.removeItem(KEY);
+            } catch (e) { }
+        });
+    })();
+   
+    (function () {
+        var email = document.getElementById('email');
+        var label = document.querySelector('label[for="email"]');
+        var wrap = email.closest('.inputs');
+        var card = document.querySelector('.Main');
+        var original = label.textContent;
+
+        function clearWarn() {
+            wrap.classList.remove('warn');
+            label.textContent = original;
+        }
+        email.addEventListener('input', clearWarn);  
+
+        function promptLogin(text) {
+            signupView.hidden = true;
+            loginView.hidden = false;
+            document.querySelectorAll('.message').forEach(function (m) { m.style.display = 'none'; });
+
+            label.textContent = text;
+            wrap.classList.remove('warn');
+            void wrap.offsetWidth;                  
+            wrap.classList.add('warn');
+
+            email.focus({ preventScroll: true });
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        var gModal = document.getElementById('guestPrompt');
+        var gText = document.getElementById('guestPromptText');
+
+        function askGuest(text) {
+            gText.textContent = text;
+            gModal.hidden = false;
+        }
+        function closeGuest() { gModal.hidden = true; }
+
+        document.getElementById('guestPromptGo').addEventListener('click', function () {
+            document.getElementById('guestForm').submit();
+        });
+        document.getElementById('guestPromptLogin').addEventListener('click', function () {
+            closeGuest();
+            promptLogin('Please log in to continue.');
+        });
+        gModal.addEventListener('click', function (e) { if (e.target === gModal) closeGuest(); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeGuest(); });
+
+        document.querySelectorAll('.book').forEach(function (b) {
+            b.addEventListener('click', function () { askGuest('Log in to book a room, or continue as a guest to look around first.'); });
+        });
+        document.querySelectorAll('.viewa').forEach(function (b) {
+            b.addEventListener('click', function () { askGuest('Log in to view the rooms, or continue as a guest to browse them.'); });
+        });
+        document.querySelectorAll('.viewsa').forEach(function (b) {
+            b.addEventListener('click', function () { askGuest('Log in to see more details, or continue as a guest to look around.'); });
+        });
+        document.querySelectorAll('.but1').forEach(function (b) {
+            b.addEventListener('click', function () { promptLogin('Please log in to use this feature.'); });
+        });
+    })();
+</script>
+
+</html>
